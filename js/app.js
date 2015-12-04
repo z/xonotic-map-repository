@@ -27,7 +27,11 @@ $(document).ready(function() {
             {   // pk3
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
-                    return data.replace('maps/','');
+                    if (data != false) {
+                        return data.replace('maps/','');
+                    } else {
+                        return data;
+                    }
                 }
             },
             {   // filesize
