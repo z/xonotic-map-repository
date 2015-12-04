@@ -54,6 +54,7 @@ $(document).ready(function() {
             },
             {   // filesize
                 "targets": 2,
+                "orderData": 1,
                 "render": function ( data, type, full, meta ) {
                     return(bytesToSize(data));
                 }
