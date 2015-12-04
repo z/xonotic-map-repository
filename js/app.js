@@ -47,10 +47,12 @@ $(document).ready(function() {
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false) {
-                        return data.replace('maps/','');
-                    } else {
-                        return data;
-                    }
+                        data = data.replace('maps/','');
+            			if (data.length > 40) {
+                            data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
+        		    	}
+        		    }
+                    return data;
                 }
             },
             {   // filesize
@@ -72,19 +74,19 @@ $(document).ready(function() {
                 }
             },
             {   // map file
-                "targets": 8,
-                "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
-                }
-            },
-            {   // radar file
                 "targets": 9,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
             },
-            {   // waypoints file
+            {   // radar file
                 "targets": 10,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? true : false;
+                }
+            },
+            {   // waypoints file
+                "targets": 11,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
@@ -113,3 +115,4 @@ function bytesToSize(bytes) {
    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 };
+
