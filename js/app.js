@@ -9,11 +9,13 @@ $(document).ready(function() {
     var table = $('#maplist').DataTable( {
         "ajax": "data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
-        "pageLength": 100,
+        "pageLength": 500,
         "colReorder": true,
         "fixedHeader": true,
         "stateSave": true,
-        "dom": 'Bfrtip',
+        "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "buttons": [
             'colvis'
         ],
