@@ -13,6 +13,8 @@ def main():
     for file in os.listdir(path):
         if file.endswith('.pk3'):
 
+            print("Processing " + file)
+
             data = {}
             data['pk3'] = file
             data['shasum'] = hash_file(path + file)
@@ -73,7 +75,7 @@ def main():
     output['data'] = maplist
 
     # for debugging
-    print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
+    #print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
 
     fo = open('data/maps.json', 'w')
     fo.write(json.dumps(output))
