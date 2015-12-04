@@ -13,6 +13,7 @@ $(document).ready(function() {
         "colReorder": true,
         "fixedHeader": true,
         "stateSave": true,
+        "processing": true,
         "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
