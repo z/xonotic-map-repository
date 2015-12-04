@@ -11,7 +11,7 @@ def main():
     
     path = './packages/'
 
-    for file in os.listdir(path):
+    for file in sorted(os.listdir(path)):
         if file.endswith('.pk3'):
 
             print('Processing ' + file)
