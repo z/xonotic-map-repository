@@ -1,6 +1,8 @@
 $(document).ready(function() {
     $('#maplist').DataTable( {
         "ajax": "data/maps.json",
+        "lengthMenu": [[50, 100, 250, 500], [50, 100, 250, 500]],
+        "pageLength": 100,
         "columns": [
             { "data": "title" },
             { "data": "author" },
