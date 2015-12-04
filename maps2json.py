@@ -7,17 +7,19 @@ import zipfile, os, re, hashlib, json
 def main():
 
     maplist = []
+    corrupt = []
     
     path = './packages/'
 
     for file in os.listdir(path):
         if file.endswith('.pk3'):
 
-            print("Processing " + file)
+            print('Processing ' + file)
 
             data = {}
             data['pk3'] = file
             data['shasum'] = hash_file(path + file)
+            data['filesize'] = os.path.getsize(path + file)
             data['bsp'] = False
             data['mapshot'] = False
             data['mapinfo'] = False
@@ -55,7 +57,7 @@ def main():
                     mapinfo = zip.open(mapinfofile)
                     
                     for line in mapinfo:
-                        line = line.decode("unicode_escape").rstrip()
+                        line = line.decode('unicode_escape').rstrip()
                         if re.search('^title.*$', line):
                             data['title'] = line.partition(' ')[2]
                         elif re.search('^author.*', line):
@@ -68,11 +70,18 @@ def main():
                 maplist.append(data)
             
             except zipfile.BadZipfile:
-                print("Corrupt file: " + file)
+                print('Corrupt file: ' + file)
+                corrupt.append(file)
                 pass
 
     output = {}
     output['data'] = maplist
+
+    if len(corrupt) != 0:
+        print('One or more archives was corrupt, writing an error.log')
+        fo = open('error.log', 'w')
+        fo.write('\n'.join(corrupt))
+        fo.close()
 
     # for debugging
     #print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
