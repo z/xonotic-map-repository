@@ -27,42 +27,47 @@ def main():
             data['gametypes'] = []
             data['author'] = False
 
-            zip = zipfile.ZipFile(path + file)
-            filelist = zip.namelist()
+            try:
+                zip = zipfile.ZipFile(path + file)
+                filelist = zip.namelist()
 
-            for member in filelist:
-                if re.search('^maps/.*bsp$', member):
-                    data['bsp'] = member
-                elif re.search('^maps/.*jpg$', member):
-                    data['mapshot'] = member
-                elif re.search('^maps/.*mapinfo$', member):
-                    #data['mapinfo'] = member
-                    mapinfofile = member
-                    data['mapinfo'] = True
-                elif re.search('^maps/.*waypoints$', member):
-                    #data['waypoints'] = member
-                    data['waypoints'] = True
-                elif re.search('^maps/.*map$', member):
-                    #data['map'] = member
-                    data['map'] = True
-                elif re.search('^gfx/.*(radar|mini)\.[a-z]{3,4}$', member):
-                    data['radar'] = member
+                for member in filelist:
+                    if re.search('^maps/.*bsp$', member):
+                        data['bsp'] = member
+                    elif re.search('^maps/.*jpg$', member):
+                        data['mapshot'] = member
+                    elif re.search('^maps/.*mapinfo$', member):
+                        #data['mapinfo'] = member
+                        mapinfofile = member
+                        data['mapinfo'] = True
+                    elif re.search('^maps/.*waypoints$', member):
+                        #data['waypoints'] = member
+                        data['waypoints'] = True
+                    elif re.search('^maps/.*map$', member):
+                        #data['map'] = member
+                        data['map'] = True
+                    elif re.search('^gfx/.*(radar|mini)\.[a-z]{3,4}$', member):
+                        data['radar'] = member
 
-            if data['mapinfo'] != False:
-                mapinfo = zip.open(mapinfofile)
-                
-                for line in mapinfo:
-                    line = line.decode("unicode_escape").rstrip()
-                    if re.search('^title.*$', line):
-                        data['title'] = line.partition(' ')[2]
-                    elif re.search('^author.*', line):
-                        data['author'] = line.partition(' ')[2]
-                    elif re.search('^description.*', line):
-                        data['description'] = line.partition(' ')[2]
-                    elif re.search('^(type|gametype).*', line):
-                        data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
+                if data['mapinfo'] != False:
+                    mapinfo = zip.open(mapinfofile)
+                    
+                    for line in mapinfo:
+                        line = line.decode("unicode_escape").rstrip()
+                        if re.search('^title.*$', line):
+                            data['title'] = line.partition(' ')[2]
+                        elif re.search('^author.*', line):
+                            data['author'] = line.partition(' ')[2]
+                        elif re.search('^description.*', line):
+                            data['description'] = line.partition(' ')[2]
+                        elif re.search('^(type|gametype).*', line):
+                            data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
 
-            maplist.append(data)
+                maplist.append(data)
+            
+            except zipfile.BadZipfile:
+                print("Corrupt file: " + file)
+                pass
 
     output = {}
     output['data'] = maplist
