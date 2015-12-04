@@ -1,8 +1,22 @@
 $(document).ready(function() {
-    $('#maplist').DataTable( {
+
+    // Setup - add a text input to each footer cell
+    $('#maplist tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    var table = $('#maplist').DataTable( {
         "ajax": "data/maps.json",
-        "lengthMenu": [[50, 100, 250, 500], [50, 100, 250, 500]],
+        "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 100,
+        "colReorder": true,
+        "fixedHeader": true,
+        "stateSave": true,
+        "dom": 'Bfrtip',
+        "buttons": [
+            'colvis'
+        ],
         "columns": [
             { "data": "pk3" },
             { "data": "bsp" },
@@ -11,6 +25,7 @@ $(document).ready(function() {
             { "data": "title" },
             { "data": "author" },
             { "data": "mapshot" },
+            { "data": "gametypes[, ]" },
             { "data": "map" },
             { "data": "radar" },
             { "data": "waypoints" }
@@ -41,30 +56,43 @@ $(document).ready(function() {
                 }
             },
             {   // mapshot file
-                "targets": 5,
-                "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
-                }
-            },
-            {   // map file
                 "targets": 6,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
             },
+            {   // map file
+                "targets": 8,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? true : false;
+                }
+            },
             {   // radar file
-                "targets": 7,
+                "targets": 9,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
             },
             {   // waypoints file
-                "targets": 8,
+                "targets": 10,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
             }
         ]
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
     } );
 
 } );
