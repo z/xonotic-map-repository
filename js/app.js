@@ -11,18 +11,19 @@ $(document).ready(function() {
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 500,
         "colReorder": true,
-        "fixedHeader": true,
         "stateSave": true,
+        "fixedHeader": true,
         "processing": true,
-        "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "buttons": [
             'colvis'
         ],
+        "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
             { "data": "pk3" },
             { "data": "bsp" },
+            { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },
             { "data": "title" },
@@ -42,7 +43,7 @@ $(document).ready(function() {
                     data;
                 }
             },
-            {   // pk3
+            {   // bsp
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false) {
@@ -54,13 +55,18 @@ $(document).ready(function() {
             },
             {   // filesize
                 "targets": 2,
-                "orderData": 1,
+                "orderData": 3,
                 "render": function ( data, type, full, meta ) {
                     return(bytesToSize(data));
                 }
             },
+            {   // filesize for sorting
+                "targets": 3,
+                "visible": false,
+                "searchable": false
+            },
             {   // mapshot file
-                "targets": 6,
+                "targets": 7,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
                 }
