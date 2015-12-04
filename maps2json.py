@@ -64,11 +64,14 @@ def main():
 
             maplist.append(data)
 
-    # for debugging
-    #print(json.dumps(maplist, sort_keys=True, indent=4, separators=(',', ': ')))
+    output = {}
+    output['data'] = maplist
 
-    fo = open('maps.json', 'w')
-    fo.write(json.dumps(maplist))
+    # for debugging
+    print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    fo = open('data/maps.json', 'w')
+    fo.write(json.dumps(output))
     fo.close()
 
 def hash_file(filename):
