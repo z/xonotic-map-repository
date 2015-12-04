@@ -54,13 +54,13 @@ def main():
                 for line in mapinfo:
                     line = line.decode("unicode_escape").rstrip()
                     if re.search('^title.*$', line):
-                        data['title'] = line.split(' ', 1)[1]
+                        data['title'] = line.partition(' ')[2]
                     elif re.search('^author.*', line):
-                        data['author'] = line.split(' ', 1)[1]
+                        data['author'] = line.partition(' ')[2]
                     elif re.search('^description.*', line):
-                        data['description'] = line.split(' ', 1)[1]
+                        data['description'] = line.partition(' ')[2]
                     elif re.search('^(type|gametype).*', line):
-                        data['gametypes'].append(line.split(' ', 2)[1])
+                        data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
 
             maplist.append(data)
 
