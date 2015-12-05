@@ -41,7 +41,8 @@ $(document).ready(function() {
             { "data": "map" },
             { "data": "radar" },
             { "data": "waypoints" },
-            { "data": "license" }
+            { "data": "license" },
+            { "data": "date" }
         ],
         "columnDefs": [
             {   // pk3
@@ -98,6 +99,15 @@ $(document).ready(function() {
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? true : false;
+                }
+            },
+            {
+                // date
+                "targets": 13,
+                "render": function ( data, type, full, meta ) {
+                    d = new Date(0);
+                    d.setUTCSeconds(data);
+                    return d.toISOString().slice(0,10);
                 }
             }
         ],

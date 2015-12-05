@@ -22,6 +22,7 @@ def main():
             data['pk3'] = file
             data['shasum'] = hash_file(path + file)
             data['filesize'] = os.path.getsize(path + file)
+            data['date'] = os.path.getmtime(path + file)
             data['bsp'] = []
             data['mapshot'] = []
             data['mapinfo'] = False
