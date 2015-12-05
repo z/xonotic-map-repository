@@ -124,13 +124,27 @@ $(document).ready(function() {
      * Charts
      */
     $.get('data/charts.json', function(data) {
+        // Pie
         c3.generate(data.mapinfos);
         c3.generate(data.mapshots);
         c3.generate(data.maps);
         c3.generate(data.radars);
         c3.generate(data.waypoints);
         c3.generate(data.licenses);
-        c3.generate(data.filesizes);
+        // Scatter
+        var filesizes = {
+            axis: { x: { show: false }, rotated: true },
+            tooltip: {
+                format: {
+                    title: function (x) { return; },
+                    name: function (name, ratio, id, index) { return "size"; },
+                    value: function (value, ratio, id, index) { return bytesToSize(value); }
+                }
+            }
+        };
+        $.extend(filesizes, data.filesizes);
+        console.log(filesizes);
+        c3.generate(filesizes);
     })
 
 } );

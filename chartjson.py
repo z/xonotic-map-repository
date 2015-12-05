@@ -68,10 +68,7 @@ def main():
     c6['data']['columns'][1].append(total - licenses)
 
     # Scatter Plot
-    c7 = { 'bindto': '', 'data': { 'columns': [ ], 'type': 'scatter' },
-            'axis': { 'x': { 'show': False }, 'rotated': True },
-            'tooltip': { 'show': False } }
-
+    c7 = { 'bindto': '', 'data': { 'columns': [ ], 'type': 'scatter' } }
     c7['bindto'] = '#chart-filesizes'
     c7['data']['columns'].append(filesizes)
 
