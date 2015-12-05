@@ -3,11 +3,13 @@
 # Author: Tyler "-z-" Mulligan
 
 import zipfile, os, re, hashlib, json
-
+from datetime import datetime
+            
 def main():
 
-    maplist = []
-    corrupt = []
+    packs_maps = []
+    packs_other  = []
+    packs_corrupt = []
     
     path = './packages/'
 
@@ -35,6 +37,7 @@ def main():
                 zip = zipfile.ZipFile(path + file)
                 filelist = zip.namelist()
 
+                # Find out which of the important files exist in the package
                 for member in filelist:
                     if re.search('^maps/.*bsp$', member):
                         data['bsp'] = member
@@ -53,6 +56,7 @@ def main():
                     elif re.search('^gfx/.*(radar|mini)\.[a-z]{3,4}$', member):
                         data['radar'] = member
 
+                # If the mapinfo file exists, try and parse it
                 if data['mapinfo'] != False:
                     mapinfo = zip.open(mapinfofile)
                     
@@ -67,21 +71,38 @@ def main():
                         elif re.search('^(type|gametype).*', line):
                             data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
 
-                maplist.append(data)
+                if data['bsp']:
+                    packs_maps.append(data)
+                else:
+                    packs_other.append(file)
             
             except zipfile.BadZipfile:
                 print('Corrupt file: ' + file)
-                corrupt.append(file)
+                packs_corrupt.append(file)
                 pass
 
-    output = {}
-    output['data'] = maplist
+    if len(packs_other) != 0:
+        e_no_map = 'One or more archives did not contain a map'
+        print('\n' + e_no_map)
 
-    if len(corrupt) != 0:
-        print('One or more archives was corrupt, writing an error.log')
-        fo = open('error.log', 'w')
-        fo.write('\n'.join(corrupt))
+        dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        fo = open('error.log', 'a')
+        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+        fo.write('\n'.join(packs_other) + '\n')
         fo.close()
+
+    if len(packs_corrupt) != 0:
+        e_corrupt = 'One or more archives were corrupt'
+        print('\n' + e_corrupt)
+
+        dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        fo = open('error.log', 'a')
+        fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
+        fo.write('\n'.join(packs_corrupt) + '\n')
+        fo.close()
+
+    output = {}
+    output['data'] = packs_maps
 
     # for debugging
     #print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
@@ -89,6 +110,7 @@ def main():
     fo = open('data/maps.json', 'w')
     fo.write(json.dumps(output))
     fo.close()
+
 
 def hash_file(filename):
    """"This function returns the SHA-1 hash
