@@ -21,8 +21,13 @@ $(document).ready(function() {
         "deferRender": true,
         "buttons": [
             {
-                "extend": 'colvis',
-                "postfixButtons": [ 'colvisRestore' ]
+                "extend": "csvHtml5",
+                "text": '<i class="fa fa-download"></i> Download CSV',
+            },
+            {
+                "extend": "colvis",
+                "postfixButtons": [ 'colvisRestore' ],
+                "text": '<i class="fa fa-eye"></i> Toggle Columns' 
             }
         ],
         "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
