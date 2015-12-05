@@ -13,7 +13,7 @@ $(document).ready(function() {
     var table = $('#maplist').DataTable( {
         "ajax": "data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
-        "pageLength": 500,
+        "pageLength": 250,
         "colReorder": true,
         "stateSave": true,
         "fixedHeader": true,
