@@ -15,7 +15,10 @@ $(document).ready(function() {
         "fixedHeader": true,
         "processing": true,
         "buttons": [
-            'colvis'
+            {
+                "extend": 'colvis',
+                "postfixButtons": [ 'colvisRestore' ]
+            }
         ],
         "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
                 "<'row'<'col-sm-12'tr>>" +
