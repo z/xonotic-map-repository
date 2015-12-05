@@ -91,7 +91,11 @@ $(document).ready(function() {
                     return (data != false) ? true : false;
                 }
             }
-        ]
+        ],
+        "initComplete": function( settings, json ) {
+            // clear filters on page load
+            $("tfoot input").val('').trigger('change');
+        }
     } );
 
     // Apply the search
