@@ -53,9 +53,11 @@ $(document).ready(function() {
             {   // pk3
                 "targets": 0,
                 "render": function ( data, type, full, meta ) {
-                  return type === 'display' && data.length > 40 ?
-                    '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>' :
-                    data;
+                    var pk3 = data;
+                    if (type === 'display' && data.length > 40) {
+                        data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
+                    }
+                    return '<a href="http://dl.xonotic.co/' + pk3 + '">' + data + '</a>';
                 }
             },
             {   // bsp
