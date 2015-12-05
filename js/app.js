@@ -124,6 +124,7 @@ $(document).ready(function() {
      * Charts
      */
     $.get('data/charts.json', function(data) {
+
         // Pie
         c3.generate(data.mapinfos);
         c3.generate(data.mapshots);
@@ -131,6 +132,7 @@ $(document).ready(function() {
         c3.generate(data.radars);
         c3.generate(data.waypoints);
         c3.generate(data.licenses);
+
         // Scatter
         var filesizes = {
             axis: { x: { show: false }, rotated: true },
@@ -142,10 +144,11 @@ $(document).ready(function() {
                 }
             }
         };
+
         $.extend(filesizes, data.filesizes);
-        console.log(filesizes);
         c3.generate(filesizes);
-    })
+
+    });
 
 } );
 
