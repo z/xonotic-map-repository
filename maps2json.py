@@ -42,6 +42,10 @@ def main():
                 # Find out which of the important files exist in the package
                 for member in filelist:
                     if re.search('^maps/.*bsp$', member):
+                        bsp_info = zip.getinfo(member)
+                        # this is coming back as a float
+                        epoch = int(datetime(*bsp_info.date_time).timestamp())
+                        data['date'] = epoch
                         data['bsp'].append(member)
                     elif re.search('^maps/.*jpg$', member):
                         data['mapshot'].append(member)
