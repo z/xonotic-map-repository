@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    /*
+     * Data Tables
+     */
+
     // Setup - add a text input to each footer cell
     $('#maplist tfoot th').each( function () {
         var title = $(this).text();
@@ -114,6 +118,19 @@ $(document).ready(function() {
             }
         } );
     } );
+
+
+    /*
+     * Charts
+     */
+    $.get('data/charts.json', function(data) {
+        c3.generate(data.mapinfos);
+        c3.generate(data.mapshots);
+        c3.generate(data.maps);
+        c3.generate(data.radars);
+        c3.generate(data.waypoints);
+        c3.generate(data.licenses);
+    })
 
 } );
 

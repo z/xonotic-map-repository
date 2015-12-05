@@ -32,29 +32,35 @@ def main():
         if m['license']:
             licenses += 1
 
-    tchart = { 'data': { 'columns': [ ['yes'], ['no'] ], 'type': 'pie' } }
+    tchart = { 'bindto': '', 'data': { 'columns': [ ['yes'], ['no'] ], 'type': 'pie' } }
 
     c1 = copy.deepcopy(tchart)
+    c1['bindto'] = '#chart-mapinfos'
     c1['data']['columns'][0].append(mapinfos)
     c1['data']['columns'][1].append(total - mapinfos)
 
     c2 = copy.deepcopy(tchart)
+    c2['bindto'] = '#chart-mapshots'
     c2['data']['columns'][0].append(mapshots)
     c2['data']['columns'][1].append(total - mapshots)
 
     c3 = copy.deepcopy(tchart)
+    c3['bindto'] = '#chart-maps'
     c3['data']['columns'][0].append(maps)
     c3['data']['columns'][1].append(total - maps)
 
     c4 = copy.deepcopy(tchart)
+    c4['bindto'] = '#chart-radars'
     c4['data']['columns'][0].append(radars)
     c4['data']['columns'][1].append(total - radars)
 
     c5 = copy.deepcopy(tchart)
+    c5['bindto'] = '#chart-waypoints'
     c5['data']['columns'][0].append(waypoints)
     c5['data']['columns'][1].append(total - waypoints)
 
     c6 = copy.deepcopy(tchart)
+    c6['bindto'] = '#chart-licenses'
     c6['data']['columns'][0].append(licenses)
     c6['data']['columns'][1].append(total - licenses)
 
@@ -67,8 +73,9 @@ def main():
                 'licenses': c6
              }
 
-    print(json.dumps(charts))
-    print(total)
+    fo = open('data/charts.json', 'w')
+    fo.write(json.dumps(charts))
+    fo.close()
 
 if __name__ == "__main__":
     main()
