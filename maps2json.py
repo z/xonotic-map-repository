@@ -22,8 +22,8 @@ def main():
             data['pk3'] = file
             data['shasum'] = hash_file(path + file)
             data['filesize'] = os.path.getsize(path + file)
-            data['bsp'] = False
-            data['mapshot'] = False
+            data['bsp'] = []
+            data['mapshot'] = []
             data['mapinfo'] = False
             data['waypoints'] = False
             data['map'] = False
@@ -40,9 +40,9 @@ def main():
                 # Find out which of the important files exist in the package
                 for member in filelist:
                     if re.search('^maps/.*bsp$', member):
-                        data['bsp'] = member
+                        data['bsp'].append(member)
                     elif re.search('^maps/.*jpg$', member):
-                        data['mapshot'] = member
+                        data['mapshot'].append(member)
                     elif re.search('^maps/.*mapinfo$', member):
                         #data['mapinfo'] = member
                         mapinfofile = member

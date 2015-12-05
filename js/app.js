@@ -22,13 +22,13 @@ $(document).ready(function() {
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
             { "data": "pk3" },
-            { "data": "bsp" },
+            { "data": "bsp[, ]" },
             { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },
             { "data": "title" },
             { "data": "author" },
-            { "data": "mapshot" },
+            { "data": "mapshot[, ]" },
             { "data": "gametypes[, ]" },
             { "data": "map" },
             { "data": "radar" },
@@ -47,8 +47,8 @@ $(document).ready(function() {
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false) {
-                        data = data.replace('maps/','');
-            			if (data.length > 40) {
+                        data = data.replace(/maps\//g,'');
+            			if (data.length > 40 && data.indexOf(',') == -1) {
                             data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
         		    	}
         		    }
