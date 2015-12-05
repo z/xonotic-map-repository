@@ -164,6 +164,9 @@ $(document).ready(function() {
         $.extend(filesizes, data.filesizes);
         c3.generate(filesizes);
 
+        // Line
+        c3.generate(data.mapsbyyear);
+
     });
 
 } );
