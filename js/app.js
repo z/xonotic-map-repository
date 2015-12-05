@@ -46,7 +46,7 @@ $(document).ready(function() {
             {   // bsp
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
-                    if (data != false) {
+                    if (data != false && data.length > 0) {
                         data = data.replace(/maps\//g,'');
             			if (data.length > 40 && data.indexOf(',') == -1) {
                             data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
