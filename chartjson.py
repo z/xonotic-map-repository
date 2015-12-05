@@ -81,7 +81,7 @@ def main():
 
     # Maps over time
     c8 = { 'bindto': '', 'data': { 'x': 'x', 'columns': [ ], 'type': 'line' },
-           'axis': { 'x' : { 'type': 'timeseries', 'tick': { 'format': '%Y' } } } }
+           'axis': { 'x' : { 'type': 'indexed' } } }
     c8['bindto'] = '#chart-mapsbyyear'
     c8['data']['columns'].append(['x'] + list(maps_by_year.keys()))
     c8['data']['columns'].append(['maps'] + list(maps_by_year.values()))
