@@ -1,4 +1,5 @@
 *.pk3
 *.swp
 maps.json
+charts.json
 error.log
