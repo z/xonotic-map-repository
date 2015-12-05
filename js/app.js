@@ -18,6 +18,7 @@ $(document).ready(function() {
         "stateSave": true,
         "fixedHeader": true,
         "processing": true,
+        "deferRender": true,
         "buttons": [
             {
                 "extend": 'colvis',
@@ -55,7 +56,7 @@ $(document).ready(function() {
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false && data.length > 0) {
-                        data = data.replace(/maps\//g,'');
+                        data = data.replace(/maps\//g,'').replace(/\.bsp/g,'');
             			if (data.length > 40 && data.indexOf(',') == -1) {
                             data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
         		    	}
