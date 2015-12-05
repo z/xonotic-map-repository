@@ -9,6 +9,7 @@ def main():
     data = f.read()
     maps_json = json.loads(data)['data']
 
+    filesizes = ['bytes']
     mapinfos = 0
     mapshots = 0
     maps = 0
@@ -19,6 +20,7 @@ def main():
     total = 0
     for m in maps_json:
         total += 1
+        filesizes.append(m['filesize'])
         if m['mapinfo']:
             mapinfos += 1
         if m['mapshot']:
@@ -32,6 +34,7 @@ def main():
         if m['license']:
             licenses += 1
 
+    # Pie Charts
     tchart = { 'bindto': '', 'data': { 'columns': [ ['yes'], ['no'] ], 'type': 'pie' } }
 
     c1 = copy.deepcopy(tchart)
@@ -64,13 +67,22 @@ def main():
     c6['data']['columns'][0].append(licenses)
     c6['data']['columns'][1].append(total - licenses)
 
+    # Scatter Plot
+    c7 = { 'bindto': '', 'data': { 'columns': [ ], 'type': 'scatter' },
+            'axis': { 'x': { 'show': False }, 'rotated': True },
+            'tooltip': { 'show': False } }
+
+    c7['bindto'] = '#chart-filesizes'
+    c7['data']['columns'].append(filesizes)
+
     charts = { 
                 'mapinfos': c1,
                 'mapshots': c2,
                 'maps': c3,
                 'radars': c4,
                 'waypoints': c5,
-                'licenses': c6
+                'licenses': c6,
+                'filesizes': c7
              }
 
     fo = open('data/charts.json', 'w')

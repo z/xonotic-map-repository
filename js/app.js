@@ -130,6 +130,7 @@ $(document).ready(function() {
         c3.generate(data.radars);
         c3.generate(data.waypoints);
         c3.generate(data.licenses);
+        c3.generate(data.filesizes);
     })
 
 } );
