@@ -35,7 +35,8 @@ $(document).ready(function() {
             { "data": "gametypes[, ]" },
             { "data": "map" },
             { "data": "radar" },
-            { "data": "waypoints" }
+            { "data": "waypoints" },
+            { "data": "license" }
         ],
         "columnDefs": [
             {   // pk3

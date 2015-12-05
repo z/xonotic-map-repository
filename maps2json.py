@@ -32,6 +32,7 @@ def main():
             data['description'] = False
             data['gametypes'] = []
             data['author'] = False
+            data['license'] = False
 
             try:
                 zip = zipfile.ZipFile(path + file)
@@ -55,6 +56,8 @@ def main():
                         data['map'] = True
                     elif re.search('^gfx/.*(radar|mini)\.[a-z]{3,4}$', member):
                         data['radar'] = member
+                    elif re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
+                        data['license'] = True
 
                 # If the mapinfo file exists, try and parse it
                 if data['mapinfo'] != False:
