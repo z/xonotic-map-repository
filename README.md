@@ -1,2 +1,18 @@
 # xonotic-map-repository
-An effort to improve map packages and the services around them
+An effort to improve map packages and the services around them.
+
+### Why?
+
+There are approximately 12,500 map packages currently in distribution amongst Xonotic servers. Some of these are ported from other games that support the bsp format, (Nexuiz, quake3, WoP, etc). Many of these packages could use some love, they are missing information that could help them integrate better with Xonotic, and help players identify them.
+
+### What do these files do?
+
+**maps2json.py** - identifies map packages within a directory of pk3s, extrapolates data about the package and puts it into a JSON document.
+
+**chartjson.py** - consolidates data into another JSON document that's readable by a reusable chart library, c3.
+
+**index.html** - the web front-end for the generated JSON documents.
+
+### Contributing
+
+Find me in #xonotic on irc.quakenet.org, I'm open to any ideas to improve upon this effort.
