@@ -47,7 +47,7 @@ $(document).ready(function() {
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false && data.length > 0) {
-                        data = data.toString().replace(/maps\//g,'');
+                        data = data.replace(/maps\//g,'');
             			if (data.length > 40 && data.indexOf(',') == -1) {
                             data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
         		    	}
