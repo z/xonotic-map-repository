@@ -22,7 +22,10 @@ $(document).ready(function() {
         "pageLength": 250,
         "colReorder": true,
         "stateSave": true,
-        "fixedHeader": true,
+        "fixedHeader": {
+            "header": true,
+            "headerOffset": $('#main-nav').height()
+        },
         "processing": true,
         "deferRender": true,
         "language": {

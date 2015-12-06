@@ -9,5 +9,9 @@
 .popover img {
     max-width:580px;
 }
-
-
+.dataTables_wrapper .col-sm-12, .dataTables_wrapper .col-sm-6, .no-padding {
+    padding: 0 !important;
+}
+.extra-top-padding {
+    padding-top:20px;
+}
