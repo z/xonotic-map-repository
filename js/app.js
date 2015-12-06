@@ -170,15 +170,15 @@ $(document).ready(function() {
             $("#table-controls").detach().appendTo('#nav-table-controls');
             $("#table-controls").show();
         },
-        "preDrawCallback": function( settings ) {
-            $("#table-controls").hide();
-        },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
             $('[data-toggle="popover"]').popover('destroy');
             initPopovers();
         }
     } );
+
+    // To be shown by initComplete
+    $("#table-controls").hide();
 
     // Reorder callback
     table.on( 'column-reorder', function ( e, settings, details ) {
