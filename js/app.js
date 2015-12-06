@@ -87,7 +87,6 @@ $(document).ready(function() {
                 "targets": 7,
                 "render": function ( data, type, full, meta ) {
                     var string = "";
-                    console.log(data.length + " " + data);
                     if (data.length > 0) {
                         data.forEach(function(value, index, array) {
                             string += '<a class="btn" rel="popover" data-img="mapshots/' + value + '"><i class="fa fa-picture-o"></i></a>';
