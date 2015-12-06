@@ -4,12 +4,16 @@ $(document).ready(function() {
      * Data Tables
      */
 
-    // Setup - add a text input to each footer cell
-    $('#table-maplist tfoot th').each( function () {
+    // Setup - add a text input to filtesearch footers
+    $('#table-maplist tfoot th.filtersearch').each( function () {
         var title = $(this).text();
-        if (title != "mapshot?") {
-            $(this).html( '<input type="text" placeholder="filter '+title+'" />' );
-        }
+        $(this).html( '<input type="text" placeholder="filter '+title+'" />' );
+    } );
+
+    // Setup - add a dropdown to dropdownsearch footers
+    $('#table-maplist tfoot th.dropdownsearch').each( function () {
+        var title = $(this).text();
+        $(this).html( '<select><option value=""></option><option value="true">true</option><option value="false">false</option></select>' );
     } );
 
     var table = $('#table-maplist').DataTable( {
@@ -44,9 +48,9 @@ $(document).ready(function() {
             { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },
+            { "data": "mapshot" },
             { "data": "title" },
             { "data": "author" },
-            { "data": "mapshot" },
             { "data": "gametypes[, ]" },
             { "data": "map[, ]" },
             { "data": "radar[, ]" },
@@ -89,7 +93,7 @@ $(document).ready(function() {
                 "searchable": false
             },
             {   // mapshot file
-                "targets": 7,
+                "targets": 5,
                 "render": function ( data, type, full, meta ) {
                     var string = "";
                     if (data.length > 0) {
@@ -143,7 +147,7 @@ $(document).ready(function() {
         }
     } );
 
-    // Apply the search
+    // Apply filtersearch and dropdownsearch
     table.columns().every( function () {
         var that = this;
  
@@ -154,6 +158,16 @@ $(document).ready(function() {
                     .draw();
             }
         } );
+
+        $( 'select', this.footer() ).on( 'change', function () {
+            console.log(this.value);
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+
     } );
 
     table.on( 'column-reorder', function ( e, settings, details ) {
