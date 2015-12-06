@@ -87,44 +87,57 @@
 
                 <div class="panel">
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has mapinfo?</h4>
-                                <div id="chart-mapinfos"></div>
-                            </div>
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has mapshot?</h4>
-                                <div id="chart-mapshots"></div>
-                            </div>
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has map?</h4>
-                                <div id="chart-maps"></div>
-                            </div>
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has radar?</h4>
-                                <div id="chart-radars"></div>
-                            </div>
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has waypoints?</h4>
-                                <div id="chart-waypoints"></div>
-                            </div>
-                            <div class="col-sm-2">
-                                <h4 class="text-center">has license?</h4>
-                                <div id="chart-licenses"></div>
-                            </div>
-                        </div><!-- .row -->
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h4 class="text-center">filesize distrubtion</h4>
-                                <div id="chart-filesizes"></div>
-                            </div>
-                        </div><!-- .row -->
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h4 class="text-center">maps by year</h4>
-                                <div id="chart-mapsbyyear"></div>
-                            </div>
-                        </div><!-- .row -->
+
+                        <div id="loading-charts" class="loading">
+                            <h4 class="text-center">
+                                Loading Charts<br><br>
+                                <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                            </h4>
+                        </div>
+
+                        <div id="charts">
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has mapinfo?</h4>
+                                    <div id="chart-mapinfos"></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has mapshot?</h4>
+                                    <div id="chart-mapshots"></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has map?</h4>
+                                    <div id="chart-maps"></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has radar?</h4>
+                                    <div id="chart-radars"></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has waypoints?</h4>
+                                    <div id="chart-waypoints"></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h4 class="text-center">has license?</h4>
+                                    <div id="chart-licenses"></div>
+                                </div>
+                            </div><!-- .row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4 class="text-center">filesize distrubtion</h4>
+                                    <div id="chart-filesizes"></div>
+                                </div>
+                            </div><!-- .row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4 class="text-center">maps by year</h4>
+                                    <div id="chart-mapsbyyear"></div>
+                                </div>
+                            </div><!-- .row -->
+
+                        </div><!-- .charts -->
+
                     </div><!-- .panel-body -->
                 </div><!-- .panel -->
 

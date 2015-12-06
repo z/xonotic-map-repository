@@ -177,7 +177,13 @@ $(document).ready(function() {
  
         visible = ! visible;
 
+        $("#charts").hide();
+        $("#loading-charts").show();
+
         $.get('data/charts.json', function(data) {
+
+            $("#loading-charts").hide();
+            $("#charts").show();
 
             // Pie
             c3.generate(data.mapinfos);
