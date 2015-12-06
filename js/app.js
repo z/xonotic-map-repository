@@ -5,14 +5,14 @@ $(document).ready(function() {
      */
 
     // Setup - add a text input to each footer cell
-    $('#maplist tfoot th').each( function () {
+    $('#table-maplist tfoot th').each( function () {
         var title = $(this).text();
         if (title != "mapshot?") {
             $(this).html( '<input type="text" placeholder="filter '+title+'" />' );
         }
     } );
 
-    var table = $('#maplist').DataTable( {
+    var table = $('#table-maplist').DataTable( {
         "ajax": "data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 250,
@@ -164,33 +164,37 @@ $(document).ready(function() {
     /*
      * Charts
      */
-    $.get('data/charts.json', function(data) {
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-        // Pie
-        c3.generate(data.mapinfos);
-        c3.generate(data.mapshots);
-        c3.generate(data.maps);
-        c3.generate(data.radars);
-        c3.generate(data.waypoints);
-        c3.generate(data.licenses);
+        $.get('data/charts.json', function(data) {
 
-        // Scatter
-        var filesizes = {
-            axis: { x: { show: false }, rotated: true },
-            tooltip: {
-                format: {
-                    title: function (x) { return; },
-                    name: function (name, ratio, id, index) { return "size"; },
-                    value: function (value, ratio, id, index) { return bytesToSize(value); }
+            // Pie
+            c3.generate(data.mapinfos);
+            c3.generate(data.mapshots);
+            c3.generate(data.maps);
+            c3.generate(data.radars);
+            c3.generate(data.waypoints);
+            c3.generate(data.licenses);
+
+            // Scatter
+            var filesizes = {
+                axis: { x: { show: false }, rotated: true },
+                tooltip: {
+                    format: {
+                        title: function (x) { return; },
+                        name: function (name, ratio, id, index) { return "size"; },
+                        value: function (value, ratio, id, index) { return bytesToSize(value); }
+                    }
                 }
-            }
-        };
+            };
 
-        $.extend(filesizes, data.filesizes);
-        c3.generate(filesizes);
+            $.extend(filesizes, data.filesizes);
+            c3.generate(filesizes);
 
-        // Line
-        c3.generate(data.mapsbyyear);
+            // Line
+            c3.generate(data.mapsbyyear);
+
+        });
 
     });
 
