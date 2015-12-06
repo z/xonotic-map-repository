@@ -15,3 +15,12 @@
 .extra-top-padding {
     padding-top:20px;
 }
+#nav-table-controls {
+    margin-right:10px;
+}
+#table-maplist_length {
+    margin-left: 10px;
+}
+table.dataTable {
+    margin-top: -4px !important
+}

@@ -24,25 +24,26 @@ $(document).ready(function() {
         "stateSave": true,
         "fixedHeader": {
             "header": true,
-            "headerOffset": $('#main-nav').height()
+            "headerOffset": $('#main-nav').height()+5 // compensate for padding
         },
         "processing": true,
         "deferRender": true,
         "language": {
-           "processing": '<h4 class="text-center">Processing a large file, this might take a second<br><br><i class="fa fa-spinner fa-pulse fa-3x"></i></h4>'
+            "lengthMenu": "_MENU_",
+            "processing": '<h4 class="text-center">Processing a large file, this might take a second<br><br><i class="fa fa-spinner fa-pulse fa-3x"></i></h4>'
         },
         "buttons": [
             {
                 "extend": "csvHtml5",
-                "text": '<i class="fa fa-download"></i> Download CSV',
+                "text": '<i class="fa fa-download" title="Download CSV"></i>',
             },
             {
                 "extend": "colvis",
                 "postfixButtons": [ 'colvisRestore' ],
-                "text": '<i class="fa fa-eye"></i> Toggle Columns' 
+                "text": '<i class="fa fa-eye" title="Toggle Columns"></i>'
             }
         ],
-        "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'pull-right'B>>>" +
+        "dom": "<'#table-controls'lB>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
@@ -157,6 +158,10 @@ $(document).ready(function() {
             // clear filters on page load
             $("tfoot input").val('').trigger('change');
             $("tfoot select").val('').trigger('change');
+            // Hacky way to put the controls in the navbar
+            $("[name=table-maplist_length]").removeClass("input-sm").addClass("input-md")
+            $("#table-maplist_length").addClass("pull-right");
+            $("#table-controls").detach().appendTo('#nav-table-controls');
         },
         "drawCallback": function( settings) {
             $('a[rel=popover]').popover({                            
@@ -240,7 +245,15 @@ $(document).ready(function() {
     // Bootstrap tab shown event
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-        tableContainer.css( 'display', visible ? 'none' : 'block' );
+        // decide whether to show the table or not
+        if (visible) {
+            $("#nav-table-controls").hide();
+            tableContainer.css('display', 'none');
+        } else { 
+            $("#nav-table-controls").show();
+            tableContainer.css('display', 'block');
+        }
+
         table.fixedHeader.adjust();
  
         visible = ! visible;
