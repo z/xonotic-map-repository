@@ -7,7 +7,9 @@ $(document).ready(function() {
     // Setup - add a text input to each footer cell
     $('#maplist tfoot th').each( function () {
         var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        if (title != "mapshot?") {
+            $(this).html( '<input type="text" placeholder="filter '+title+'" />' );
+        }
     } );
 
     var table = $('#maplist').DataTable( {
@@ -35,7 +37,7 @@ $(document).ready(function() {
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
             { "data": "pk3" },
-            { "data": "bsp[, ]" },
+            { "data": "bsp[<br> ]" },
             { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },
@@ -64,7 +66,7 @@ $(document).ready(function() {
                 "targets": 1,
                 "render": function ( data, type, full, meta ) {
                     if (data != false && data.length > 0) {
-            			if (data.length > 40 && data.indexOf(',') == -1) {
+            			if (data.length > 40 && data.indexOf('<br>') == -1) {
                             data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
         		    	}
         		    }
