@@ -47,7 +47,7 @@ def main():
                         epoch = int(datetime(*bsp_info.date_time).timestamp())
                         data['date'] = epoch
                         data['bsp'].append(member)
-                    elif re.search('^maps/.*jpg$', member):
+                    elif re.search('^maps/.*(jpg|tga|png)$', member):
                         data['mapshot'].append(member)
                     elif re.search('^maps/.*mapinfo$', member):
                         #data['mapinfo'] = member
@@ -59,7 +59,7 @@ def main():
                     elif re.search('^maps/.*map$', member):
                         #data['map'] = member
                         data['map'] = True
-                    elif re.search('^gfx/.*(radar|mini)\.[a-z]{3,4}$', member):
+                    elif re.search('^gfx/.*(radar|mini)\.(jpg|tga|png)$', member):
                         data['radar'] = member
                     elif re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
                         data['license'] = True
