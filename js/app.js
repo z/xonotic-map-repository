@@ -174,6 +174,7 @@ $(document).ready(function() {
             $("#table-controls").hide();
         },
         "drawCallback": function( settings ) {
+            $("#table-controls").show();
             $('[data-toggle="popover"]').popover('destroy');
             initPopovers();
         }
@@ -235,7 +236,7 @@ $(document).ready(function() {
             allCharts[4] = c3.generate(data.waypoints);
             allCharts[5] = c3.generate(data.licenses);
 
-            // Scatter
+            // Bar Chart
             var filesizes = {
                 tooltip: {
                     format: {
