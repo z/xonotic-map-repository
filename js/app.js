@@ -13,7 +13,7 @@ $(document).ready(function() {
     // Setup - add a dropdown to dropdownsearch footers
     $('#table-maplist tfoot th.dropdownsearch').each( function () {
         var title = $(this).text();
-        $(this).html( '<select><option value=""></option><option value="true">true</option><option value="false">false</option></select>' );
+        $(this).html( '<select><option value=""></option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>' );
     } );
 
     var table = $('#table-maplist').DataTable( {
@@ -107,19 +107,25 @@ $(document).ready(function() {
             {   // map file
                 "targets": 9,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
+                    return (data != false) ? "yes" : "no";
                 }
             },
             {   // radar file
                 "targets": 10,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
+                    return (data != false) ? "yes" : "no";
                 }
             },
             {   // waypoints file
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
+                    return (data != false) ? "yes" : "no";
+                }
+            },
+            {   // license file
+                "targets": 12,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? "yes" : "no";
                 }
             },
             {
