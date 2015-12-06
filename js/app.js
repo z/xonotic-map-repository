@@ -168,9 +168,14 @@ $(document).ready(function() {
             $("#table-maplist_length").addClass("pull-right");
             $("#table-maplist_filter").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
+            $("#table-controls").show();
+        },
+        "preDrawCallback": function( settings ) {
+            $("#table-controls").hide();
+            //$("#table-maplist_length").hide();
+            //$("#table-maplist_filterh").hide();
         },
         "drawCallback": function( settings ) {
-            $("#table-controls").show();
             $('[data-toggle="popover"]').popover('destroy');
             initPopovers();
         }
