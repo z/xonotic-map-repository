@@ -165,23 +165,9 @@ $(document).ready(function() {
      * Charts
      */
 
-    // Need to hide datatables when changing tabs for fixedHeader
-    var visible = true;
-    var tableContainer = $(table.table().container());
+    var chartData;
 
-    // Bootstrap tab shown event
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-        tableContainer.css( 'display', visible ? 'none' : 'block' );
-        table.fixedHeader.adjust();
- 
-        visible = ! visible;
-
-        $("#charts").hide();
-        $("#loading-charts").show();
-
-        $.get('data/charts.json', function(data) {
-
+    function drawCharts(data) {
             $("#loading-charts").hide();
             $("#charts").show();
 
@@ -210,8 +196,31 @@ $(document).ready(function() {
 
             // Line
             c3.generate(data.mapsbyyear);
+    }
 
-        });
+    // Need to hide datatables when changing tabs for fixedHeader
+    var visible = true;
+    var tableContainer = $(table.table().container());
+
+    // Bootstrap tab shown event
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+        tableContainer.css( 'display', visible ? 'none' : 'block' );
+        table.fixedHeader.adjust();
+ 
+        visible = ! visible;
+
+        $("#charts").hide();
+        $("#loading-charts").show();
+
+        if (!chartData) {
+            $.get('data/charts.json', function(data) {
+                drawCharts(data);
+                chartData = data;
+            });
+        } else {
+            drawCharts(chartData);
+        }
 
     });
 
