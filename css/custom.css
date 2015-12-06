@@ -3,3 +3,11 @@
     width:300px !important;
     padding:1em !important;
 }
+.popover {
+    max-width:600px;
+}
+.popover img {
+    max-width:580px;
+}
+
+
