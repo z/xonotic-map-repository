@@ -164,7 +164,18 @@ $(document).ready(function() {
     /*
      * Charts
      */
+
+    // Need to hide datatables when changing tabs for fixedHeader
+    var visible = true;
+    var tableContainer = $(table.table().container());
+
+    // Bootstrap tab shown event
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+        tableContainer.css( 'display', visible ? 'none' : 'block' );
+        table.fixedHeader.adjust();
+ 
+        visible = ! visible;
 
         $.get('data/charts.json', function(data) {
 
