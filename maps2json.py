@@ -69,7 +69,7 @@ def main():
                             if re.search('^maps/' + rbsp + '\.map$', member):
                                 data['map'].append(member)
     
-                            if re.search('^gfx/' + rbsp + '\.(radar|mini)\.(jpg|tga|png)$', member):
+                            if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
                                 data['radar'].append(member)
 
                         if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
