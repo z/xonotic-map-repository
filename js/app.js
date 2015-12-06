@@ -141,6 +141,7 @@ $(document).ready(function() {
         "initComplete": function( settings, json ) {
             // clear filters on page load
             $("tfoot input").val('').trigger('change');
+            $("tfoot select").val('').trigger('change');
         },
         "drawCallback": function( settings) {
             $('a[rel=popover]').popover({                            
