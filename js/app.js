@@ -169,9 +169,6 @@ $(document).ready(function() {
             $("#table-maplist_filter").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
         },
-        "preDrawCallback": function( setings ) {
-            $("#table-controls").hide();
-        },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
             $('[data-toggle="popover"]').popover('destroy');

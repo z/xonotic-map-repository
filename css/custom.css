@@ -15,6 +15,9 @@
 .extra-top-padding {
     padding-top:20px;
 }
+#table-controls {
+    display:none;
+}
 #nav-table-controls {
     margin-right:10px;
 }
