@@ -22,7 +22,7 @@ $(document).ready(function() {
         "processing": true,
         "deferRender": true,
         "language": {
-           "processing": "Processing a large file, this might take a second."
+           "processing": '<h4 class="text-center">Processing a large file, this might take a second<br><br><i class="fa fa-spinner fa-pulse fa-3x"></i></h4>'
         },
         "buttons": [
             {
