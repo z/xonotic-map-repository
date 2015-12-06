@@ -104,6 +104,18 @@ $(document).ready(function() {
                     return string;
                 }
             },
+            {   // title
+                "targets": 6,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? data : "";
+                }
+            },
+            {   // author
+                "targets": 7,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? data : "";
+                }
+            },
             {   // map file
                 "targets": 9,
                 "render": function ( data, type, full, meta ) {
