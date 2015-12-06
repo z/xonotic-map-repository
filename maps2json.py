@@ -54,20 +54,22 @@ def main():
                     for member in filelist:
                         for bsp in data['bsp']:
 
-                            if re.search('^maps/' + bsp + '\.(jpg|tga|png)$', member):
+                            rbsp = re.escape(bsp)
+
+                            if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
                                 data['mapshot'].append(member)
 
-                            if re.search('^maps/' + bsp + '\.mapinfo$', member):
+                            if re.search('^maps/' + rbsp + '\.mapinfo$', member):
                                 mapinfofile = member
                                 data['mapinfo'].append(member)
 
-                            if re.search('^maps/' + bsp + '\.waypoints$', member):
+                            if re.search('^maps/' + rbsp + '\.waypoints$', member):
                                 data['waypoints'].append(member)
 
-                            if re.search('^maps/' + bsp + '\.map$', member):
+                            if re.search('^maps/' + rbsp + '\.map$', member):
                                 data['map'].append(member)
     
-                            if re.search('^gfx/' + bsp + '\.(radar|mini)\.(jpg|tga|png)$', member):
+                            if re.search('^gfx/' + rbsp + '\.(radar|mini)\.(jpg|tga|png)$', member):
                                 data['radar'].append(member)
 
                         if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
