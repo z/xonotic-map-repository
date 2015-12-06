@@ -212,18 +212,19 @@ $(document).ready(function() {
      * Charts
      */
 
-    var chartData;
+    var chartsDrawn = false;
+    var allCharts = [];
 
     function drawCharts(data) {
             $("#charts").show();
 
             // Pie
-            c3.generate(data.mapinfos);
-            c3.generate(data.mapshots);
-            c3.generate(data.maps);
-            c3.generate(data.radars);
-            c3.generate(data.waypoints);
-            c3.generate(data.licenses);
+            allCharts[0] = c3.generate(data.mapinfos);
+            allCharts[1] = c3.generate(data.mapshots);
+            allCharts[2] = c3.generate(data.maps);
+            allCharts[3] = c3.generate(data.radars);
+            allCharts[4] = c3.generate(data.waypoints);
+            allCharts[5] = c3.generate(data.licenses);
 
             // Scatter
             var filesizes = {
@@ -238,12 +239,26 @@ $(document).ready(function() {
             };
 
             $.extend(filesizes, data.filesizes);
-            c3.generate(filesizes);
+            allCharts[6] = c3.generate(filesizes);
 
             // Line
-            c3.generate(data.mapsbyyear);
+            allCharts[7] = c3.generate(data.mapsbyyear);
 
             $("#loading-charts").hide();
+    }
+
+    function hideCharts() {
+        allCharts.forEach(function(value, index, array) {
+            value.hide();
+        });
+    }
+
+    function showCharts() {
+        $("#loading-charts").hide();
+        $("#charts").show();
+        allCharts.forEach(function(value, index, array) {
+            value.show();
+        });
     }
 
     // Need to hide datatables when changing tabs for fixedHeader
@@ -254,12 +269,13 @@ $(document).ready(function() {
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
         // decide whether to show the table or not
-        if (visible) {
+        if (visible) { // hide table
             $("#nav-table-controls").hide();
             tableContainer.css('display', 'none');
-        } else { 
+        } else { // show table
             $("#nav-table-controls").show();
             tableContainer.css('display', 'block');
+            hideCharts();
         }
 
         table.fixedHeader.adjust();
@@ -269,13 +285,13 @@ $(document).ready(function() {
         $("#charts").hide();
         $("#loading-charts").show();
 
-        if (!chartData) {
+        if (!chartsDrawn) {
             $.get('data/charts.json', function(data) {
                 drawCharts(data);
-                chartData = data;
+                chartsDrawn = true;
             });
         } else {
-            drawCharts(chartData);
+            showCharts();
         }
 
     });
