@@ -24,7 +24,7 @@ $(document).ready(function() {
         "stateSave": true,
         "fixedHeader": {
             "header": true,
-            "headerOffset": $('#main-nav').height()+5 // compensate for padding
+            "headerOffset": $('#main-nav').height()
         },
         "processing": true,
         "deferRender": true,
@@ -159,7 +159,7 @@ $(document).ready(function() {
             $("tfoot input").val('').trigger('change');
             $("tfoot select").val('').trigger('change');
             // Hacky way to put the controls in the navbar
-            $("[name=table-maplist_length]").removeClass("input-sm").addClass("input-md")
+            $("#table-controls .btn").addClass("btn-sm");
             $("#table-maplist_length").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
         },
