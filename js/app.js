@@ -172,8 +172,6 @@ $(document).ready(function() {
         },
         "preDrawCallback": function( settings ) {
             $("#table-controls").hide();
-            //$("#table-maplist_length").hide();
-            //$("#table-maplist_filterh").hide();
         },
         "drawCallback": function( settings ) {
             $('[data-toggle="popover"]').popover('destroy');
@@ -239,12 +237,11 @@ $(document).ready(function() {
 
             // Scatter
             var filesizes = {
-                axis: { x: { show: false }, rotated: true },
                 tooltip: {
                     format: {
                         title: function (x) { return; },
-                        name: function (name, ratio, id, index) { return "size"; },
-                        value: function (value, ratio, id, index) { return bytesToSize(value); }
+                        name: function (name, ratio, id, index) { return "map count"; },
+                        value: function (value, ratio, id, index) { return value; }
                     }
                 }
             };
