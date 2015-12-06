@@ -91,10 +91,14 @@ $(document).ready(function() {
                     return(bytesToSize(data));
                 }
             },
-            {   // filesize for sorting
+            {   // filesize (bytes)
                 "targets": 3,
                 "visible": false,
                 "searchable": false
+            },
+            {   // shasum
+                "targets": 4,
+                "visible": false,
             },
             {   // mapshot file
                 "targets": 5,
@@ -102,7 +106,7 @@ $(document).ready(function() {
                     var string = "";
                     if (data.length > 0) {
                         data.forEach(function(value, index, array) {
-                            string += '<a class="btn" rel="popover" data-placement="auto bottom" data-img="mapshots/' + value + '"><i class="fa fa-picture-o"></i></a>';
+                            string += '<a class="btn" rel="popover" data-placement="auto bottom" data-img="mapshots/' + value + '" href="mapshots/' + value + '" target="_blank"><i class="fa fa-picture-o"></i></a>';
                         });
                     }
                     return string;
