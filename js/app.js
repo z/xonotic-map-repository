@@ -215,7 +215,6 @@ $(document).ready(function() {
     var chartData;
 
     function drawCharts(data) {
-            $("#loading-charts").hide();
             $("#charts").show();
 
             // Pie
@@ -243,6 +242,8 @@ $(document).ready(function() {
 
             // Line
             c3.generate(data.mapsbyyear);
+
+            $("#loading-charts").hide();
     }
 
     // Need to hide datatables when changing tabs for fixedHeader
