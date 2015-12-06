@@ -41,7 +41,7 @@ $(document).ready(function() {
             { "data": "shasum" },
             { "data": "title" },
             { "data": "author" },
-            { "data": "mapshot[, ]" },
+            { "data": "mapshot" },
             { "data": "gametypes[, ]" },
             { "data": "map[, ]" },
             { "data": "radar[, ]" },
@@ -86,7 +86,14 @@ $(document).ready(function() {
             {   // mapshot file
                 "targets": 7,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? true : false;
+                    var string = "";
+                    console.log(data.length + " " + data);
+                    if (data.length > 0) {
+                        data.forEach(function(value, index, array) {
+                            string += '<a class="btn" rel="popover" data-img="mapshots/' + value + '"><i class="fa fa-picture-o"></i></a>';
+                        });
+                    }
+                    return string;
                 }
             },
             {   // map file
@@ -120,6 +127,14 @@ $(document).ready(function() {
         "initComplete": function( settings, json ) {
             // clear filters on page load
             $("tfoot input").val('').trigger('change');
+
+            $('a[rel=popover]').popover({
+                html: true,
+                trigger: 'hover',
+                content: function () {
+                    return '<img src="'+$(this).data('img') + '" />';
+                }
+            });
         }
     } );
 

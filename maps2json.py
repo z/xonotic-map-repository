@@ -11,18 +11,20 @@ def main():
     packs_other  = []
     packs_corrupt = []
     
-    path = './packages/'
+    path_packages = './packages/'
+    path_mapshots = './mapshots'
+    extract_mapshots = True
 
-    for file in sorted(os.listdir(path)):
+    for file in sorted(os.listdir(path_packages)):
         if file.endswith('.pk3'):
 
             print('Processing ' + file)
 
             data = {}
             data['pk3'] = file
-            data['shasum'] = hash_file(path + file)
-            data['filesize'] = os.path.getsize(path + file)
-            data['date'] = os.path.getmtime(path + file)
+            data['shasum'] = hash_file(path_packages + file)
+            data['filesize'] = os.path.getsize(path_packages + file)
+            data['date'] = os.path.getmtime(path_packages + file)
             data['bsp'] = []
             data['mapshot'] = []
             data['mapinfo'] = []
@@ -36,7 +38,7 @@ def main():
             data['license'] = False
 
             try:
-                zip = zipfile.ZipFile(path + file)
+                zip = zipfile.ZipFile(path_packages + file)
                 filelist = zip.namelist()
 
                 # Get the bsp name(s)
@@ -58,6 +60,8 @@ def main():
 
                             if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
                                 data['mapshot'].append(member)
+                                if extract_mapshots:
+                                    zip.extract(member, path_mapshots)
 
                             if re.search('^maps/' + rbsp + '\.mapinfo$', member):
                                 mapinfofile = member
