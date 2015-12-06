@@ -25,10 +25,10 @@ def main():
             data['date'] = os.path.getmtime(path + file)
             data['bsp'] = []
             data['mapshot'] = []
-            data['mapinfo'] = False
-            data['waypoints'] = False
-            data['map'] = False
-            data['radar'] = False
+            data['mapinfo'] = []
+            data['waypoints'] = []
+            data['map'] = []
+            data['radar'] = []
             data['title'] = False
             data['description'] = False
             data['gametypes'] = []
@@ -39,47 +39,60 @@ def main():
                 zip = zipfile.ZipFile(path + file)
                 filelist = zip.namelist()
 
-                # Find out which of the important files exist in the package
+                # Get the bsp name(s)
                 for member in filelist:
                     if re.search('^maps/.*bsp$', member):
                         bsp_info = zip.getinfo(member)
                         # this is coming back as a float
                         epoch = int(datetime(*bsp_info.date_time).timestamp())
                         data['date'] = epoch
-                        data['bsp'].append(member)
-                    elif re.search('^maps/.*(jpg|tga|png)$', member):
-                        data['mapshot'].append(member)
-                    elif re.search('^maps/.*mapinfo$', member):
-                        #data['mapinfo'] = member
-                        mapinfofile = member
-                        data['mapinfo'] = True
-                    elif re.search('^maps/.*waypoints$', member):
-                        #data['waypoints'] = member
-                        data['waypoints'] = True
-                    elif re.search('^maps/.*map$', member):
-                        #data['map'] = member
-                        data['map'] = True
-                    elif re.search('^gfx/.*(radar|mini)\.(jpg|tga|png)$', member):
-                        data['radar'] = member
-                    elif re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
-                        data['license'] = True
+                        data['bsp'].append(member.replace('maps/','').replace('.bsp',''))
 
-                # If the mapinfo file exists, try and parse it
-                if data['mapinfo'] != False:
-                    mapinfo = zip.open(mapinfofile)
-                    
-                    for line in mapinfo:
-                        line = line.decode('unicode_escape').rstrip()
-                        if re.search('^title.*$', line):
-                            data['title'] = line.partition(' ')[2]
-                        elif re.search('^author.*', line):
-                            data['author'] = line.partition(' ')[2]
-                        elif re.search('^description.*', line):
-                            data['description'] = line.partition(' ')[2]
-                        elif re.search('^(type|gametype).*', line):
-                            data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
+                if len(data['bsp']):
 
-                if data['bsp']:
+                    # Find out which of the important files exist in the package
+                    for member in filelist:
+                        for bsp in data['bsp']:
+
+                            if re.search('^maps/' + bsp + '\.(jpg|tga|png)$', member):
+                                data['mapshot'].append(member)
+
+                            if re.search('^maps/' + bsp + '\.mapinfo$', member):
+                                mapinfofile = member
+                                data['mapinfo'].append(member)
+
+                            if re.search('^maps/' + bsp + '\.waypoints$', member):
+                                data['waypoints'].append(member)
+
+                            if re.search('^maps/' + bsp + '\.map$', member):
+                                data['map'].append(member)
+    
+                            if re.search('^gfx/' + bsp + '\.(radar|mini)\.(jpg|tga|png)$', member):
+                                data['radar'].append(member)
+
+                        if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
+                            data['license'] = True
+
+                    # If the mapinfo file exists, try and parse it
+                    if len(data['mapinfo']):
+                        mapinfo = zip.open(mapinfofile)
+                        
+                        for line in mapinfo:
+                            line = line.decode('unicode_escape').rstrip()
+
+                            if re.search('^title.*$', line):
+                                data['title'] = line.partition(' ')[2]
+
+                            elif re.search('^author.*', line):
+                                data['author'] = line.partition(' ')[2]
+
+                            elif re.search('^description.*', line):
+                                data['description'] = line.partition(' ')[2]
+
+                            elif re.search('^(type|gametype).*', line):
+                                data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
+
+                if len(data['bsp']):
                     packs_maps.append(data)
                 else:
                     packs_other.append(file)

@@ -43,9 +43,9 @@ $(document).ready(function() {
             { "data": "author" },
             { "data": "mapshot[, ]" },
             { "data": "gametypes[, ]" },
-            { "data": "map" },
-            { "data": "radar" },
-            { "data": "waypoints" },
+            { "data": "map[, ]" },
+            { "data": "radar[, ]" },
+            { "data": "waypoints[, ]" },
             { "data": "license" },
             { "data": "date" }
         ],
