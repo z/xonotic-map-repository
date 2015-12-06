@@ -21,6 +21,9 @@ $(document).ready(function() {
         "fixedHeader": true,
         "processing": true,
         "deferRender": true,
+        "language": {
+           "processing": "Processing a large file, this might take a second."
+        },
         "buttons": [
             {
                 "extend": "csvHtml5",
