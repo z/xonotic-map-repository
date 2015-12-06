@@ -1,1 +1,5 @@
 .container { width: auto; }
+.dataTables_processing {
+    width:300px !important;
+    padding:1em !important;
+}
