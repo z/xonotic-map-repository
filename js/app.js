@@ -167,7 +167,6 @@ $(document).ready(function() {
         } );
 
         $( 'select', this.footer() ).on( 'change', function () {
-            console.log(this.value);
             if ( that.search() !== this.value ) {
                 that
                     .search( this.value )
