@@ -18,7 +18,7 @@
 #nav-table-controls {
     margin-right:10px;
 }
-#table-maplist_length {
+#table-maplist_length, #table-maplist_filter {
     margin-left: 10px;
 }
 table.dataTable {

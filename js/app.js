@@ -29,6 +29,7 @@ $(document).ready(function() {
         "processing": true,
         "deferRender": true,
         "language": {
+            "search": "",
             "lengthMenu": "_MENU_",
             "processing": '<h4 class="text-center">Processing a large file, this might take a second<br><br><i class="fa fa-spinner fa-pulse fa-3x"></i></h4>'
         },
@@ -43,7 +44,7 @@ $(document).ready(function() {
                 "text": '<i class="fa fa-eye" title="Toggle Columns"></i>'
             }
         ],
-        "dom": "<'#table-controls'lB>" +
+        "dom": "<'#table-controls'lfB>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
@@ -165,6 +166,7 @@ $(document).ready(function() {
             // Hacky way to put the controls in the navbar
             $("#table-controls .btn").addClass("btn-sm");
             $("#table-maplist_length").addClass("pull-right");
+            $("#table-maplist_filter").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
             initPopovers();
         }
