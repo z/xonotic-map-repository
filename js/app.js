@@ -126,14 +126,15 @@ $(document).ready(function() {
         "initComplete": function( settings, json ) {
             // clear filters on page load
             $("tfoot input").val('').trigger('change');
-
-            $('a[rel=popover]').popover({
-                html: true,
-                trigger: 'hover',
-                content: function () {
+        },
+        "drawCallback": function( settings) {
+            $('a[rel=popover]').popover({                            
+                html: true,                                          
+                trigger: 'hover',                                    
+                content: function () {                               
                     return '<img src="'+$(this).data('img') + '" />';
-                }
-            });
+                }                                                    
+            });                                                      
         }
     } );
 
@@ -148,6 +149,10 @@ $(document).ready(function() {
                     .draw();
             }
         } );
+    } );
+
+    table.on( 'column-reorder', function ( e, settings, details ) {
+        table.draw();
     } );
 
 
