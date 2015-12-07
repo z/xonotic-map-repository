@@ -1,6 +1,6 @@
 /* fixedHeader still broken */
 table.dataTable {
-    margin-top: -8px !important
+    margin-top: -10px !important;
 }
 table.dataTable.fixedHeader-floating {
     margin-top: 2px !important;

@@ -1,5 +1,8 @@
-table.dataTable, table.dataTable.fixedHeader-floating {
+table.dataTable {
     margin-top: 0 !important
+}
+table.dataTable.fixedHeader-floating { 
+    margin-top: 10px !important;
 }
 table th {
     background-color: #303030;

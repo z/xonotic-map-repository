@@ -192,6 +192,7 @@ $(document).ready(function() {
             $("#table-maplist_length").addClass("pull-right");
             $("#table-maplist_filter").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
+            $("#table-controls .dt-buttons").addClass("pull-right");
             $("#table-controls").show();
             if (userTheme) {
                 setTheme(userTheme);
