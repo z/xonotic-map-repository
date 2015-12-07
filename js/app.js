@@ -31,13 +31,13 @@ $(document).ready(function() {
     // Setup - add a text input to filtesearch footers
     $('#table-maplist tfoot th.filtersearch').each( function () {
         var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="filter '+title+'" />' );
+        $(this).html( '<input type="text" placeholder="filter '+title+'" class="form-control input-sm" />' );
     } );
 
     // Setup - add a dropdown to dropdownsearch footers
     $('#table-maplist tfoot th.dropdownsearch').each( function () {
         var title = $(this).text();
-        $(this).html( '<select><option value=""></option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>' );
+        $(this).html( '<select class="form-control input-sm"><option value=""></option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>' );
     } );
 
     var table = $('#table-maplist').DataTable( {
