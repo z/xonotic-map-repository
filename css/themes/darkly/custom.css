@@ -1,4 +1,4 @@
-table.dataTable {
+table.dataTable, table.dataTable.fixedHeader-floating {
     margin-top: 0 !important
 }
 table th {

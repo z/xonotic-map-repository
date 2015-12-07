@@ -371,7 +371,7 @@ $(document).ready(function() {
         $('#theme-custom').attr('href', 'css/themes/' + theme + '/custom.css');
         $('#theme-switcher li a[data-theme=' + theme + ']').parent().addClass('active');
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
-        table.fixedHeader.adjust();
+//        table.fixedHeader.adjust();
     }
 
     new Konami(function() { themeSwitcher(); } );
