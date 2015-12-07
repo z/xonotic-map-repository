@@ -18,7 +18,7 @@
 #table-controls {
     display:none;
 }
-#nav-table-controls {
+#nav-table-controls, #theme-switcher-wrapper {
     margin-right:10px;
 }
 #table-maplist_length, #table-maplist_filter {

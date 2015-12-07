@@ -226,48 +226,49 @@ $(document).ready(function() {
     var allCharts = [];
 
     function drawCharts(data) {
-            $("#charts").show();
+        $("#charts").show();
 
-            // Pie
-            allCharts[0] = c3.generate(data.mapinfos);
-            allCharts[1] = c3.generate(data.mapshots);
-            allCharts[2] = c3.generate(data.maps);
-            allCharts[3] = c3.generate(data.radars);
-            allCharts[4] = c3.generate(data.waypoints);
-            allCharts[5] = c3.generate(data.licenses);
+        // Pie
+        allCharts[0] = c3.generate(data.mapinfos);
+        allCharts[1] = c3.generate(data.mapshots);
+        allCharts[2] = c3.generate(data.maps);
+        allCharts[3] = c3.generate(data.radars);
+        allCharts[4] = c3.generate(data.waypoints);
+        allCharts[5] = c3.generate(data.licenses);
 
-            // Bar Chart
-            var filesizes = {
-                tooltip: {
-                    format: {
-                        title: function (x) { return; },
-                        name: function (name, ratio, id, index) { return "map count"; },
-                        value: function (value, ratio, id, index) { return value; }
-                    }
+        // Bar Chart
+        var filesizes = {
+            tooltip: {
+                format: {
+                    title: function (x) { return; },
+                    name: function (name, ratio, id, index) { return "map count"; },
+                    value: function (value, ratio, id, index) { return value; }
                 }
-            };
+            }
+        };
 
-            $.extend(filesizes, data.filesizes);
-            allCharts[6] = c3.generate(filesizes);
+        $.extend(filesizes, data.filesizes);
+        allCharts[6] = c3.generate(filesizes);
 
-            // Line
-            allCharts[7] = c3.generate(data.mapsbyyear);
+        // Line
+        allCharts[7] = c3.generate(data.mapsbyyear);
 
-            $("#loading-charts").hide();
+        $("#loading-charts").hide();
     }
 
     function hideCharts() {
-        allCharts.forEach(function(value, index, array) {
+/*        allCharts.forEach(function(value, index, array) {
             value.hide();
         });
+*/
     }
 
     function showCharts() {
         $("#loading-charts").hide();
         $("#charts").show();
-        allCharts.forEach(function(value, index, array) {
+        /*allCharts.forEach(function(value, index, array) {
             value.show();
-        });
+        });*/
     }
 
     // Need to hide datatables when changing tabs for fixedHeader
@@ -314,6 +315,7 @@ $(document).ready(function() {
  */
 function themeSwitcher() {
 
+    // Define Themes
     var themes = {
         "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
         "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
@@ -338,10 +340,13 @@ function themeSwitcher() {
 
     // Setup menu
 
-    var themeMenu = '<li class="dropdown">' +
-      '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Themes <b class="caret"></b></a>' +
-      '<ul id="theme-switcher" class="dropdown-menu btn btn-navbar"></ul>' +
-    '</li>';
+    var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
+    '<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">' +
+        'Theme' +
+        '<span class="caret"></span>' +
+    '</a>' +
+    '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
+'</div></li>';
 
     $('.navbar-right').append(themeMenu);
 
