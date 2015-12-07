@@ -305,6 +305,8 @@ $(document).ready(function() {
 
     });
 
+    new Konami(function() { themeSwitcher(); } );
+
 } );
 
 /*
