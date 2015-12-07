@@ -335,14 +335,12 @@ function themeSwitcher() {
         "united" : "//bootswatch.com/united/bootstrap.min.css",
         "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
     }
-    var themesheet = $('<link href="'+themes['default']+'" rel="stylesheet" />');
-    themesheet.appendTo('head');
 
     // Setup menu
 
     var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
     '<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">' +
-        'Theme' +
+        'Theme ' +
         '<span class="caret"></span>' +
     '</a>' +
     '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
@@ -357,8 +355,10 @@ function themeSwitcher() {
 
     $('#theme-switcher li a').click(function() {
         $('#theme-switcher li').removeClass('active');
-        var themeurl = themes[$(this).attr('data-theme')]; 
-        themesheet.attr('href',themeurl);
+        var theme = $(this).attr('data-theme');
+        var themeurl = themes[theme]; 
+        $("#theme").attr('href', themeurl);
+        $("#theme-custom").attr('href', 'css/themes/' + theme + '/custom.css');
         $(this).parent().addClass('active');
     });
 
