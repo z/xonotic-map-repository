@@ -307,6 +307,56 @@ $(document).ready(function() {
 
 } );
 
+/*
+ * Theme Switcher
+ */
+function themeSwitcher() {
+
+    var themes = {
+        "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
+        "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
+        "cosmo" : "//bootswatch.com/cosmo/bootstrap.min.css",
+        "cyborg" : "//bootswatch.com/cyborg/bootstrap.min.css",
+        "darkly" : "//bootswatch.com/darkly/bootstrap.min.css",
+        "flatly" : "//bootswatch.com/flatly/bootstrap.min.css",
+        "journal" : "//bootswatch.com/journal/bootstrap.min.css",
+        "lumen" : "//bootswatch.com/lumen/bootstrap.min.css",
+        "paper" : "//bootswatch.com/paper/bootstrap.min.css",
+        "readable" : "//bootswatch.com/readable/bootstrap.min.css",
+        "sandstone" : "//bootswatch.com/sandstone/bootstrap.min.css",
+        "simplex" : "//bootswatch.com/simplex/bootstrap.min.css",
+        "slate" : "//bootswatch.com/slate/bootstrap.min.css",
+        "spacelab" : "//bootswatch.com/spacelab/bootstrap.min.css",
+        "superhero" : "//bootswatch.com/superhero/bootstrap.min.css",
+        "united" : "//bootswatch.com/united/bootstrap.min.css",
+        "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
+    }
+    var themesheet = $('<link href="'+themes['default']+'" rel="stylesheet" />');
+    themesheet.appendTo('head');
+
+    // Setup menu
+
+    var themeMenu = '<li class="dropdown">' +
+      '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Themes <b class="caret"></b></a>' +
+      '<ul id="theme-switcher" class="dropdown-menu btn btn-navbar"></ul>' +
+    '</li>';
+
+    $('.navbar-right').append(themeMenu);
+
+    $.each(themes, function(index, value) {
+        var title = index.charAt(0).toUpperCase() + index.substr(1);
+        $('#theme-switcher').append('<li><a href="#" data-theme="' + index +'">' + title + '</a></li>');
+    });
+
+    $('#theme-switcher li a').click(function() {
+        $('#theme-switcher li').removeClass('active');
+        var themeurl = themes[$(this).attr('data-theme')]; 
+        themesheet.attr('href',themeurl);
+        $(this).parent().addClass('active');
+    });
+
+}
+
 function bytesToSize(bytes) {
    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
    if (bytes == 0) return '0 Byte';
