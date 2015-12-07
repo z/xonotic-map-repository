@@ -306,6 +306,39 @@ $(document).ready(function() {
     // Bootstrap tab shown event
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
+        var currentTab = $(".nav li.active a").attr("href");
+
+        switch(currentTab) {
+
+            case "#maplist":
+
+                visible = false;
+                table.fixedHeader.adjust();
+
+            break;
+
+            case "#statistics":
+
+                $("#charts").hide();
+                $("#loading-charts").show();
+
+                if (!chartsDrawn) {
+                    $.get('data/charts.json', function(data) {
+                        drawCharts(data);
+                        chartsDrawn = true;
+                    });
+                } else {
+                    showCharts();
+                }
+
+            case "#about":
+
+            default:
+
+                visible = false
+
+        }
+
         // decide whether to show the table or not
         if (visible) { // hide table
             $("#nav-table-controls").hide();
@@ -314,22 +347,6 @@ $(document).ready(function() {
             $("#nav-table-controls").show();
             tableContainer.css('display', 'block');
             hideCharts();
-        }
-
-        table.fixedHeader.adjust();
- 
-        visible = ! visible;
-
-        $("#charts").hide();
-        $("#loading-charts").show();
-
-        if (!chartsDrawn) {
-            $.get('data/charts.json', function(data) {
-                drawCharts(data);
-                chartsDrawn = true;
-            });
-        } else {
-            showCharts();
         }
 
     });
