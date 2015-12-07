@@ -4,3 +4,23 @@ table.dataTable {
 table, table th {
     background: #2E3338 !important;
 }
+
+/*.c3-legend-item text {*/
+.c3 text {
+    fill: #fff !important;
+}
+.c3 line, .c3 path {
+    stroke: #888 !important;
+}
+.c3-arc-yes, .c3-legend-item-yes .c3-legend-item-tile {
+    fill: #1FB460 !important;
+}
+.c3-arc-no, .c3-legend-item-no .c3-legend-item-tile {
+    fill: #CC5E6B !important;
+}
+.c3-chart-arc path {
+    stroke: #444 !important;
+}
+.c3-event-rect {
+    fill: #f00 !important;
+}
