@@ -1,5 +1,29 @@
 $(document).ready(function() {
 
+    // Define Themes
+    var themes = {
+        "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
+        "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
+        "cosmo" : "//bootswatch.com/cosmo/bootstrap.min.css",
+        "cyborg" : "//bootswatch.com/cyborg/bootstrap.min.css",
+        "darkly" : "//bootswatch.com/darkly/bootstrap.min.css",
+        "flatly" : "//bootswatch.com/flatly/bootstrap.min.css",
+        "journal" : "//bootswatch.com/journal/bootstrap.min.css",
+        "lumen" : "//bootswatch.com/lumen/bootstrap.min.css",
+        "paper" : "//bootswatch.com/paper/bootstrap.min.css",
+        "readable" : "//bootswatch.com/readable/bootstrap.min.css",
+        "sandstone" : "//bootswatch.com/sandstone/bootstrap.min.css",
+        "simplex" : "//bootswatch.com/simplex/bootstrap.min.css",
+        "slate" : "//bootswatch.com/slate/bootstrap.min.css",
+        "spacelab" : "//bootswatch.com/spacelab/bootstrap.min.css",
+        "superhero" : "//bootswatch.com/superhero/bootstrap.min.css",
+        "united" : "//bootswatch.com/united/bootstrap.min.css",
+        "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
+    }
+
+    var userTheme = $.cookie('theme');
+    //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
+
     /*
      * Data Tables
      */
@@ -169,6 +193,9 @@ $(document).ready(function() {
             $("#table-maplist_filter").addClass("pull-right");
             $("#table-controls").detach().appendTo('#nav-table-controls');
             $("#table-controls").show();
+            if (userTheme) {
+                setTheme(userTheme);
+            }
         },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
@@ -306,63 +333,51 @@ $(document).ready(function() {
 
     });
 
+    /*
+     * Theme Switcher
+     */
+
+    function themeSwitcher() {
+
+        // Setup menu
+
+        var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
+        '<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">' +
+            '<span>Theme</span> ' +
+            '<i class="caret"></i>' +
+        '</a>' +
+        '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
+    '</div></li>';
+
+        $('.navbar-right').append(themeMenu);
+
+        $.each(themes, function(index, value) {
+            var title = index.charAt(0).toUpperCase() + index.substr(1);
+            $('#theme-switcher').append('<li><a href="#" data-theme="' + index +'">' + title + '</a></li>');
+        });
+
+        $('#theme-switcher li a').click(function() {
+            var theme = $(this).attr('data-theme');
+            setTheme(theme);
+        });
+
+    }
+
+    function setTheme(theme) {
+        var themeurl = themes[theme];
+        $.cookie('theme', theme)
+        $('#theme-switcher li').removeClass('active');
+        $('#theme').attr('href', themeurl);
+        $('#theme-custom').attr('href', 'css/themes/' + theme + '/custom.css');
+        $('#theme-switcher li a[data-theme=' + theme + ']').parent().addClass('active');
+        $('#theme-switcher-wrapper span').text('Theme: ' + theme);
+        table.fixedHeader.adjust();
+    }
+
     new Konami(function() { themeSwitcher(); } );
 
 } );
 
-/*
- * Theme Switcher
- */
-function themeSwitcher() {
-
-    // Define Themes
-    var themes = {
-        "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
-        "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
-        "cosmo" : "//bootswatch.com/cosmo/bootstrap.min.css",
-        "cyborg" : "//bootswatch.com/cyborg/bootstrap.min.css",
-        "darkly" : "//bootswatch.com/darkly/bootstrap.min.css",
-        "flatly" : "//bootswatch.com/flatly/bootstrap.min.css",
-        "journal" : "//bootswatch.com/journal/bootstrap.min.css",
-        "lumen" : "//bootswatch.com/lumen/bootstrap.min.css",
-        "paper" : "//bootswatch.com/paper/bootstrap.min.css",
-        "readable" : "//bootswatch.com/readable/bootstrap.min.css",
-        "sandstone" : "//bootswatch.com/sandstone/bootstrap.min.css",
-        "simplex" : "//bootswatch.com/simplex/bootstrap.min.css",
-        "slate" : "//bootswatch.com/slate/bootstrap.min.css",
-        "spacelab" : "//bootswatch.com/spacelab/bootstrap.min.css",
-        "superhero" : "//bootswatch.com/superhero/bootstrap.min.css",
-        "united" : "//bootswatch.com/united/bootstrap.min.css",
-        "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
-    }
-
-    // Setup menu
-
-    var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
-    '<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">' +
-        'Theme ' +
-        '<span class="caret"></span>' +
-    '</a>' +
-    '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
-'</div></li>';
-
-    $('.navbar-right').append(themeMenu);
-
-    $.each(themes, function(index, value) {
-        var title = index.charAt(0).toUpperCase() + index.substr(1);
-        $('#theme-switcher').append('<li><a href="#" data-theme="' + index +'">' + title + '</a></li>');
-    });
-
-    $('#theme-switcher li a').click(function() {
-        $('#theme-switcher li').removeClass('active');
-        var theme = $(this).attr('data-theme');
-        var themeurl = themes[theme]; 
-        $("#theme").attr('href', themeurl);
-        $("#theme-custom").attr('href', 'css/themes/' + theme + '/custom.css');
-        $(this).parent().addClass('active');
-    });
-
-}
 
 function bytesToSize(bytes) {
    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
