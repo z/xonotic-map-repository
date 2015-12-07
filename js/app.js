@@ -313,7 +313,6 @@ $(document).ready(function() {
             case "#maplist":
 
                 visible = false;
-                table.fixedHeader.adjust();
 
             break;
 
@@ -335,6 +334,7 @@ $(document).ready(function() {
 
             default:
 
+                table.fixedHeader.adjust();
                 visible = false
 
         }
