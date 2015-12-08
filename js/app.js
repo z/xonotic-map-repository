@@ -283,6 +283,7 @@ $(document).ready(function() {
 
         // Donut
         allCharts[8] = c3.generate(data.gametypes);
+        allCharts[9] = c3.generate(data.shacount);
 
         $("#loading-charts").hide();
     }

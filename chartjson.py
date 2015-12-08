@@ -30,11 +30,21 @@ def main():
     years = list(range(1999,2016))
     maps_by_year = dict.fromkeys(years, 0)
 
+    # Used for pushing all lists from all mapinfos into before making a set
     gametypes_combined = []
+
+    # shadupe
+    shadupes = {}
 
     total = 0
     for m in maps_json:
         total += 1
+
+        # shadupes
+        if m['shasum'] in shadupes:
+            shadupes[m['shasum']].append(m['pk3'])
+        else:
+            shadupes[m['shasum']] = [m['pk3']]
 
         # Pie chart data        
         if m['mapinfo']:
@@ -79,69 +89,85 @@ def main():
                 if g != '': # handle that empty gametype
                     gametypes_dist[g] += 1
 
+    shadupes_sum = {}
+    for key, value in shadupes.items():
+        shadupes_sum[key] = len(value)
+
+    shadupes_dist_keys = set(shadupes_sum.values())
+    shadupes_dist = dict.fromkeys(shadupes_dist_keys, 0)
+    for key, value in shadupes_sum.items():
+        shadupes_dist[value] += 1
+
     # Pie Charts
     tchart = { 'bindto': '', 'data': { 'columns': [ ['yes'], ['no'] ], 'type': 'pie' } }
 
+    c0 = copy.deepcopy(tchart)
+    c0['bindto'] = '#chart-mapinfos'
+    c0['data']['columns'][0].append(mapinfos)
+    c0['data']['columns'][1].append(total - mapinfos)
+
     c1 = copy.deepcopy(tchart)
-    c1['bindto'] = '#chart-mapinfos'
-    c1['data']['columns'][0].append(mapinfos)
-    c1['data']['columns'][1].append(total - mapinfos)
+    c1['bindto'] = '#chart-mapshots'
+    c1['data']['columns'][0].append(mapshots)
+    c1['data']['columns'][1].append(total - mapshots)
 
     c2 = copy.deepcopy(tchart)
-    c2['bindto'] = '#chart-mapshots'
-    c2['data']['columns'][0].append(mapshots)
-    c2['data']['columns'][1].append(total - mapshots)
+    c2['bindto'] = '#chart-maps'
+    c2['data']['columns'][0].append(maps)
+    c2['data']['columns'][1].append(total - maps)
 
     c3 = copy.deepcopy(tchart)
-    c3['bindto'] = '#chart-maps'
-    c3['data']['columns'][0].append(maps)
-    c3['data']['columns'][1].append(total - maps)
+    c3['bindto'] = '#chart-radars'
+    c3['data']['columns'][0].append(radars)
+    c3['data']['columns'][1].append(total - radars)
 
     c4 = copy.deepcopy(tchart)
-    c4['bindto'] = '#chart-radars'
-    c4['data']['columns'][0].append(radars)
-    c4['data']['columns'][1].append(total - radars)
+    c4['bindto'] = '#chart-waypoints'
+    c4['data']['columns'][0].append(waypoints)
+    c4['data']['columns'][1].append(total - waypoints)
 
     c5 = copy.deepcopy(tchart)
-    c5['bindto'] = '#chart-waypoints'
-    c5['data']['columns'][0].append(waypoints)
-    c5['data']['columns'][1].append(total - waypoints)
-
-    c6 = copy.deepcopy(tchart)
-    c6['bindto'] = '#chart-licenses'
-    c6['data']['columns'][0].append(licenses)
-    c6['data']['columns'][1].append(total - licenses)
+    c5['bindto'] = '#chart-licenses'
+    c5['data']['columns'][0].append(licenses)
+    c5['data']['columns'][1].append(total - licenses)
 
     # Bar (filesize distribution)
-    c7 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'bar' },
+    c6 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'bar' },
            'axis': { 'x': { 'type': 'category' } } }
-    c7['bindto'] = '#chart-filesizes'
-    c7['data']['json']["x"] = list(filesize_dist.keys())
-    c7['data']['json']["size"] = list(filesize_dist.values())
+    c6['bindto'] = '#chart-filesizes'
+    c6['data']['json']["x"] = list(filesize_dist.keys())
+    c6['data']['json']["size"] = list(filesize_dist.values())
 
     # Line (maps over time)
-    c8 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'line' },
+    c7 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'line' },
            'axis': { 'x': { 'type': 'indexed' } } }
-    c8['bindto'] = '#chart-mapsbyyear'
-    c8['data']['json']['x'] = list(maps_by_year.keys())
-    c8['data']['json']['maps'] = list(maps_by_year.values())
+    c7['bindto'] = '#chart-mapsbyyear'
+    c7['data']['json']['x'] = list(maps_by_year.keys())
+    c7['data']['json']['maps'] = list(maps_by_year.values())
 
     # Donut (gametypes)
-    c9 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
-    c9['bindto'] = '#chart-gametypes'
+    c8 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c8['bindto'] = '#chart-gametypes'
     gametypes_sorted = OrderedDict(sorted(gametypes_dist.items(), key=itemgetter(1), reverse=True))
-    c9['data']['json'] = gametypes_sorted
+    c8['data']['json'] = gametypes_sorted
+
+    # Donut (dupes)
+    c9 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c9['bindto'] = '#chart-shacount'
+    shadupes_sorted = OrderedDict(sorted(shadupes_dist.items(), key=itemgetter(1), reverse=True))
+    c9['data']['json'] = shadupes_sorted
 
     charts = { 
-                'mapinfos': c1,
-                'mapshots': c2,
-                'maps': c3,
-                'radars': c4,
-                'waypoints': c5,
-                'licenses': c6,
-                'filesizes': c7,
-                'mapsbyyear': c8,
-                'gametypes': c9
+                'mapinfos': c0,
+                'mapshots': c1,
+                'maps': c2,
+                'radars': c3,
+                'waypoints': c4,
+                'licenses': c5,
+                'filesizes': c6,
+                'mapsbyyear': c7,
+                'gametypes': c8,
+                'shacount': c9
              }
 
     fo = open('data/charts.json', 'w')
