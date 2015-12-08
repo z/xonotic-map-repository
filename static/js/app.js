@@ -88,7 +88,23 @@ $(document).ready(function() {
             { "data": "radar[, ]" },
             { "data": "waypoints[, ]" },
             { "data": "license" },
-            { "data": "date" }
+            { "data": "date" },
+            /*{ "data": function ( row, type, val, meta ) {
+                    return Object.keys(row.bsp[0]).join("<br>");
+                }
+            }*/
+            //{ "data": "shasum" }
+            { "data": function ( row, type, val, meta ) {
+                    str = "";
+                    $.each(row.bsp, function( key, value ) {
+                        str += "<br><br>" + key + "<br>";
+                        $.each(row.bsp[key].entities, function( k, v) {
+                            str += k + ": " + v + ", ";
+                        });
+                    });
+                    return str; 
+                }
+            }
         ],
         "columnDefs": [
             {   // pk3
