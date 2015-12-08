@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import zipfile, os, re, hashlib, json, subprocess
+import zipfile, os, re, hashlib, json, subprocess, shutil
 
 def main():
 
@@ -143,7 +143,9 @@ def main():
                                         data['entities'][bspname][entity] = 1
                                     else:
                                         data['entities'][bspname][entity] += 1
-                        f.close()           
+                        f.close()
+                        os.remove(entities_file)
+                        shutil.rmtree('./bsp/' + bspname)
 
                     packs_maps.append(data)
                 else:
