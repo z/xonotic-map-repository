@@ -87,7 +87,7 @@ $(document).ready(function() {
             { "data": function ( row, type, val, meta ) {
                     str = "";
                     $.each(row.gametypes, function( k, v ) {
-                        str += '<i class="icon-gametype_' + v + '" title="' + v + '"></i> ';
+                        str += '<i class="icon icon-gametype_' + v + '" title="' + v + '"><b>' + v + '</b></i> ';
                     });
                     return str;
                 }
@@ -97,20 +97,9 @@ $(document).ready(function() {
             { "data": "waypoints[, ]" },
             { "data": "license" },
             { "data": "date" },
-            /*{ "data": function ( row, type, val, meta ) {
-                    return Object.keys(row.bsp[0]).join("<br>");
-                }
-            }*/
-            //{ "data": "shasum" }
             { "data": function ( row, type, val, meta ) {
                     str = "";
                     $.each(row.bsp, function( key, value ) {
-/*
-                        str += "<br><br>" + key + "<br>";
-                        $.each(row.bsp[key].entities, function( k, v ) {
-                            str += k + ": " + v + ", ";
-                        });
-*/
                         if (Object.keys(row.bsp).length > 1) {
                             str += key + "<br>";
                         }
@@ -193,11 +182,7 @@ $(document).ready(function() {
             },
             {   // gametypes
                 "targets": 9,
-//                "orderData": 8,
-                "data": null,
-                "render": {
-                    "filter": "gametypes[,]"
-                }
+                "type": "html"
             },
             {   // map file
                 "targets": 10,
