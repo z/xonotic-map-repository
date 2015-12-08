@@ -73,7 +73,10 @@ $(document).ready(function() {
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "columns": [
             { "data": "pk3" },
-            { "data": "bsp[<br> ]" },
+            { "data": function ( row, type, val, meta ) {
+                    return Object.keys(row.bsp).join("<br>");
+                }
+            },
             { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },

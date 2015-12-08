@@ -105,7 +105,6 @@ def main():
             data['pk3'] = file
             data['shasum'] = hash_file(path_packages + file)
             data['bsp'] = {}
-            data['entities'] = {}
             bsps = []
             bspnames = {}
  
@@ -137,7 +136,6 @@ def main():
                             for entity in entities_list:
                                 if re.search(entity, line):
                                     if 'entities' not in data['bsp'][bspname]:
-                                        print(bspname)
                                         data['bsp'][bspname]['entities'] = {}
                                     if entity not in data['bsp'][bspname]['entities']:
                                         data['bsp'][bspname]['entities'][entity] = 1
