@@ -12,8 +12,13 @@ def main():
     path_mapshots = './mapshots'
     extract_mapshots = True
 
-    # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_)" |awk '{ print $2 }' |sort |uniq; done |sort |uniq
+    # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_|player)" |awk '{ print $2"," }' |sort |uniq; done |sort |uniq
     entities_list = [
+        "info_player_deathmatch",
+        "info_player_intermission",
+        "info_player_start",
+        "info_player_team1",
+        "info_player_team2",
         "item_ammoregen",
         "item_armor1",
         "item_armor25",
@@ -35,9 +40,10 @@ def main():
         "item_buff_medic_team2",
         "item_buff_supply_team1",
         "item_buff_supply_team2",
-        "item_bullets", 
+        "item_bullets",
         "item_cells",
-        "item_doubler", 
+        "item_doubler",
+        "item_enviro",
         "item_flag_team1",
         "item_flag_team2",
         "item_flight",
@@ -63,6 +69,8 @@ def main():
         "item_scout",
         "item_shells",
         "item_strength",
+        "team_CTF_blueplayer",
+        "team_CTF_redplayer",
         "weapon_arc",
         "weapon_bfg",
         "weapon_campingrifle",
@@ -85,7 +93,7 @@ def main():
         "weapon_rocketlauncher",
         "weapon_seeker",
         "weapon_shotgun",
-        "weapon_uzi"
+        "weapon_uzi",
     ]
 
     for file in sorted(os.listdir(path_packages)):
@@ -98,6 +106,8 @@ def main():
             data['shasum'] = hash_file(path_packages + file)
             data['bsp'] = []
             data['entities'] = {}
+            bsps = []
+            bspnames = {}
             #data['entities'] = dict.fromkeys(entities_list, 0)
  
             try:
@@ -107,16 +117,18 @@ def main():
                 # Get the bsp name(s)
                 for member in filelist:
                     if re.search('^maps/.*bsp$', member):
-                        data['bsp'].append(member)
+                        bspnames[member] = member.replace('maps/','').replace('.bsp','')
+                        bsps.append(member)
+                        data['bsp'].append(bspnames[member])
 
-                if len(data['bsp']):
+                if len(bsps):
 
-                    for bsp in data['bsp']:
+                    for bsp in bsps:
 
-                        bspname = bsp.replace('maps/','').replace('.bsp','')
+                        bspname = bspnames[bsp]
 
                         zip.extract(bsp, './bsp/' + bspname)
-
+                                                           
                         entities_file = './entities/' + bspname + '.ent'
                         with open(entities_file, 'w') as f:
                             subprocess.call(["./bsp2ent", 'bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
@@ -125,10 +137,12 @@ def main():
                         for line in iter(f):
                             for entity in entities_list:
                                 if re.search(entity, line):
-                                    if entity not in data['entities']:
-                                        data['entities'][entity] = 1
+                                    if bspname not in data['entities']:
+                                        data['entities'][bspname] = {}
+                                    if entity not in data['entities'][bspname]:
+                                        data['entities'][bspname][entity] = 1
                                     else:
-                                        data['entities'][entity] += 1
+                                        data['entities'][bspname][entity] += 1
                         f.close()           
 
                     packs_maps.append(data)
