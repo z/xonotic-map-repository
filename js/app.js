@@ -281,6 +281,9 @@ $(document).ready(function() {
         // Line
         allCharts[7] = c3.generate(data.mapsbyyear);
 
+        // Donut
+        allCharts[8] = c3.generate(data.gametypes);
+
         $("#loading-charts").hide();
     }
 

@@ -18,7 +18,7 @@ def main():
     waypoints = 0
     licenses = 0
     # these should be generated
-    filesize_avg = OrderedDict( [
+    filesize_dist = OrderedDict( [
                      ('<1MB', 0), ('1MB', 0), ('2MB', 0), ('3MB', 0), ('4MB', 0), ('5MB', 0), ('6MB', 0), ('7MB', 0), ('8MB', 0), ('9MB', 0), ('10MB', 0),
                      ('11MB', 0), ('12MB', 0), ('13MB', 0), ('14MB', 0), ('15MB', 0), ('16MB', 0), ('17MB', 0), ('18MB', 0), ('19MB', 0), ('20MB', 0),
                      ('21MB', 0), ('22MB', 0), ('23MB', 0), ('24MB', 0), ('25MB', 0), ('26MB', 0), ('27MB', 0), ('28MB', 0), ('29MB', 0), ('30MB', 0),
@@ -26,25 +26,13 @@ def main():
     maps_by_year = { 1999: 0, 2000: 0, 2001: 0, 2002: 0, 2003: 0, 2004: 0,
                      2005: 0, 2006: 0, 2007: 0, 2008: 0, 2009: 0, 2010: 0,
                      2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: 0, 2016: 0 }
+    gametypes_combined = []
 
     total = 0
     for m in maps_json:
         total += 1
 
-        # stupid hacky way - please help me rewrite
-        filesize = convertSize(m['filesize'])
-        if (filesize.find('KB') > -1):
-            filesize_avg['<1MB'] += 1
-        elif (filesize.find('MB') > -1):
-            fsi = filesize.replace('MB','').strip()
-            if int(fsi) > 30:
-                filesize_avg['30MB+'] += 1
-            else:
-                filesize_avg[filesize.strip()] += 1
-
-        dt = datetime.datetime.fromtimestamp(m['date'])
-        maps_by_year[dt.year] += 1
-        
+        # Pie chart data        
         if m['mapinfo']:
             mapinfos += 1
         if m['mapshot']:
@@ -57,6 +45,35 @@ def main():
             waypoints += 1
         if m['license']:
             licenses += 1
+
+        # Filesize distribution (stupid hacky way - please help me rewrite)
+        filesize = convertSize(m['filesize'])
+        if (filesize.find('KB') > -1):
+            filesize_dist['<1MB'] += 1
+        elif (filesize.find('MB') > -1):
+            fsi = filesize.replace('MB','').strip()
+            if int(fsi) > 30:
+                filesize_dist['30MB+'] += 1
+            else:
+                filesize_dist[filesize.strip()] += 1
+
+        # Maps over time data
+        dt = datetime.datetime.fromtimestamp(m['date'])
+        maps_by_year[dt.year] += 1
+
+        # Get all gametypes
+        if len(m['gametypes']):
+            gametypes_combined.extend(m['gametypes'])
+    
+    # Gametype distribution    
+    gametypes_set = set(gametypes_combined)
+    gametypes_dist = dict.fromkeys(gametypes_set, 0)
+    gametypes_dist.pop('', None) # someone defined an empty gametype
+    for m in maps_json:
+        if len(m['gametypes']):
+            for g in m['gametypes']:
+                if g != '': # handle that empty gametype
+                    gametypes_dist[g] += 1
 
     # Pie Charts
     tchart = { 'bindto': '', 'data': { 'columns': [ ['yes'], ['no'] ], 'type': 'pie' } }
@@ -91,24 +108,24 @@ def main():
     c6['data']['columns'][0].append(licenses)
     c6['data']['columns'][1].append(total - licenses)
 
-    # Scatter Plot
-    #c7 = { 'bindto': '', 'data': { 'columns': [ ], 'type': 'scatter' } }
-    #c7['bindto'] = '#chart-filesizes'
-    #c7['data']['columns'].append(filesizes)
-
-    # Bar
+    # Bar (filesize distribution)
     c7 = { 'bindto': '', 'data': { 'x': 'x', 'columns': [ ], 'type': 'bar' },
            'axis': { 'x': { 'type': 'category' } } }
     c7['bindto'] = '#chart-filesizes'
-    c7['data']['columns'].append(["x"] + list(filesize_avg.keys()))
-    c7['data']['columns'].append(["size"] + list(filesize_avg.values()))
+    c7['data']['columns'].append(["x"] + list(filesize_dist.keys()))
+    c7['data']['columns'].append(["size"] + list(filesize_dist.values()))
 
-    # Maps over time
+    # Line (maps over time)
     c8 = { 'bindto': '', 'data': { 'x': 'x', 'columns': [ ], 'type': 'line' },
            'axis': { 'x': { 'type': 'indexed' } } }
     c8['bindto'] = '#chart-mapsbyyear'
     c8['data']['columns'].append(['x'] + list(maps_by_year.keys()))
     c8['data']['columns'].append(['maps'] + list(maps_by_year.values()))
+
+    # Donut (gametypes)
+    c9 = { 'bindto': '', 'data': { 'json': [ ], 'type': 'donut' } }
+    c9['bindto'] = '#chart-gametypes'
+    c9['data']['json'] = gametypes_dist
 
     charts = { 
                 'mapinfos': c1,
@@ -118,7 +135,8 @@ def main():
                 'waypoints': c5,
                 'licenses': c6,
                 'filesizes': c7,
-                'mapsbyyear': c8
+                'mapsbyyear': c8,
+                'gametypes': c9
              }
 
     fo = open('data/charts.json', 'w')
