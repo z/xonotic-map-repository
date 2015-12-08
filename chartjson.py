@@ -4,6 +4,7 @@
 
 import json, copy, datetime, math
 from collections import OrderedDict
+from operator import itemgetter
 
 def main():
     f = open('./data/maps.json') 
@@ -128,7 +129,8 @@ def main():
     # Donut (gametypes)
     c9 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
     c9['bindto'] = '#chart-gametypes'
-    c9['data']['json'] = gametypes_dist
+    gametypes_sorted = OrderedDict(sorted(gametypes_dist.items(), key=itemgetter(1), reverse=True))
+    c9['data']['json'] = gametypes_sorted
 
     charts = { 
                 'mapinfos': c1,
