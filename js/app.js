@@ -285,6 +285,9 @@ $(document).ready(function() {
         allCharts[8] = c3.generate(data.gametypes);
         allCharts[9] = c3.generate(data.shacount);
 
+        // Stacked Area
+        allCharts[10] = c3.generate(data.filesbyyear);
+
         $("#loading-charts").hide();
     }
 

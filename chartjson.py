@@ -33,12 +33,19 @@ def main():
     # Used for pushing all lists from all mapinfos into before making a set
     gametypes_combined = []
 
-    # shadupe
+    # shadupes
     shadupes = {}
+
+    # files by year
+    files = [ 'mapinfo', 'mapshot', 'map', 'radar', 'waypoints', 'license' ]
+    files_by_year = dict.fromkeys(files, dict.fromkeys(years, 0))
 
     total = 0
     for m in maps_json:
         total += 1
+
+        dt = datetime.datetime.fromtimestamp(m['date'])
+        year = dt.year
 
         # shadupes
         if m['shasum'] in shadupes:
@@ -49,16 +56,24 @@ def main():
         # Pie chart data        
         if m['mapinfo']:
             mapinfos += 1
+            #print(year)
+            files_by_year['mapinfo'][year] += 1
+            #print(files_by_year['mapinfo'][year])
         if m['mapshot']:
             mapshots += 1
+            files_by_year['mapshot'][year] += 1
         if m['map']:
             maps += 1
+            files_by_year['map'][year] += 1
         if m['radar']:
             radars += 1
+            files_by_year['radar'][year] += 1
         if m['waypoints']:
             waypoints += 1
+            files_by_year['waypoints'][year] += 1
         if m['license']:
             licenses += 1
+            files_by_year['license'][year] += 1
 
         # Filesize distribution (stupid hacky way - please help me rewrite)
         filesize = convertSize(m['filesize'])
@@ -72,8 +87,7 @@ def main():
                 filesize_dist[filesize.strip()] += 1
 
         # Maps over time data
-        dt = datetime.datetime.fromtimestamp(m['date'])
-        maps_by_year[dt.year] += 1
+        maps_by_year[year] += 1
 
         # Get all gametypes
         if len(m['gametypes']):
@@ -157,6 +171,20 @@ def main():
     shadupes_sorted = OrderedDict(sorted(shadupes_dist.items(), key=itemgetter(1), reverse=True))
     c9['data']['json'] = shadupes_sorted
 
+    # Stacked Area (files over time)
+    c10 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'area' },
+           'axis': { 'x': { 'type': 'indexed' } } }
+    c10['bindto'] = '#chart-filesbyyear'
+    c10['data']['types'] = dict.fromkeys(files, 'area')
+    c10['data']['groups'] = [files]
+    c10['data']['json']['x'] = years
+
+    for f in files:
+        c10['data']['json'][f] = list(files_by_year[f].values())
+
+    print(files_by_year)
+
+
     charts = { 
                 'mapinfos': c0,
                 'mapshots': c1,
@@ -167,7 +195,8 @@ def main():
                 'filesizes': c6,
                 'mapsbyyear': c7,
                 'gametypes': c8,
-                'shacount': c9
+                'shacount': c9,
+                'filesbyyear': c10
              }
 
     fo = open('data/charts.json', 'w')
