@@ -14,6 +14,15 @@ def main():
 
     # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_|player)" |awk '{ print $2"," }' |sort |uniq; done |sort |uniq
     entities_list = [
+        "ammo_bfg",
+        "ammo_bullets",
+        "ammo_cells",
+        "ammo_grenades",
+        "ammo_lightning",
+        "ammo_nails",
+        "ammo_rockets",
+        "ammo_shells",
+        "ammo_slugs",
         "info_player_deathmatch",
         "info_player_intermission",
         "info_player_start",
@@ -142,7 +151,7 @@ def main():
                                     else:
                                         data['bsp'][bspname]['entities'][entity] += 1
                         f.close()
-                        os.remove(entities_file)
+                        #os.remove(entities_file)
                         shutil.rmtree('./resources/bsp/' + bspname)
 
                     packs_maps.append(data)

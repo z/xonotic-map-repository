@@ -84,6 +84,14 @@ $(document).ready(function() {
             { "data": "title" },
             { "data": "author" },
             { "data": "gametypes[, ]" },
+            { "data": function ( row, type, val, meta ) {
+                    str = "";
+                    $.each(row.gametypes, function( k, v ) {
+                        str += '<i class="icon-gametype_' + v + '" title="' + v + '"></i> ';
+                    });
+                    return str;
+                }
+            },
             { "data": "map[, ]" },
             { "data": "radar[, ]" },
             { "data": "waypoints[, ]" },
@@ -97,10 +105,21 @@ $(document).ready(function() {
             { "data": function ( row, type, val, meta ) {
                     str = "";
                     $.each(row.bsp, function( key, value ) {
+/*
                         str += "<br><br>" + key + "<br>";
-                        $.each(row.bsp[key].entities, function( k, v) {
+                        $.each(row.bsp[key].entities, function( k, v ) {
                             str += k + ": " + v + ", ";
                         });
+*/
+                        if (Object.keys(row.bsp).length > 1) {
+                            str += key + "<br>";
+                        }
+                        $.each(row.bsp[key].entities, function( k, v ) {
+                            str += '<i class="icon-' + k + '" title="' + v + ' ' + k + '"></i> ';
+                        });
+                        if (Object.keys(row.bsp).length > 1) {
+                            str += "<br>";
+                        }
                     });
                     return str; 
                 }
@@ -168,33 +187,45 @@ $(document).ready(function() {
                     return (data != false) ? data : "";
                 }
             },
-            {   // map file
+            {   // gametypes (strings)
+                "targets": 8,
+                "visible": false
+            },
+            {   // gametypes
                 "targets": 9,
-                "render": function ( data, type, full, meta ) {
-                    return (data != false) ? "yes" : "no";
+//                "orderData": 8,
+                "data": null,
+                "render": {
+                    "filter": "gametypes[,]"
                 }
             },
-            {   // radar file
+            {   // map file
                 "targets": 10,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
                 }
             },
-            {   // waypoints file
+            {   // radar file
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
                 }
             },
-            {   // license file
+            {   // waypoints file
                 "targets": 12,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? "yes" : "no";
+                }
+            },
+            {   // license file
+                "targets": 13,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
                 }
             },
             {
                 // date
-                "targets": 13,
+                "targets": 14,
                 "render": function ( data, type, full, meta ) {
                     d = new Date(0);
                     d.setUTCSeconds(data);
