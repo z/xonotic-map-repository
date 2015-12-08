@@ -17,13 +17,15 @@ def main():
     radars = 0
     waypoints = 0
     licenses = 0
-    # these should be generated
-    filesize_dist = OrderedDict( [
-                     ('<1MB', 0), ('1MB', 0), ('2MB', 0), ('3MB', 0), ('4MB', 0), ('5MB', 0), ('6MB', 0), ('7MB', 0), ('8MB', 0), ('9MB', 0), ('10MB', 0),
-                     ('11MB', 0), ('12MB', 0), ('13MB', 0), ('14MB', 0), ('15MB', 0), ('16MB', 0), ('17MB', 0), ('18MB', 0), ('19MB', 0), ('20MB', 0),
-                     ('21MB', 0), ('22MB', 0), ('23MB', 0), ('24MB', 0), ('25MB', 0), ('26MB', 0), ('27MB', 0), ('28MB', 0), ('29MB', 0), ('30MB', 0),
-                     ('30MB+', 0) ] )
 
+    # Generate OrderedDict for filesize distribution
+    filesize_dist_keys = ['<1MB']
+    for i in range(1,31):
+         filesize_dist_keys.append(str(i) + "MB")
+    filesize_dist_keys.append('30MB+')
+    filesize_dist = OrderedDict([(k, 0) for k in filesize_dist_keys])
+
+    # Generat dict for maps by year
     years = list(range(1999,2016))
     maps_by_year = dict.fromkeys(years, 0)
 
