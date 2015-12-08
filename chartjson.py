@@ -153,24 +153,24 @@ def main():
     c6['data']['json']["x"] = list(filesize_dist.keys())
     c6['data']['json']["size"] = list(filesize_dist.values())
 
-    # Line (maps over time)
-    c7 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'line' },
-           'axis': { 'x': { 'type': 'indexed' } } }
-    c7['bindto'] = '#chart-mapsbyyear'
-    c7['data']['json']['x'] = list(maps_by_year.keys())
-    c7['data']['json']['maps'] = list(maps_by_year.values())
-
     # Donut (gametypes)
-    c8 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
-    c8['bindto'] = '#chart-gametypes'
+    c7 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c7['bindto'] = '#chart-gametypes'
     gametypes_sorted = OrderedDict(sorted(gametypes_dist.items(), key=itemgetter(1), reverse=True))
-    c8['data']['json'] = gametypes_sorted
+    c7['data']['json'] = gametypes_sorted
 
     # Donut (dupes)
-    c9 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
-    c9['bindto'] = '#chart-shacount'
+    c8 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c8['bindto'] = '#chart-shacount'
     shadupes_sorted = OrderedDict(sorted(shadupes_dist.items(), key=itemgetter(1), reverse=True))
-    c9['data']['json'] = shadupes_sorted
+    c8['data']['json'] = shadupes_sorted
+
+    # Line (maps over time)
+    c9 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'line' },
+           'axis': { 'x': { 'type': 'indexed' } } }
+    c9['bindto'] = '#chart-mapsbyyear'
+    c9['data']['json']['x'] = list(maps_by_year.keys())
+    c9['data']['json']['maps'] = list(maps_by_year.values())
 
     # Stacked Area (files over time)
     c10 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'area' },
@@ -192,9 +192,9 @@ def main():
                 'waypoints': c4,
                 'licenses': c5,
                 'filesizes': c6,
-                'mapsbyyear': c7,
-                'gametypes': c8,
-                'shacount': c9,
+                'gametypes': c7,
+                'shacount': c8,
+                'mapsbyyear': c9,
                 'filesbyyear': c10
              }
 
