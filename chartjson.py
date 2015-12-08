@@ -23,9 +23,10 @@ def main():
                      ('11MB', 0), ('12MB', 0), ('13MB', 0), ('14MB', 0), ('15MB', 0), ('16MB', 0), ('17MB', 0), ('18MB', 0), ('19MB', 0), ('20MB', 0),
                      ('21MB', 0), ('22MB', 0), ('23MB', 0), ('24MB', 0), ('25MB', 0), ('26MB', 0), ('27MB', 0), ('28MB', 0), ('29MB', 0), ('30MB', 0),
                      ('30MB+', 0) ] )
-    maps_by_year = { 1999: 0, 2000: 0, 2001: 0, 2002: 0, 2003: 0, 2004: 0,
-                     2005: 0, 2006: 0, 2007: 0, 2008: 0, 2009: 0, 2010: 0,
-                     2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: 0, 2016: 0 }
+
+    years = list(range(1999,2016))
+    maps_by_year = dict.fromkeys(years, 0)
+
     gametypes_combined = []
 
     total = 0
@@ -109,21 +110,21 @@ def main():
     c6['data']['columns'][1].append(total - licenses)
 
     # Bar (filesize distribution)
-    c7 = { 'bindto': '', 'data': { 'x': 'x', 'columns': [ ], 'type': 'bar' },
+    c7 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'bar' },
            'axis': { 'x': { 'type': 'category' } } }
     c7['bindto'] = '#chart-filesizes'
-    c7['data']['columns'].append(["x"] + list(filesize_dist.keys()))
-    c7['data']['columns'].append(["size"] + list(filesize_dist.values()))
+    c7['data']['json']["x"] = list(filesize_dist.keys())
+    c7['data']['json']["size"] = list(filesize_dist.values())
 
     # Line (maps over time)
-    c8 = { 'bindto': '', 'data': { 'x': 'x', 'columns': [ ], 'type': 'line' },
+    c8 = { 'bindto': '', 'data': { 'x': 'x', 'json': { }, 'type': 'line' },
            'axis': { 'x': { 'type': 'indexed' } } }
     c8['bindto'] = '#chart-mapsbyyear'
-    c8['data']['columns'].append(['x'] + list(maps_by_year.keys()))
-    c8['data']['columns'].append(['maps'] + list(maps_by_year.values()))
+    c8['data']['json']['x'] = list(maps_by_year.keys())
+    c8['data']['json']['maps'] = list(maps_by_year.values())
 
     # Donut (gametypes)
-    c9 = { 'bindto': '', 'data': { 'json': [ ], 'type': 'donut' } }
+    c9 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
     c9['bindto'] = '#chart-gametypes'
     c9['data']['json'] = gametypes_dist
 
