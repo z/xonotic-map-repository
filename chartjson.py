@@ -38,7 +38,8 @@ def main():
 
     # files by year
     files = [ 'mapinfo', 'mapshot', 'map', 'radar', 'waypoints', 'license' ]
-    files_by_year = dict.fromkeys(files, dict.fromkeys(years, 0))
+    #files_by_year = dict.fromkeys(files, dict.fromkeys(years, 0))
+    files_by_year = { key: dict.fromkeys(years, 0) for key in files}
 
     total = 0
     for m in maps_json:
@@ -182,9 +183,7 @@ def main():
     for f in files:
         c10['data']['json'][f] = list(files_by_year[f].values())
 
-    print(files_by_year)
-
-
+    # Setup charts JSON
     charts = { 
                 'mapinfos': c0,
                 'mapshots': c1,
