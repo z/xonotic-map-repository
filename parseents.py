@@ -104,11 +104,10 @@ def main():
             data = {}
             data['pk3'] = file
             data['shasum'] = hash_file(path_packages + file)
-            data['bsp'] = []
+            data['bsp'] = {}
             data['entities'] = {}
             bsps = []
             bspnames = {}
-            #data['entities'] = dict.fromkeys(entities_list, 0)
  
             try:
                 zip = zipfile.ZipFile(path_packages + file)
@@ -119,7 +118,7 @@ def main():
                     if re.search('^maps/.*bsp$', member):
                         bspnames[member] = member.replace('maps/','').replace('.bsp','')
                         bsps.append(member)
-                        data['bsp'].append(bspnames[member])
+                        data['bsp'][bspnames[member]] = {}
 
                 if len(bsps):
 
@@ -137,12 +136,13 @@ def main():
                         for line in iter(f):
                             for entity in entities_list:
                                 if re.search(entity, line):
-                                    if bspname not in data['entities']:
-                                        data['entities'][bspname] = {}
-                                    if entity not in data['entities'][bspname]:
-                                        data['entities'][bspname][entity] = 1
+                                    if 'entities' not in data['bsp'][bspname]:
+                                        print(bspname)
+                                        data['bsp'][bspname]['entities'] = {}
+                                    if entity not in data['bsp'][bspname]['entities']:
+                                        data['bsp'][bspname]['entities'][entity] = 1
                                     else:
-                                        data['entities'][bspname][entity] += 1
+                                        data['bsp'][bspname]['entities'][entity] += 1
                         f.close()
                         os.remove(entities_file)
                         shutil.rmtree('./resources/bsp/' + bspname)
