@@ -13,6 +13,15 @@ There are approximately 12,500 map packages currently in distribution amongst Xo
 
 **index.html** - the web front-end for the generated JSON documents.
 
+### TL;DR
+
+1. Copy a whole bunch of pk3s into the ./packages folder
+2. run `./maps2json.py`
+3. run `./chartjson.py`
+4. run `python -m SimpleHTTPServer`
+5. Goto `http://127.0.0.1:8000`
+6. (optional) check `error.log` for any pk3s that were found without bsps and corrupt packs
+
 ### Contributing
 
 Find me in #xonotic on irc.quakenet.org, I'm open to any ideas to improve upon this effort.
