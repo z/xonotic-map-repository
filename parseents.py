@@ -159,7 +159,9 @@ def main():
     output = {}
     output['data'] = packs_maps
 
-    print(json.dumps(output))
+    fo = open('data/entities.json', 'w')
+    fo.write(json.dumps(output))
+    fo.close()
 
 def hash_file(filename):
    """"This function returns the SHA-1 hash
@@ -180,10 +182,6 @@ def hash_file(filename):
 
    # return the hex representation of digest
    return h.hexdigest()
-
-#    fo = open('data/entities.json', 'w')
-#    fo.write(json.dumps(output))
-#    fo.close()
 
 if __name__ == "__main__":
     main()
