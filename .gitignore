@@ -2,5 +2,8 @@
 *.swp
 maps.json
 charts.json
+entities.json
 error.log
 mapshots/maps
+entities/*.ent
+bsp/*/*
