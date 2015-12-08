@@ -131,7 +131,7 @@ $(document).ready(function() {
                     var string = "";
                     if (data.length > 0) {
                         data.forEach(function(value, index, array) {
-                            string += '<a class="btn" rel="popover" data-placement="auto bottom" data-img="mapshots/' + value + '" href="mapshots/' + value + '" target="_blank"><i class="fa fa-picture-o"></i></a>';
+                            string += '<a class="btn" rel="popover" data-placement="auto bottom" data-img="./static/mapshots/' + value + '" href="mapshots/' + value + '" target="_blank"><i class="fa fa-picture-o"></i></a>';
                         });
                     }
                     return string;
