@@ -5,6 +5,6 @@ maps.json
 charts.json
 entities.json
 error.log
-static/mapshots/maps
+resources/mapshots/maps
 resources/entities/*.ent
 resources/bsp/*/*

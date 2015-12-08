@@ -12,7 +12,7 @@ def main():
     packs_corrupt = []
     
     path_packages = './resources/packages/'
-    path_mapshots = './static/mapshots/'
+    path_mapshots = './resources/mapshots/'
     extract_mapshots = True
 
     for file in sorted(os.listdir(path_packages)):

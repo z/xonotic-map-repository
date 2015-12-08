@@ -9,7 +9,7 @@ def main():
     packs_corrupt = []
     
     path_packages = './resources/packages/'
-    path_mapshots = './static/mapshots/'
+    path_mapshots = './resources/mapshots/'
     extract_mapshots = True
 
     # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_|player)" |awk '{ print $2"," }' |sort |uniq; done |sort |uniq
