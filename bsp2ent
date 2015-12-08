@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# from Xonotic's misc/tools
 
 use strict;
 use warnings;

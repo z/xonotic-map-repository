@@ -8,8 +8,8 @@ def main():
     packs_other  = []
     packs_corrupt = []
     
-    path_packages = './packages/'
-    path_mapshots = './mapshots'
+    path_packages = './resources/packages/'
+    path_mapshots = './static/mapshots/'
     extract_mapshots = True
 
     # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_|player)" |awk '{ print $2"," }' |sort |uniq; done |sort |uniq
@@ -127,11 +127,11 @@ def main():
 
                         bspname = bspnames[bsp]
 
-                        zip.extract(bsp, './bsp/' + bspname)
+                        zip.extract(bsp, './resources/bsp/' + bspname)
                                                            
-                        entities_file = './entities/' + bspname + '.ent'
+                        entities_file = './resources/entities/' + bspname + '.ent'
                         with open(entities_file, 'w') as f:
-                            subprocess.call(["./bsp2ent", 'bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
+                            subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
                         f = open(entities_file)
                         for line in iter(f):
@@ -145,7 +145,7 @@ def main():
                                         data['entities'][bspname][entity] += 1
                         f.close()
                         os.remove(entities_file)
-                        shutil.rmtree('./bsp/' + bspname)
+                        shutil.rmtree('./resources/bsp/' + bspname)
 
                     packs_maps.append(data)
                 else:
@@ -159,7 +159,7 @@ def main():
     output = {}
     output['data'] = packs_maps
 
-    fo = open('data/entities.json', 'w')
+    fo = open('./resources/data/entities.json', 'w')
     fo.write(json.dumps(output))
     fo.close()
 

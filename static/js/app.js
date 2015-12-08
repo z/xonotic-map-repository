@@ -41,7 +41,7 @@ $(document).ready(function() {
     } );
 
     var table = $('#table-maplist').DataTable( {
-        "ajax": "data/maps.json",
+        "ajax": "./resources/data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 250,
         "colReorder": true,
@@ -329,7 +329,7 @@ $(document).ready(function() {
                 $("#loading-charts").show();
 
                 if (!chartsDrawn) {
-                    $.get('data/charts.json', function(data) {
+                    $.get('./resources/data/charts.json', function(data) {
                         drawCharts(data);
                         chartsDrawn = true;
                     });
@@ -394,7 +394,7 @@ $(document).ready(function() {
         $.cookie('theme', theme)
         $('#theme-switcher li').removeClass('active');
         $('#theme').attr('href', themeurl);
-        $('#theme-custom').attr('href', 'css/themes/' + theme + '/custom.css');
+        $('#theme-custom').attr('href', './static/css/themes/' + theme + '/custom.css');
         $('#theme-switcher li a[data-theme=' + theme + ']').parent().addClass('active');
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
 //        table.fixedHeader.adjust();

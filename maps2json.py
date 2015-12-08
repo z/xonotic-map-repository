@@ -11,8 +11,8 @@ def main():
     packs_other  = []
     packs_corrupt = []
     
-    path_packages = './packages/'
-    path_mapshots = './mapshots'
+    path_packages = './resources/packages/'
+    path_mapshots = './static/mapshots/'
     extract_mapshots = True
 
     for file in sorted(os.listdir(path_packages)):
@@ -134,7 +134,7 @@ def main():
     # for debugging
     #print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
 
-    fo = open('data/maps.json', 'w')
+    fo = open('./resources/data/maps.json', 'w')
     fo.write(json.dumps(output))
     fo.close()
 

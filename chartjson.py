@@ -7,7 +7,7 @@ from collections import OrderedDict
 from operator import itemgetter
 
 def main():
-    f = open('./data/maps.json') 
+    f = open('./resources/data/maps.json') 
     data = f.read()
     maps_json = json.loads(data)['data']
 
@@ -198,7 +198,7 @@ def main():
                 'filesbyyear': c10
              }
 
-    fo = open('data/charts.json', 'w')
+    fo = open('./resources/data/charts.json', 'w')
     fo.write(json.dumps(charts))
     fo.close()
 

@@ -1,9 +1,10 @@
 *.pk3
 *.swp
+*.swo
 maps.json
 charts.json
 entities.json
 error.log
-mapshots/maps
-entities/*.ent
-bsp/*/*
+static/mapshots/maps
+resources/entities/*.ent
+resources/bsp/*/*
