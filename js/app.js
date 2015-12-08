@@ -341,10 +341,11 @@ $(document).ready(function() {
 
             default:
 
-                table.fixedHeader.adjust();
                 visible = false
 
         }
+
+        table.fixedHeader.adjust();
 
         // decide whether to show the table or not
         if (visible) { // hide table
