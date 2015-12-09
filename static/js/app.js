@@ -43,7 +43,7 @@ $(document).ready(function() {
     var table = $('#table-maplist').DataTable( {
         "ajax": "./resources/data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
-        "pageLength": 250,
+        "pageLength": 50,
         "colReorder": true,
         "stateSave": true,
         "fixedHeader": {
@@ -92,11 +92,6 @@ $(document).ready(function() {
                     return str;
                 }
             },
-            { "data": "map[, ]" },
-            { "data": "radar[, ]" },
-            { "data": "waypoints[, ]" },
-            { "data": "license" },
-            { "data": "date" },
             { "data": function ( row, type, val, meta ) {
                     if (Object.keys(row.bsp)) {
                         str = "";
@@ -117,7 +112,12 @@ $(document).ready(function() {
                         return str;
                     } else { return ""; }
                 }
-            }
+            },
+            { "data": "map[, ]" },
+            { "data": "radar[, ]" },
+            { "data": "waypoints[, ]" },
+            { "data": "license" },
+            { "data": "date" }
         ],
         "columnDefs": [
             {   // pk3
@@ -189,33 +189,39 @@ $(document).ready(function() {
                 "targets": 9,
                 "type": "html"
             },
-            {   // map file
-                "targets": 10,
-                "render": function ( data, type, full, meta ) {
-                    return (data != false) ? "yes" : "no";
-                }
+            {   // entities
+                "targets": 10
             },
-            {   // radar file
+            {   // map file
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
                 }
             },
-            {   // waypoints file
+            {   // radar file
                 "targets": 12,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
-                }
+                },
+                "visible": false
             },
-            {   // license file
+            {   // waypoints file
                 "targets": 13,
                 "render": function ( data, type, full, meta ) {
                     return (data != false) ? "yes" : "no";
-                }
+                },
+                "visible": false
+            },
+            {   // license file
+                "targets": 14,
+                "render": function ( data, type, full, meta ) {
+                    return (data != false) ? "yes" : "no";
+                },
+                "visible": false
             },
             {
                 // date
-                "targets": 14,
+                "targets": 15,
                 "render": function ( data, type, full, meta ) {
                     d = new Date(0);
                     d.setUTCSeconds(data);
