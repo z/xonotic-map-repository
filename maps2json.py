@@ -10,6 +10,7 @@ def main():
     packs_maps = []
     packs_other  = []
     packs_corrupt = []
+    packs_entities_fail = []
     
     path_packages = './resources/packages/'
     path_mapshots = './resources/mapshots/'
@@ -180,20 +181,26 @@ def main():
                             with open(entities_file, 'w') as f:
                                 subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
-                            f = open(entities_file)
-                            for line in iter(f):
-                                for entity in entities_list:
-                                    real_entity = entities_dict[entity]
-                                    if re.search(entity, line):
-                                        if 'entities' not in data['bsp'][bspname]:
-                                            data['bsp'][bspname]['entities'] = {}
-                                        if real_entity not in data['bsp'][bspname]['entities']:
-                                            data['bsp'][bspname]['entities'][real_entity] = 1
-                                        else:
-                                            data['bsp'][bspname]['entities'][real_entity] += 1
+                            try:
+                                f = open(entities_file)
+                                for line in iter(f):
+                                    for entity in entities_list:
+                                        real_entity = entities_dict[entity]
+                                        if re.search(entity, line):
+                                            if 'entities' not in data['bsp'][bspname]:
+                                                data['bsp'][bspname]['entities'] = {}
+                                            if real_entity not in data['bsp'][bspname]['entities']:
+                                                data['bsp'][bspname]['entities'][real_entity] = 1
+                                            else:
+                                                data['bsp'][bspname]['entities'][real_entity] += 1
 
-                            f.close()
-                            os.remove(entities_file)
+                                f.close()
+                                os.remove(entities_file)
+
+                            except UnicodeDecodeError:
+                                pack_entities_fail.append(entities_files)
+                                print("Failed to parse entities file for: " + data['pk3'])
+
                             shutil.rmtree('./resources/bsp/' + bspname)
 
                     # Find out which of the important files exist in the package
@@ -269,6 +276,16 @@ def main():
         fo = open('error.log', 'a')
         fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
         fo.write('\n'.join(packs_corrupt) + '\n')
+        fo.close()
+
+    if len(packs_entities_fail) != 0:
+        e_no_map = 'One or more archives did not contain a map'
+        print('\n' + e_no_map)
+
+        dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        fo = open('error.log', 'a')
+        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+        fo.write('\n'.join(packs_entities_fail) + '\n')
         fo.close()
 
     output = {}
