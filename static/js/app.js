@@ -244,10 +244,10 @@ $(document).ready(function() {
                 setTheme(userTheme);
             }
             //$('[data-toggle="tooltip"]').tooltip();
-            initPopovers();
         },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
+            initPopovers();
         }
     } );
 
