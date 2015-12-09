@@ -237,7 +237,7 @@ $(document).ready(function() {
             if (userTheme) {
                 setTheme(userTheme);
             }
-            $('[data-toggle="tooltip"]').tooltip()
+            //$('[data-toggle="tooltip"]').tooltip();
             initPopovers();
         },
         "drawCallback": function( settings ) {
