@@ -7,3 +7,6 @@ table.dataTable.fixedHeader-floating {
 table th {
     background-color: #303030;
 }
+body {
+    background: #303030 !important;
+}
