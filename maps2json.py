@@ -280,7 +280,7 @@ def main():
         fo.close()
 
     if len(packs_entities_fail) != 0:
-        e_no_map = 'One or more archives did not contain a map'
+        e_no_map = 'One or more entities files failed to parse'
         print('\n' + e_no_map)
 
         dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')

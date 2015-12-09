@@ -74,7 +74,7 @@ $(document).ready(function() {
         "columns": [
             { "data": "pk3" },
             { "data": function ( row, type, val, meta ) {
-                    return Object.keys(row.bsp).join("<br>");
+                    return (row.bsp) ? Object.keys(row.bsp).join("<br>") : "";
                 }
             },
             { "data": "filesize" },
@@ -98,19 +98,24 @@ $(document).ready(function() {
             { "data": "license" },
             { "data": "date" },
             { "data": function ( row, type, val, meta ) {
-                    str = "";
-                    $.each(row.bsp, function( key, value ) {
-                        if (Object.keys(row.bsp).length > 1) {
-                            str += key + "<br>";
-                        }
-                        $.each(row.bsp[key].entities, function( k, v ) {
-                            str += '<i class="icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"></i> ';
+                    if (Object.keys(row.bsp)) {
+                        str = "";
+                        $.each(row.bsp, function( key, value ) {
+                            if (row.bsp[key].entities) {
+                                var manyMaps = (Object.keys(row.bsp).length > 1);
+                                if (manyMaps) {
+                                    str += key + "<br>";
+                                }
+                                $.each(row.bsp[key].entities, function( k, v ) {
+                                    str += '<i class="icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"></i> ';
+                                });
+                                if (manyMaps) {
+                                    str += "<br><br>";
+                                }
+                            }
                         });
-                        if (Object.keys(row.bsp).length > 1) {
-                            str += "<br><br>";
-                        }
-                    });
-                    return str; 
+                        return str;
+                    } else { return ""; }
                 }
             }
         ],
