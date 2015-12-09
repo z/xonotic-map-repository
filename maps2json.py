@@ -198,7 +198,8 @@ def main():
                                 os.remove(entities_file)
 
                             except UnicodeDecodeError:
-                                pack_entities_fail.append(entities_files)
+                                data['bsp'][bspname]['entities'] = {}
+                                packs_entities_fail.append(entities_file)
                                 print("Failed to parse entities file for: " + data['pk3'])
 
                             shutil.rmtree('./resources/bsp/' + bspname)
