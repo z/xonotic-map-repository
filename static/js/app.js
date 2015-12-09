@@ -60,12 +60,12 @@ $(document).ready(function() {
         "buttons": [
             {
                 "extend": "csvHtml5",
-                "text": '<i class="fa fa-download" title="Download CSV"></i>',
+                "text": '<i class="fa fa-download" title="Download CSV"></i> CSV',
             },
             {
                 "extend": "colvis",
                 "postfixButtons": [ 'colvisRestore' ],
-                "text": '<i class="fa fa-eye" title="Toggle Columns"></i>'
+                "text": '<i class="fa fa-eye" title="Toggle Column Visibility"></i> Columns'
             }
         ],
         "dom": "<'#table-controls'lfB>" +
@@ -87,7 +87,7 @@ $(document).ready(function() {
             { "data": function ( row, type, val, meta ) {
                     str = "";
                     $.each(row.gametypes, function( k, v ) {
-                        str += '<i class="icon icon-gametype_' + v + '" title="' + v + '"><b>' + v + '</b></i> ';
+                        str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
                     });
                     return str;
                 }
@@ -104,7 +104,7 @@ $(document).ready(function() {
                             str += key + "<br>";
                         }
                         $.each(row.bsp[key].entities, function( k, v ) {
-                            str += '<i class="icon-' + k + '" title="' + v + ' ' + k + '"></i> ';
+                            str += '<i class="icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"></i> ';
                         });
                         if (Object.keys(row.bsp).length > 1) {
                             str += "<br><br>";
@@ -130,7 +130,7 @@ $(document).ready(function() {
                 "render": function ( data, type, full, meta ) {
                     if (data != false && data.length > 0) {
             			if (data.length > 40 && data.indexOf('<br>') == -1) {
-                            data = '<span title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
+                            data = '<span data-toggle="tooltip" title="'+data+'">'+data.substr( 0, 38 )+'...</span>';
         		    	}
         		    }
                     return data;
@@ -232,11 +232,11 @@ $(document).ready(function() {
             if (userTheme) {
                 setTheme(userTheme);
             }
+            $('[data-toggle="tooltip"]').tooltip()
+            initPopovers();
         },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
-            $('[data-toggle="popover"]').popover('destroy');
-            initPopovers();
         }
     } );
 
