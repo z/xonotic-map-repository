@@ -107,7 +107,7 @@ $(document).ready(function() {
                             str += '<i class="icon-' + k + '" title="' + v + ' ' + k + '"></i> ';
                         });
                         if (Object.keys(row.bsp).length > 1) {
-                            str += "<br>";
+                            str += "<br><br>";
                         }
                     });
                     return str; 

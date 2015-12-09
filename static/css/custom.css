@@ -31,3 +31,96 @@ table.dataTable {
 div.dt-buttons {
     width:auto !important;
 }
+
+
+/* item colors */
+.icon-weapon_arc {
+    color: #C3EEFF;
+}
+.icon-weapon_blaster {
+    color: #963043;
+}
+.icon-weapon_crylink {
+    color: #F580F7;
+}
+.icon-weapon_devastator {
+    color: #ECD262;
+}
+.icon-weapon_electro {
+    color: #69A0E7;
+}
+.icon-weapon_fireball {
+    color: #FFB27D;
+}
+.icon-weapon_flak {
+    color: #FFF371;
+}
+.icon-weapon_grenadelauncher {
+    color: #FFA789;
+}
+.icon-weapon_hagar {
+    color: #FFC37E;
+}
+.icon-weapon_hlac {
+    color: #FFE287;
+}
+.icon-weapon_hmg {
+    color: #FFA788
+}
+.icon-weapon_hook {
+    color: #417D2F;
+}
+.icon-weapon_machinegun {
+    color: #8CE54A;
+}
+.icon-weapon_minelayer {
+    color: #AD2D29;
+}
+.icon-weapon_porto {
+    color: #9FE1FF;
+}
+.icon-weapon_rifle {
+    color: #FFBF7C;
+}
+.icon-weapon_rpc {
+    color: #FFFF82;
+}
+.icon-weapon_seeker {
+    color: #FF949D;
+}
+.icon-weapon_shockwave {
+    color: #B0FFD0;
+}
+.icon-weapon_shotgun {
+    color: #95AFBE;
+}
+.icon-weapon_tuba {
+    color: #E5CF5D;
+}
+.icon-weapon_vaporizer {
+    color: #ACA0E9;
+}
+.icon-weapon_vortex {
+    color: #73BACA;
+}
+.icon-item_health_mega, .icon-item_health_large, .icon-item_health_medium, .icon-item_health_small {
+    color: #D85F4E;
+}
+.icon-item_armor_big, .icon-item_armor_large, .icon-item_armor_medium, .icon-item_armor_small {
+    color: #4B9B25;
+}
+.icon-item_shells {
+    color: #BECBD3;
+}
+.icon-item_rockets {
+    color: #E1B08D;
+}
+.icon-item_plasma {
+    color: #CE9DD4;
+}
+.icon-item_cells {
+    color: #B1FFFF;
+}
+.icon-item_bullets {
+    color: #B1D887;
+}
