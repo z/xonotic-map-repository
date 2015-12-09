@@ -16,98 +16,114 @@ def main():
     extract_mapshots = True
     parse_entities = True
 
-    # for f in entities/*.ent; do cat $f |egrep "(item_|weapon_|player)" |awk '{ print $2"," }' |sort |uniq; done |sort |uniq
-    entities_list = [
-        "ammo_bfg",
-        "ammo_bullets",
-        "ammo_cells",
-        "ammo_grenades",
-        "ammo_lightning",
-        "ammo_nails",
-        "ammo_rockets",
-        "ammo_shells",
-        "ammo_slugs",
-        "info_player_deathmatch",
-        "info_player_intermission",
-        "info_player_start",
-        "info_player_team1",
-        "info_player_team2",
-        "item_ammoregen",
-        "item_armor1",
-        "item_armor25",
-        "item_armor_big",
-        "item_armor_body",
-        "item_armor_combat",
-        "item_armor_large",
-        "item_armor_medium",
-        "item_armor_shard",
-        "item_armor_small",
-        "item_botroam",
-        "item_buff_arc_team1",
-        "item_buff_arc_team2",
-        "item_buff_guard_team1",
-        "item_buff_guard_team2",
-        "item_buff_haste_team1",
-        "item_buff_haste_team2",
-        "item_buff_medic_team1",
-        "item_buff_medic_team2",
-        "item_buff_supply_team1",
-        "item_buff_supply_team2",
-        "item_bullets",
-        "item_cells",
-        "item_doubler",
-        "item_enviro",
-        "item_flag_team1",
-        "item_flag_team2",
-        "item_flight",
-        "item_guard",
-        "item_haste",
-        "item_health",
-        "item_health1",
-        "item_health100",
-        "item_health25",
-        "item_health_large",
-        "item_health_medium",
-        "item_health_medium1",
-        "item_health_mega",
-        "item_health_small",
-        "item_health_small1",
-        "item_invincible",
-        "item_invis",
-        "item_minst_cells",
-        "item_quad",
-        "item_regen",
-        "item_rockets",
-        "item_rockets1",
-        "item_scout",
-        "item_shells",
-        "item_strength",
-        "team_CTF_blueplayer",
-        "team_CTF_redplayer",
-        "weapon_arc",
-        "weapon_bfg",
-        "weapon_campingrifle",
-        "weapon_chaingun",
-        "weapon_crylink",
-        "weapon_electro",
-        "weapon_grenadelauncher",
-        "weapon_hagar",
-        "weapon_hlac",
-        "weapon_laser",
-        "weapon_lightning",
-        "weapon_machinegun",
-        "weapon_minstanex",
-        "weapon_nailgun",
-        "weapon_nex",
-        "weapon_plasmagun",
-        "weapon_porto",
-        "weapon_railgun",
-        "weapon_rifle",
-        "weapon_rocketlauncher",
-        "weapon_seeker",
-        "weapon_shotgun",
-        "weapon_uzi",
-    ]
+    entities_dict = {
+
+        # health / armor
+        'item_armor_small': 'item_armor_small',
+        'item_armor1': 'item_armor_small',
+        'item_armor_shard': 'item_armor_small',
+        'item_armor_medium': 'item_armor_medium',
+        'item_armor_large': 'item_armor_large',
+        'item_armor25': 'item_armor_large',
+        'item_armor2': 'item_armor_large',
+        'item_armor_body': 'item_armor_large',
+        'item_armor_big': 'item_armor_big',
+        'item_armor_combat': 'item_armor_big',
+        'item_armor_mega': 'item_armor_big',
+        'item_health_small': 'item_health_small',
+        'item_health1': 'item_health_small',
+        'item_health_medium': 'item_health_medium',
+        'item_health25': 'item_health_medium',
+        'item_health_large': 'item_health_large',
+        'item_health_mega': 'item_health_mega',
+        'item_health100': 'item_health_mega',
+
+        # powerups
+        'item_strength': 'item_strength',
+        'item_quad': 'item_strength',
+        'item_invincible': 'item_invincible',
+        'item_enviro': 'item_invincible',
+
+        # flags
+        'item_flag_team1': 'item_flag_team1',
+        'team_CTF_redflag': 'item_flag_team1',
+        'item_flag_team2': 'item_flag_team2',
+        'team_CTF_blueflag': 'item_flag_team2',
+        'item_flag_team3': 'item_flag_team3',
+        'item_flag_team4': 'item_flag_team4',
+        'item_flag_neutral': 'item_flag_neutral',
+
+        # ammo
+        'item_bullets': 'item_bullets',
+        'item_spikes': 'item_bullets',
+        'ammo_bullets': 'item_bullets',
+        'item_rockets': 'item_rockets',
+        'ammo_rockets': 'item_rockets',
+        'ammo_grenades': 'item_rockets',
+        'ammo_nails': 'item_rockets',
+        'ammo_cells': 'item_rockets',
+        'item_cells': 'item_cells',
+        'ammo_lightning': 'item_cells',
+        'ammo_slugs': 'item_cells',
+        'ammo_bfg': 'item_cells',
+        'item_shells': 'item_shells',
+        'ammo_shells': 'item_shells',
+        'item_plasma': 'item_plasma',
+        'item_minst_cells': 'item_minst_cells',
+
+        # weapons
+        'weapon_shotgun': 'weapon_shotgun',
+        'weapon_electro': 'weapon_electro',
+        'weapon_nailgun': 'weapon_electro',
+        'weapon_lightning': 'weapon_electro',
+        'weapon_hagar': 'weapon_hagar',
+        'weapon_supernailgun': 'weapon_hagar',
+        'weapon_plasmagun': 'weapon_hagar',
+        'weapon_vortex': 'weapon_vortex',
+        'weapon_railgun': 'weapon_vortex',
+        'weapon_nex': 'weapon_vortex',
+        'weapon_crylink': 'weapon_crylink',
+        'weapon_bfg': 'weapon_crylink',
+        'weapon_vaporizer': 'weapon_vaporizer',
+        'weapon_minstanex': 'weapon_vaporizer',
+        'weapon_rifle': 'weapon_rifle',
+        'weapon_campingrfile': 'weapon_rifle',
+        'weapon_sniperrifle': 'weapon_rifle',
+        'weapon_blaster': 'weapon_blaster',
+        'weapon_laser': 'weapon_blaster',
+        'weapon_devastator': 'weapon_devastator',
+        'weapon_rockerlauncher': 'weapon_devastator',
+        'weapon_grenadelauncher': 'weapon_grenadelauncher',
+        'weapon_mortar': 'weapon_grenadelauncher',
+        'weapon_machinegun': 'weapon_machinegun',
+        'weapon_uzi': 'weapon_machinegun',
+        'weapon_supershotgun': 'weapon_machinegun',
+        'weapon_fireball': 'weapon_fireball',
+        'weapon_shockwave': 'weapon_shockwave',
+        'weapon_seeker': 'weapon_seeker',
+        'weapon_arc': 'weapon_arc',
+        'weapon_minelayer': 'weapon_minelayer',
+        'weapon_hook': 'weapon_hook',
+
+        # player spawns
+        'info_player_deathmatch': 'info_player_deathmatch',
+        'info_player_team1': 'info_player_team1',
+        'team_CTF_redplayer': 'info_player_team1',
+        'team_CTF_redspawn': 'info_player_team1',
+        'info_player_team2': 'info_player_team2',
+        'team_CTF_blueplayer': 'info_player_team2',
+        'team_CTF_bluespawn': 'info_player_team2',
+        'info_player_team3': 'info_player_team3',
+        'info_player_team4': 'info_player_team4',
+        'info_player_start': 'info_player_start',
+        #'info_player_survivor': 'info_player_survivor',
+        #'info_player_race': 'info_player_race',
+        #'info_player_attacker': 'info_player_attacker',
+        #'info_player_defender': 'info_player_defender'
+
+    }
+
+    entities_list = entities_dict.keys()
 
     for file in sorted(os.listdir(path_packages)):
         if file.endswith('.pk3'):
@@ -167,13 +183,14 @@ def main():
                             f = open(entities_file)
                             for line in iter(f):
                                 for entity in entities_list:
+                                    real_entity = entities_dict[entity]
                                     if re.search(entity, line):
                                         if 'entities' not in data['bsp'][bspname]:
                                             data['bsp'][bspname]['entities'] = {}
-                                        if entity not in data['bsp'][bspname]['entities']:
-                                            data['bsp'][bspname]['entities'][entity] = 1
+                                        if real_entity not in data['bsp'][bspname]['entities']:
+                                            data['bsp'][bspname]['entities'][real_entity] = 1
                                         else:
-                                            data['bsp'][bspname]['entities'][entity] += 1
+                                            data['bsp'][bspname]['entities'][real_entity] += 1
 
                             f.close()
                             os.remove(entities_file)

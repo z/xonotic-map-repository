@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?skh115');
-	src:url('fonts/icomoon.eot?skh115#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.ttf?skh115') format('truetype'),
-		url('fonts/icomoon.woff?skh115') format('woff'),
-		url('fonts/icomoon.svg?skh115#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?i8lf47');
+	src:url('fonts/icomoon.eot?i8lf47#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?i8lf47') format('truetype'),
+		url('fonts/icomoon.woff?i8lf47') format('woff'),
+		url('fonts/icomoon.svg?i8lf47#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -93,43 +93,43 @@
 .icon-item_health_mega:before {
 	content: "\e916";
 }
-.icon-jetpack:before {
+.icon-item_jetpack:before {
 	content: "\e917";
 }
 .icon-item_armor_big:before {
 	content: "\e918";
 }
-.icon-item_armor_large_luma:before {
+.icon-item_armor_large:before {
 	content: "\e919";
 }
-.icon-item_armor_medium_luma:before {
+.icon-item_armor_medium:before {
 	content: "\e91a";
 }
-.icon-item_armor_small_luma:before {
+.icon-item_armor_small:before {
 	content: "\e91b";
 }
 .icon-flag:before {
 	content: "\e91c";
 }
-.icon-ammo_bullets:before {
+.icon-item_bullets:before {
 	content: "\e91d";
 }
-.icon-ammo_cells:before {
+.icon-item_cells:before {
 	content: "\e91e";
 }
-.icon-ammo_fuel:before {
+.icon-item_fuel:before {
 	content: "\e91f";
 }
-.icon-ammo_plasma:before {
+.icon-item_plasma:before {
 	content: "\e920";
 }
-.icon-ammo_rockets:before {
+.icon-item_rockets:before {
 	content: "\e921";
 }
-.icon-ammo_shells:before {
+.icon-item_shells:before {
 	content: "\e922";
 }
-.icon-ammo_supercells:before {
+.icon-item_supercells:before {
 	content: "\e923";
 }
 .icon-weapon_arc:before {
@@ -162,16 +162,16 @@
 .icon-weapon_hook:before {
 	content: "\e92d";
 }
-.icon-weapon_laser:before {
+.icon-weapon_blaster:before {
 	content: "\e92e";
 }
 .icon-weapon_minelayer:before {
 	content: "\e92f";
 }
-.icon-weapon_minstanex:before {
+.icon-weapon_vaporizer:before {
 	content: "\e930";
 }
-.icon-weapon_nex:before {
+.icon-weapon_vortex:before {
 	content: "\e931";
 }
 .icon-weapon_porto:before {
@@ -180,7 +180,7 @@
 .icon-weapon_rifle:before {
 	content: "\e933";
 }
-.icon-weapon_rocketlauncher:before {
+.icon-weapon_devastator:before {
 	content: "\e934";
 }
 .icon-weapon_rpc:before {
@@ -198,7 +198,7 @@
 .icon-weapon_tuba:before {
 	content: "\e939";
 }
-.icon-weapon_uzi:before {
+.icon-weapon_machinegun:before {
 	content: "\e93a";
 }
 
