@@ -335,6 +335,9 @@ $(document).ready(function() {
         // Stacked Area
         allCharts[10] = c3.generate(data.filesbyyear);
 
+        // Donut
+        allCharts[11] = c3.generate(data.entitycount);
+
         $("#loading-charts").hide();
     }
 

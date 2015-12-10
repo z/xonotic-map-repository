@@ -36,6 +36,9 @@ def main():
     # shadupes
     shadupes = {}
 
+    # entities
+    entities = {}
+
     # files by year
     files = [ 'mapinfo', 'mapshot', 'map', 'radar', 'waypoints', 'license' ]
     #files_by_year = dict.fromkeys(files, dict.fromkeys(years, 0))
@@ -93,6 +96,15 @@ def main():
         # Get all gametypes
         if len(m['gametypes']):
             gametypes_combined.extend(m['gametypes'])
+
+        # Entity distribution
+        for bsp in m['bsp']:
+            if 'entities' in m['bsp'][bsp] and len(m['bsp'][bsp]['entities']):
+                for entity in m['bsp'][bsp]['entities']:
+                    if entity in entities:
+                        entities[entity] += 1
+                    else:
+                        entities[entity] = 1
     
     # Gametype distribution    
     gametypes_set = set(gametypes_combined)
@@ -183,6 +195,13 @@ def main():
     for f in files:
         c10['data']['json'][f] = list(files_by_year[f].values())
 
+    # Donut (dupes)
+    c11 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c11['bindto'] = '#chart-entitycount'
+    #print(entities)
+    entities_sorted = OrderedDict(sorted(entities.items(), key=itemgetter(1), reverse=True))
+    c11['data']['json'] = entities_sorted
+
     # Setup charts JSON
     charts = { 
                 'mapinfos': c0,
@@ -195,7 +214,8 @@ def main():
                 'gametypes': c7,
                 'shacount': c8,
                 'mapsbyyear': c9,
-                'filesbyyear': c10
+                'filesbyyear': c10,
+                'entitycount': c11
              }
 
     fo = open('./resources/data/charts.json', 'w')
@@ -208,6 +228,9 @@ def convertSize(num):
             return "%3.1d%s" % (num, x)
         num /= 1024.0
     return "%3.1f%s" % (num, 'TB')
+
+def getFromDict(dataDict, mapList):
+    return reduce(lambda d, k: d[k], mapList, dataDict)
 
 if __name__ == "__main__":
     main()
