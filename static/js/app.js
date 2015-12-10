@@ -102,7 +102,7 @@ $(document).ready(function() {
                                     str += key + "<br>";
                                 }
                                 $.each(row.bsp[key].entities, function( k, v ) {
-                                    str += '<i class="icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"></i> ';
+                                    str += '<i class="icon icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"><b>' + k + '</b></i> ';
                                 });
                                 if (manyMaps) {
                                     str += "<br><br>";
@@ -190,7 +190,8 @@ $(document).ready(function() {
                 "type": "html"
             },
             {   // entities
-                "targets": 10
+                "targets": 10,
+                "type": "html"
             },
             {   // map file
                 "targets": 11,
