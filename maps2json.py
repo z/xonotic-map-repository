@@ -7,11 +7,12 @@ from datetime import datetime
             
 def main():
 
+    global entities_dict, entities_list, errors, packs_entities_fail
     errors = False
-    packs_maps = []
-    packs_other  = []
-    packs_corrupt = []
     packs_entities_fail = []
+    packs_corrupt = []
+    packs_other  = []
+    packs_maps = []
     
     path_packages = './resources/packages/'
     path_mapshots = './resources/mapshots/'
@@ -180,37 +181,12 @@ def main():
 
                             zip.extract(bsp, './resources/bsp/' + bspname)
                                                                
-                            entities_file = './resources/entities/' + bspname + '.ent'
-                            with open(entities_file, 'w') as f:
+                            bsp_entities_file = './resources/entities/' + bspname + '.ent'
+
+                            with open(bsp_entities_file, 'w') as f:
                                 subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
-                            try:
-                                f = open(entities_file)
-                                for line in iter(f):
-                                    for entity in entities_list:
-                                        real_entity = entities_dict[entity]
-                                        if re.search(entity, line):
-                                            if 'entities' not in data['bsp'][bspname]:
-                                                data['bsp'][bspname]['entities'] = {}
-                                            if real_entity not in data['bsp'][bspname]['entities']:
-                                                data['bsp'][bspname]['entities'][real_entity] = 1
-                                            else:
-                                                data['bsp'][bspname]['entities'][real_entity] += 1
-
-                                if 'entities' in data['bsp'][bspname]:
-                                    all_bsp_entities = data['bsp'][bspname]['entities']
-                                    if len(all_bsp_entities):
-                                        sorted_entities = collections.OrderedDict(sorted(all_bsp_entities.items()))
-                                        data['bsp'][bspname]['entities'] = sorted_entities
-
-                                f.close()
-                                os.remove(entities_file)
-
-                            except UnicodeDecodeError:
-                                errors = True
-                                data['bsp'][bspname]['entities'] = {}
-                                packs_entities_fail.append(entities_file)
-                                print("Failed to parse entities file for: " + data['pk3'])
+                            data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
 
                             shutil.rmtree('./resources/bsp/' + bspname)
 
@@ -237,6 +213,15 @@ def main():
     
                             if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
                                 data['radar'].append(member)
+
+                            if re.search('^maps/' + rbsp + '\.ent', member):
+                                if parse_entities:
+                                    zip.extract(member, './resources/entities/' + bspname)
+                                                               
+                                    entities_file = './resources/entities/' + bspname + '/' + member
+                                    entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
+                                    data['bsp'][bspname].update(entities_from_ent)
+                                    shutil.rmtree('./resources/entities/' + bspname)
 
                         if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
                             data['license'] = True
@@ -328,6 +313,39 @@ def hash_file(filename):
 
    # return the hex representation of digest
    return h.hexdigest()
+
+
+def parse_entities_file(bsp, pk3, entities_file):
+
+    try:
+        f = open(entities_file)
+        for line in iter(f):
+            for entity in entities_list:
+                real_entity = entities_dict[entity]
+                if re.search(entity, line):
+                    if 'entities' not in bsp:
+                        bsp['entities'] = {}
+                    if real_entity not in bsp['entities']:
+                        bsp['entities'][real_entity] = 1
+                    else:
+                        bsp['entities'][real_entity] += 1
+
+        if 'entities' in bsp:
+            all_bsp_entities = bsp['entities']
+            if len(all_bsp_entities):
+                sorted_entities = collections.OrderedDict(sorted(all_bsp_entities.items()))
+                bsp['entities'] = sorted_entities
+
+        f.close()
+        os.remove(entities_file)
+
+    except UnicodeDecodeError:
+        errors = True
+        bsp['entities'] = {}
+        packs_entities_fail.append(entities_file)
+        print("Failed to parse entities file for: " + pk3)
+
+    return bsp
 
 if __name__ == "__main__":
     main()
