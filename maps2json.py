@@ -5,6 +5,10 @@
 import zipfile, os, re, hashlib, json, subprocess, shutil, collections, time
 from datetime import datetime
 from datetime import timedelta
+
+import multiprocessing
+from queue import Queue
+import time
             
 def main():
 
@@ -14,6 +18,7 @@ def main():
     global packs_maps, packs_entities_fail, packs_corrupt, packs_other
     global entities_dict, entities_list
     global errors
+    global q
  
     path_packages = './resources/packages/'
     path_mapshots = './resources/mapshots/'
@@ -137,11 +142,28 @@ def main():
 
     entities_list = entities_dict.keys()
 
+    # Create the queue and process pool
+    q = multiprocessing.JoinableQueue()
+    jobs = []
+    for i in range(multiprocessing.cpu_count()):
+        p = multiprocessing.Process(target=worker)
+        jobs.append(p)
+        p.start()                 
+
     # Process all the files
     for file in sorted(os.listdir(path_packages)):
         if file.endswith('.pk3'):
+            q.put(file)
+    
+    q.join()
 
-            process_pk3(file)
+    for j in jobs:
+        q.put(None)
+
+    q.join()
+
+    for j in jobs:
+        j.join()
 
 
     # Write error.log
@@ -184,6 +206,15 @@ def main():
 
     end_time = time.monotonic()
     print(timedelta(seconds=end_time - start_time))
+
+
+# The worker thread pulls an item from the queue and processes it
+def worker():
+    for item in iter( q.get, None):
+        process_pk3(item)
+        q.task_done()
+    q.task_done()
+
 
 def process_pk3(file):
 
@@ -234,17 +265,19 @@ def process_pk3(file):
                 for bsp in bsps:
                     
                     bspname = bspnames[bsp]
+#                    t_bspname = threading.current_thread().name + "_" + bspname
+                    t_bspname = multiprocessing.current_process().name + "_" + bspname
 
-                    zip.extract(bsp, './resources/bsp/' + bspname)
+                    zip.extract(bsp, './resources/bsp/' + t_bspname)
                                                        
-                    bsp_entities_file = './resources/entities/' + bspname + '.ent'
+                    bsp_entities_file = './resources/entities/' + t_bspname + '.ent'
 
                     with open(bsp_entities_file, 'w') as f:
-                        subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
+                        subprocess.call(["./bsp2ent", './resources/bsp/' + t_bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
                     data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
 
-                    shutil.rmtree('./resources/bsp/' + bspname)
+                    shutil.rmtree('./resources/bsp/' + t_bspname)
 
             # Find out which of the important files exist in the package
             for member in filelist:
@@ -271,13 +304,15 @@ def process_pk3(file):
                         data['radar'].append(member)
 
                     if re.search('^maps/' + rbsp + '\.ent', member):
+
                         if parse_entities:
-                            zip.extract(member, './resources/entities/' + bspname)
+
+                            zip.extract(member, './resources/entities/' + t_bspname)
                                                        
-                            entities_file = './resources/entities/' + bspname + '/' + member
+                            entities_file = './resources/entities/' + t_bspname + '/' + member
                             entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
                             data['bsp'][bspname].update(entities_from_ent)
-                            shutil.rmtree('./resources/entities/' + bspname)
+                            shutil.rmtree('./resources/entities/' + t_bspname)
 
                 if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
                     data['license'] = True
