@@ -197,7 +197,11 @@ def main():
                                             else:
                                                 data['bsp'][bspname]['entities'][real_entity] += 1
 
-                                data['bsp'][bspname]['entities'] = collections.OrderedDict(sorted(data['bsp'][bspname]['entities'].items()))
+                                if 'entities' in data['bsp'][bspname]:
+                                    all_bsp_entities = data['bsp'][bspname]['entities']
+                                    if len(all_bsp_entities):
+                                        sorted_entities = collections.OrderedDict(sorted(all_bsp_entities.items()))
+                                        data['bsp'][bspname]['entities'] = sorted_entities
 
                                 f.close()
                                 os.remove(entities_file)
