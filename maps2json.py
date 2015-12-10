@@ -2,22 +2,31 @@
 # Description: Loops through a directory of map pk3s and outputs JSON with map information
 # Author: Tyler "-z-" Mulligan
 
-import zipfile, os, re, hashlib, json, subprocess, shutil, collections
+import zipfile, os, re, hashlib, json, subprocess, shutil, collections, time
 from datetime import datetime
+from datetime import timedelta
             
 def main():
 
-    global entities_dict, entities_list, errors, packs_entities_fail
+    start_time = time.monotonic()
+
+    global path_packages, path_mapshots, extract_mapshots, parse_entities
+    global packs_maps, packs_entities_fail, packs_corrupt, packs_other
+    global entities_dict, entities_list
+    global errors
+ 
+    path_packages = './resources/packages/'
+    path_mapshots = './resources/mapshots/'
+
+    extract_mapshots = True
+    parse_entities = True
+
     errors = False
     packs_entities_fail = []
     packs_corrupt = []
     packs_other  = []
+
     packs_maps = []
-    
-    path_packages = './resources/packages/'
-    path_mapshots = './resources/mapshots/'
-    extract_mapshots = True
-    parse_entities = True
 
     entities_dict = {
 
@@ -128,134 +137,14 @@ def main():
 
     entities_list = entities_dict.keys()
 
+    # Process all the files
     for file in sorted(os.listdir(path_packages)):
         if file.endswith('.pk3'):
 
-            print('Processing ' + file)
+            process_pk3(file)
 
-            data = {}
-            data['pk3'] = file
-            data['shasum'] = hash_file(path_packages + file)
-            data['filesize'] = os.path.getsize(path_packages + file)
-            data['date'] = os.path.getmtime(path_packages + file)
-            data['bsp'] = {}
-            data['mapshot'] = []
-            data['mapinfo'] = []
-            data['waypoints'] = []
-            data['map'] = []
-            data['radar'] = []
-            data['title'] = False
-            data['description'] = False
-            data['gametypes'] = []
-            data['author'] = False
-            data['license'] = False
 
-            # temp variables
-            bsps = []
-            bspnames = {}
-
-            try:
-                zip = zipfile.ZipFile(path_packages + file)
-                filelist = zip.namelist()
-
-                # Get the bsp name(s)
-                for member in filelist:
-                    if re.search('^maps/.*bsp$', member):
-                        bsp_info = zip.getinfo(member)
-                        bspnames[member] = member.replace('maps/','').replace('.bsp','')
-                        # this is coming back as a float
-                        epoch = int(datetime(*bsp_info.date_time).timestamp())
-                        data['date'] = epoch
-                        bsps.append(member)
-                        data['bsp'][bspnames[member]] = {}
-
-                # One or more bsps has been found (it's a map package)
-                if len(bsps):
-
-                    # If this option is on, attempt to extract enitity info
-                    if parse_entities:
-
-                        for bsp in bsps:
-                            
-                            bspname = bspnames[bsp]
-
-                            zip.extract(bsp, './resources/bsp/' + bspname)
-                                                               
-                            bsp_entities_file = './resources/entities/' + bspname + '.ent'
-
-                            with open(bsp_entities_file, 'w') as f:
-                                subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
-
-                            data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
-
-                            shutil.rmtree('./resources/bsp/' + bspname)
-
-                    # Find out which of the important files exist in the package
-                    for member in filelist:
-                        for bsp in data['bsp']:
-
-                            rbsp = re.escape(bsp)
-
-                            if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
-                                data['mapshot'].append(member)
-                                if extract_mapshots:
-                                    zip.extract(member, path_mapshots)
-
-                            if re.search('^maps/' + rbsp + '\.mapinfo$', member):
-                                mapinfofile = member
-                                data['mapinfo'].append(member)
-
-                            if re.search('^maps/' + rbsp + '\.waypoints$', member):
-                                data['waypoints'].append(member)
-
-                            if re.search('^maps/' + rbsp + '\.map$', member):
-                                data['map'].append(member)
-    
-                            if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
-                                data['radar'].append(member)
-
-                            if re.search('^maps/' + rbsp + '\.ent', member):
-                                if parse_entities:
-                                    zip.extract(member, './resources/entities/' + bspname)
-                                                               
-                                    entities_file = './resources/entities/' + bspname + '/' + member
-                                    entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
-                                    data['bsp'][bspname].update(entities_from_ent)
-                                    shutil.rmtree('./resources/entities/' + bspname)
-
-                        if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
-                            data['license'] = True
-
-                    # If the mapinfo file exists, try and parse it
-                    if len(data['mapinfo']):
-                        mapinfo = zip.open(mapinfofile)
-                        
-                        for line in mapinfo:
-                            line = line.decode('unicode_escape').rstrip()
-
-                            if re.search('^title.*$', line):
-                                data['title'] = line.partition(' ')[2]
-
-                            elif re.search('^author.*', line):
-                                data['author'] = line.partition(' ')[2]
-
-                            elif re.search('^description.*', line):
-                                data['description'] = line.partition(' ')[2]
-
-                            elif re.search('^(type|gametype).*', line):
-                                data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
-
-                    packs_maps.append(data)
-                else:
-                    errors = True
-                    packs_other.append(file)
-            
-            except zipfile.BadZipfile:
-                errors = True
-                print('Corrupt file: ' + file)
-                packs_corrupt.append(file)
-                pass
-
+    # Write error.log
     if errors:
         dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
         fo = open('error.log', 'a')
@@ -292,6 +181,136 @@ def main():
     fo = open('./resources/data/maps.json', 'w')
     fo.write(json.dumps(output))
     fo.close()
+
+    end_time = time.monotonic()
+    print(timedelta(seconds=end_time - start_time))
+
+def process_pk3(file):
+
+    print('Processing ' + file)
+
+    data = {}
+    data['pk3'] = file
+    data['shasum'] = hash_file(path_packages + file)
+    data['filesize'] = os.path.getsize(path_packages + file)
+    data['date'] = os.path.getmtime(path_packages + file)
+    data['bsp'] = {}
+    data['mapshot'] = []
+    data['mapinfo'] = []
+    data['waypoints'] = []
+    data['map'] = []
+    data['radar'] = []
+    data['title'] = False
+    data['description'] = False
+    data['gametypes'] = []
+    data['author'] = False
+    data['license'] = False
+
+    # temp variables
+    bsps = []
+    bspnames = {}
+
+    try:
+        zip = zipfile.ZipFile(path_packages + file)
+        filelist = zip.namelist()
+
+        # Get the bsp name(s)
+        for member in filelist:
+            if re.search('^maps/.*bsp$', member):
+                bsp_info = zip.getinfo(member)
+                bspnames[member] = member.replace('maps/','').replace('.bsp','')
+                # this is coming back as a float
+                epoch = int(datetime(*bsp_info.date_time).timestamp())
+                data['date'] = epoch
+                bsps.append(member)
+                data['bsp'][bspnames[member]] = {}
+
+        # One or more bsps has been found (it's a map package)
+        if len(bsps):
+
+            # If this option is on, attempt to extract enitity info
+            if parse_entities:
+
+                for bsp in bsps:
+                    
+                    bspname = bspnames[bsp]
+
+                    zip.extract(bsp, './resources/bsp/' + bspname)
+                                                       
+                    bsp_entities_file = './resources/entities/' + bspname + '.ent'
+
+                    with open(bsp_entities_file, 'w') as f:
+                        subprocess.call(["./bsp2ent", './resources/bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
+
+                    data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
+
+                    shutil.rmtree('./resources/bsp/' + bspname)
+
+            # Find out which of the important files exist in the package
+            for member in filelist:
+                for bsp in data['bsp']:
+
+                    rbsp = re.escape(bsp)
+
+                    if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
+                        data['mapshot'].append(member)
+                        if extract_mapshots:
+                            zip.extract(member, path_mapshots)
+
+                    if re.search('^maps/' + rbsp + '\.mapinfo$', member):
+                        mapinfofile = member
+                        data['mapinfo'].append(member)
+
+                    if re.search('^maps/' + rbsp + '\.waypoints$', member):
+                        data['waypoints'].append(member)
+
+                    if re.search('^maps/' + rbsp + '\.map$', member):
+                        data['map'].append(member)
+
+                    if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
+                        data['radar'].append(member)
+
+                    if re.search('^maps/' + rbsp + '\.ent', member):
+                        if parse_entities:
+                            zip.extract(member, './resources/entities/' + bspname)
+                                                       
+                            entities_file = './resources/entities/' + bspname + '/' + member
+                            entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
+                            data['bsp'][bspname].update(entities_from_ent)
+                            shutil.rmtree('./resources/entities/' + bspname)
+
+                if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
+                    data['license'] = True
+
+            # If the mapinfo file exists, try and parse it
+            if len(data['mapinfo']):
+                mapinfo = zip.open(mapinfofile)
+                
+                for line in mapinfo:
+                    line = line.decode('unicode_escape').rstrip()
+
+                    if re.search('^title.*$', line):
+                        data['title'] = line.partition(' ')[2]
+
+                    elif re.search('^author.*', line):
+                        data['author'] = line.partition(' ')[2]
+
+                    elif re.search('^description.*', line):
+                        data['description'] = line.partition(' ')[2]
+
+                    elif re.search('^(type|gametype).*', line):
+                        data['gametypes'].append(line.partition(' ')[2].partition(' ')[0])
+
+            packs_maps.append(data)
+        else:
+            errors = True
+            packs_other.append(file)
+    
+    except zipfile.BadZipfile:
+        errors = True
+        print('Corrupt file: ' + file)
+        packs_corrupt.append(file)
+        pass
 
 
 def hash_file(filename):
