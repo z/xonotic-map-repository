@@ -7,6 +7,7 @@ from datetime import datetime
             
 def main():
 
+    errors = False
     packs_maps = []
     packs_other  = []
     packs_corrupt = []
@@ -167,8 +168,10 @@ def main():
                         bsps.append(member)
                         data['bsp'][bspnames[member]] = {}
 
+                # One or more bsps has been found (it's a map package)
                 if len(bsps):
 
+                    # If this option is on, attempt to extract enitity info
                     if parse_entities:
 
                         for bsp in bsps:
@@ -198,6 +201,7 @@ def main():
                                 os.remove(entities_file)
 
                             except UnicodeDecodeError:
+                                errors = True
                                 data['bsp'][bspname]['entities'] = {}
                                 packs_entities_fail.append(entities_file)
                                 print("Failed to parse entities file for: " + data['pk3'])
@@ -252,41 +256,40 @@ def main():
 
                     packs_maps.append(data)
                 else:
+                    errors = True
                     packs_other.append(file)
             
             except zipfile.BadZipfile:
+                errors = True
                 print('Corrupt file: ' + file)
                 packs_corrupt.append(file)
                 pass
 
-    if len(packs_other) != 0:
-        e_no_map = 'One or more archives did not contain a map'
-        print('\n' + e_no_map)
-
+    if errors:
         dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
         fo = open('error.log', 'a')
-        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
-        fo.write('\n'.join(packs_other) + '\n')
-        fo.close()
 
-    if len(packs_corrupt) != 0:
-        e_corrupt = 'One or more archives were corrupt'
-        print('\n' + e_corrupt)
+        if len(packs_other) != 0:
+            e_no_map = 'One or more archives did not contain a map'
+            print('\n' + e_no_map)
 
-        dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-        fo = open('error.log', 'a')
-        fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
-        fo.write('\n'.join(packs_corrupt) + '\n')
-        fo.close()
+            fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+            fo.write('\n'.join(packs_other) + '\n')
 
-    if len(packs_entities_fail) != 0:
-        e_no_map = 'One or more entities files failed to parse'
-        print('\n' + e_no_map)
+        if len(packs_corrupt) != 0:
+            e_corrupt = 'One or more archives were corrupt'
+            print('\n' + e_corrupt)
 
-        dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-        fo = open('error.log', 'a')
-        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
-        fo.write('\n'.join(packs_entities_fail) + '\n')
+            fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
+            fo.write('\n'.join(packs_corrupt) + '\n')
+
+        if len(packs_entities_fail) != 0:
+            e_no_map = 'One or more entities files failed to parse'
+            print('\n' + e_no_map)
+
+            fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+            fo.write('\n'.join(packs_entities_fail) + '\n')
+
         fo.close()
 
     output = {}
