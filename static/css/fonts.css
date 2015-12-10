@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?i8lf47');
-	src:url('fonts/icomoon.eot?i8lf47#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.ttf?i8lf47') format('truetype'),
-		url('fonts/icomoon.woff?i8lf47') format('woff'),
-		url('fonts/icomoon.svg?i8lf47#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?5osoxz');
+	src:url('fonts/icomoon.eot?5osoxz#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?5osoxz') format('truetype'),
+		url('fonts/icomoon.woff?5osoxz') format('woff'),
+		url('fonts/icomoon.svg?5osoxz#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -81,12 +81,6 @@
 .icon-gametype_vip:before {
 	content: "\e912";
 }
-.icon-item_health_small:before {
-	content: "\e913";
-}
-.icon-item_health_medium:before {
-	content: "\e914";
-}
 .icon-item_health_large:before {
 	content: "\e915";
 }
@@ -101,12 +95,6 @@
 }
 .icon-item_armor_large:before {
 	content: "\e919";
-}
-.icon-item_armor_medium:before {
-	content: "\e91a";
-}
-.icon-item_armor_small:before {
-	content: "\e91b";
 }
 .icon-flag:before {
 	content: "\e91c";
@@ -200,5 +188,17 @@
 }
 .icon-weapon_machinegun:before {
 	content: "\e93a";
+}
+.icon-item_health_small:before {
+	content: "\e913";
+}
+.icon-item_health_medium:before {
+	content: "\e914";
+}
+.icon-item_armor_medium:before {
+	content: "\e91a";
+}
+.icon-item_armor_small:before {
+	content: "\e91b";
 }
 
