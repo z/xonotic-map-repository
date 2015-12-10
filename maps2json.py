@@ -2,7 +2,7 @@
 # Description: Loops through a directory of map pk3s and outputs JSON with map information
 # Author: Tyler "-z-" Mulligan
 
-import zipfile, os, re, hashlib, json, subprocess, shutil
+import zipfile, os, re, hashlib, json, subprocess, shutil, collections
 from datetime import datetime
             
 def main():
@@ -196,6 +196,8 @@ def main():
                                                 data['bsp'][bspname]['entities'][real_entity] = 1
                                             else:
                                                 data['bsp'][bspname]['entities'][real_entity] += 1
+
+                                data['bsp'][bspname]['entities'] = collections.OrderedDict(sorted(data['bsp'][bspname]['entities'].items()))
 
                                 f.close()
                                 os.remove(entities_file)

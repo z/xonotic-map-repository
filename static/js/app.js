@@ -367,7 +367,7 @@ $(document).ready(function() {
 
                 visible = false;
 
-            break;
+                 break;
 
             case "#statistics":
 
