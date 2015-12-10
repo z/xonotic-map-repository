@@ -95,7 +95,7 @@ def main():
         'weapon_blaster': 'weapon_blaster',
         'weapon_laser': 'weapon_blaster',
         'weapon_devastator': 'weapon_devastator',
-        'weapon_rockerlauncher': 'weapon_devastator',
+        'weapon_rocketlauncher': 'weapon_devastator',
         'weapon_grenadelauncher': 'weapon_grenadelauncher',
         'weapon_mortar': 'weapon_grenadelauncher',
         'weapon_machinegun': 'weapon_machinegun',
