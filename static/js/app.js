@@ -336,7 +336,10 @@ $(document).ready(function() {
         allCharts[10] = c3.generate(data.filesbyyear);
 
         // Donut
-        allCharts[11] = c3.generate(data.entitycount);
+        allCharts[11] = c3.generate(data.entityappearance);
+
+        // Donut
+        allCharts[12] = c3.generate(data.entitycount);
 
         $("#loading-charts").hide();
     }

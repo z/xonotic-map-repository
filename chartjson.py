@@ -36,8 +36,11 @@ def main():
     # shadupes
     shadupes = {}
 
-    # entities
-    entities = {}
+    # Entity appears at least once in map
+    entities_by_appearance = {}
+
+    # Total entity distribution
+    entities_by_count = {}
 
     # files by year
     files = [ 'mapinfo', 'mapshot', 'map', 'radar', 'waypoints', 'license' ]
@@ -97,14 +100,23 @@ def main():
         if len(m['gametypes']):
             gametypes_combined.extend(m['gametypes'])
 
-        # Entity distribution
+        # Entity appearance distribution
         for bsp in m['bsp']:
             if 'entities' in m['bsp'][bsp] and len(m['bsp'][bsp]['entities']):
                 for entity in m['bsp'][bsp]['entities']:
-                    if entity in entities:
-                        entities[entity] += 1
+                    if entity in entities_by_appearance:
+                        entities_by_appearance[entity] += 1
                     else:
-                        entities[entity] = 1
+                        entities_by_appearance[entity] = 1
+    
+        # Entity total count distribution
+        for bsp in m['bsp']:
+            if 'entities' in m['bsp'][bsp] and len(m['bsp'][bsp]['entities']):
+                for entity in m['bsp'][bsp]['entities']:
+                    if entity in entities_by_count:
+                        entities_by_count[entity] += m['bsp'][bsp]['entities'][entity]
+                    else:
+                        entities_by_count[entity] = m['bsp'][bsp]['entities'][entity]
     
     # Gametype distribution    
     gametypes_set = set(gametypes_combined)
@@ -195,12 +207,17 @@ def main():
     for f in files:
         c10['data']['json'][f] = list(files_by_year[f].values())
 
-    # Donut (dupes)
+    # Donut (entities by appearance)
     c11 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
-    c11['bindto'] = '#chart-entitycount'
-    #print(entities)
-    entities_sorted = OrderedDict(sorted(entities.items(), key=itemgetter(1), reverse=True))
-    c11['data']['json'] = entities_sorted
+    c11['bindto'] = '#chart-entityappearance'
+    entities_appearance_sorted = OrderedDict(sorted(entities_by_appearance.items(), key=itemgetter(1), reverse=True))
+    c11['data']['json'] = entities_appearance_sorted
+
+    # Donut (entities by total count)
+    c12 = { 'bindto': '', 'data': { 'json': { }, 'type': 'donut' } }
+    c12['bindto'] = '#chart-entitycount'
+    entities_count_sorted = OrderedDict(sorted(entities_by_count.items(), key=itemgetter(1), reverse=True))
+    c12['data']['json'] = entities_count_sorted
 
     # Setup charts JSON
     charts = { 
@@ -215,7 +232,8 @@ def main():
                 'shacount': c8,
                 'mapsbyyear': c9,
                 'filesbyyear': c10,
-                'entitycount': c11
+                'entityappearance': c11,
+                'entitycount': c12
              }
 
     fo = open('./resources/data/charts.json', 'w')
