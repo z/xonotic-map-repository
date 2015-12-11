@@ -32,6 +32,9 @@ div.dt-buttons {
     width:auto !important;
 }
 
+.icon {
+    text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
+}
 
 /* item colors */
 .icon-weapon_arc {
