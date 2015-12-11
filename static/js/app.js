@@ -66,6 +66,13 @@ $(document).ready(function() {
                 "extend": "colvis",
                 "postfixButtons": [ 'colvisRestore' ],
                 "text": '<i class="fa fa-eye" title="Toggle Column Visibility"></i> Columns'
+            },
+            {
+                "text": '<i class="fa fa-eraser" title="Reset Table State"></i> Reset',
+                "action": function ( e, dt, node, config ) {
+                    dt.state.clear();
+                    window.location.reload();
+                }
             }
         ],
         "dom": "<'#table-controls'lfB>" +
