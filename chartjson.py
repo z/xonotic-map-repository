@@ -10,6 +10,7 @@ def main():
     f = open('./resources/data/maps.json') 
     data = f.read()
     maps_json = json.loads(data)['data']
+    f.close()
 
     filesizes = ['bytes']
     mapinfos = 0
