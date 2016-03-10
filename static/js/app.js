@@ -44,6 +44,7 @@ $(document).ready(function() {
         "ajax": "./resources/data/maps.json",
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 50,
+        "order": [[15, 'desc']],
         "colReorder": true,
         "stateSave": true,
         "fixedHeader": {
