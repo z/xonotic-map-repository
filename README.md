@@ -1,6 +1,8 @@
 # xonotic-map-repository
 An effort to improve map packages and the services around them.
 
+![xonotic-map-repository](resources/images/xonotic-map-repository.png)
+
 Companion project, [xonotic-map-manager](https://github.com/z/xonotic-map-manager), is a command-line interface package manager.
 
 ### Why?

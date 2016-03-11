@@ -1,6 +1,7 @@
 *.pk3
 *.swp
 *.swo
+*.idea
 maps.json
 charts.json
 entities.json
