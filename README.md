@@ -1,6 +1,8 @@
 # xonotic-map-repository
 An effort to improve map packages and the services around them.
 
+Companion project [xonotic-map-manager](https://github.com/z/xonotic-map-manager), is a command-line interface package manager.
+
 ### Why?
 
 There are approximately 12,500 map packages currently in distribution amongst Xonotic servers. Some of these are ported from other games that support the bsp format, (Nexuiz, quake3, WoP, etc). Many of these packages could use some love, they are missing information that could help them integrate better with Xonotic, and help players identify them.
