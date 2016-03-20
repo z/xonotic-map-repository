@@ -35,7 +35,7 @@ def main():
     filesize_dist = OrderedDict([(k, 0) for k in filesize_dist_keys])
 
     # Generat dict for maps by year
-    years = list(range(1999, 2016))
+    years = list(range(1999, 2017))
     maps_by_year = dict.fromkeys(years, 0)
 
     # Used for pushing all lists from all mapinfos into before making a set
@@ -57,7 +57,6 @@ def main():
 
     total = 0
     for m in maps_json:
-        total += 1
 
         dt = datetime.datetime.fromtimestamp(m['date'])
         year = dt.year
@@ -67,28 +66,6 @@ def main():
             shadupes[m['shasum']].append(m['pk3'])
         else:
             shadupes[m['shasum']] = [m['pk3']]
-
-        # Pie chart data
-        if m['mapinfo']:
-            mapinfos += 1
-            # print(year)
-            files_by_year['mapinfo'][year] += 1
-            # print(files_by_year['mapinfo'][year])
-        if m['mapshot']:
-            mapshots += 1
-            files_by_year['mapshot'][year] += 1
-        if m['map']:
-            maps += 1
-            files_by_year['map'][year] += 1
-        if m['radar']:
-            radars += 1
-            files_by_year['radar'][year] += 1
-        if m['waypoints']:
-            waypoints += 1
-            files_by_year['waypoints'][year] += 1
-        if m['license']:
-            licenses += 1
-            files_by_year['license'][year] += 1
 
         # Filesize distribution (stupid hacky way - please help me rewrite)
         filesize = convertSize(m['filesize'])
@@ -104,41 +81,57 @@ def main():
         # Maps over time data
         maps_by_year[year] += 1
 
-        # Get all gametypes
-        if len(m['gametypes']):
-            for gametypes in m['gametypes']:
-                gametypes_combined.extend(gametypes)
-
-        # Entity appearance distribution
         for bsp in m['bsp']:
+            total += 1
+
+            # Pie chart data
+            if m['bsp'][bsp]['mapinfo']:
+                mapinfos += 1
+                files_by_year['mapinfo'][year] += 1
+            if m['bsp'][bsp]['mapshot']:
+                mapshots += 1
+                files_by_year['mapshot'][year] += 1
+            if m['bsp'][bsp]['map'] != "":
+                maps += 1
+                files_by_year['map'][year] += 1
+            if m['bsp'][bsp]['radar']:
+                radars += 1
+                files_by_year['radar'][year] += 1
+            if m['bsp'][bsp]['waypoints']:
+                waypoints += 1
+                files_by_year['waypoints'][year] += 1
+            if m['bsp'][bsp]['license']:
+                licenses += 1
+                files_by_year['license'][year] += 1
+
+            # Get all gametypes
+            if m['bsp'][bsp]['gametypes']:
+                gametypes_combined.extend(m['bsp'][bsp]['gametypes'])
+
             if 'entities' in m['bsp'][bsp] and len(m['bsp'][bsp]['entities']):
                 for entity in m['bsp'][bsp]['entities']:
+                    # Entity appearance distribution
                     if entity in entities_by_appearance:
                         entities_by_appearance[entity] += 1
                     else:
                         entities_by_appearance[entity] = 1
 
-        # Entity total count distribution
-        for bsp in m['bsp']:
-            if 'entities' in m['bsp'][bsp] and len(m['bsp'][bsp]['entities']):
-                for entity in m['bsp'][bsp]['entities']:
+                    # Entity total count distribution
                     if entity in entities_by_count:
-                        entities_by_count[
-                            entity] += m['bsp'][bsp]['entities'][entity]
+                        entities_by_count[entity] += m['bsp'][bsp]['entities'][entity]
                     else:
-                        entities_by_count[entity] = m[
-                            'bsp'][bsp]['entities'][entity]
+                        entities_by_count[entity] = m['bsp'][bsp]['entities'][entity]
 
     # Gametype distribution
-    gametypes_set = set(gametypes_combined)
+    gametypes_set = [x.lower() for x in set(gametypes_combined)]
     gametypes_dist = dict.fromkeys(gametypes_set, 0)
     gametypes_dist.pop('', None)  # someone defined an empty gametype
+
     for m in maps_json:
-        if len(m['gametypes']):
-            for gametypes in m['gametypes']:
-                for g in gametypes:
-                    if g != '':  # handle that empty gametype
-                        gametypes_dist[g] += 1
+        for bsp in m['bsp']:
+            for g in m['bsp'][bsp]['gametypes']:
+                gametypes_dist[g.lower()] += 1
+
 
     shadupes_sum = {}
     for key, value in shadupes.items():

@@ -19,7 +19,7 @@ $(document).ready(function() {
         "superhero" : "//bootswatch.com/superhero/bootstrap.min.css",
         "united" : "//bootswatch.com/united/bootstrap.min.css",
         "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
-    }
+    };
 
     var userTheme = $.cookie('theme');
     //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
@@ -61,7 +61,7 @@ $(document).ready(function() {
         "buttons": [
             {
                 "extend": "csvHtml5",
-                "text": '<i class="fa fa-download" title="Download CSV"></i> CSV',
+                "text": '<i class="fa fa-download" title="Download CSV"></i> CSV'
             },
             {
                 "extend": "colvis",
@@ -88,40 +88,100 @@ $(document).ready(function() {
             { "data": "filesize" },
             { "data": "filesize" },
             { "data": "shasum" },
-            { "data": "mapshot" },
-            { "data": "title[<br>]" },
-            { "data": "author[<br>]" },
             { "data": function ( row, type, val, meta ) {
-                    str = "";
-                    $.each(row.gametypes, function( key, value ) {
-                        $.each(value, function( k, v ) {
-                            str += v + ', ';
+                    var arr = [];
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            if (row.bsp[key]['mapshot']) {
+                                arr.push(row.bsp[key]['mapshot']);
+                            }
                         });
-                        str = str.substring(0, str.length - 2);
-                        str += "<br>";
-                    });
+                    }
+                    return arr;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            var manyMaps = (Object.keys(row.bsp).length > 1);
+                            if (manyMaps) {
+                                str += "<em>" + key + "</em><br>";
+                            }
+                            str += row.bsp[key]['title'] + "<br>";
+                            if (manyMaps) {
+                                str += "<br><br>";
+                            }
+                        });
+                    }
                     return str;
                 }
             },
             { "data": function ( row, type, val, meta ) {
-                    str = "";
-                    $.each(row.gametypes, function( key, value ) {
-                        $.each(value, function( k, v ) {
-                            str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            var manyMaps = (Object.keys(row.bsp).length > 1);
+                            if (manyMaps) {
+                                str += "<em>" + key + "</em><br>"
+                            }
+                            str += row.bsp[key]['author'] + "<br>";
+                            if (manyMaps) {
+                                str += "<br><br>";
+                            }
                         });
-                        str += "<br>";
-                    });
+                    }
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            if (row.bsp[key]['gametypes'].length > 0) {
+                                var manyMaps = (Object.keys(row.bsp).length > 1);
+                                if (manyMaps) {
+                                    str += "<em>" + key + "</em><br>"
+                                }
+                                str += row.bsp[key]['gametypes'].join(', ') + "<br>";
+                                if (manyMaps) {
+                                    str += "<br><br>";
+                                }
+                            }
+                        });
+                    }
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            if (row.bsp[key]['gametypes'].length > 0) {
+                                var manyMaps = (Object.keys(row.bsp).length > 1);
+                                if (manyMaps) {
+                                    str += "<em>" + key + "</em><br>"
+                                }
+                                $.each(row.bsp[key]['gametypes'], function(k, v) {
+                                    str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
+                                });
+                                if (manyMaps) {
+                                    str += "<br><br>";
+                                }
+                            }
+                        });
+                    }
                     return str;
                 }
             },
             { "data": function ( row, type, val, meta ) {
                     if (Object.keys(row.bsp)) {
-                        str = "";
+                        var str = "";
                         $.each(row.bsp, function( key, value ) {
                             if (row.bsp[key].entities) {
                                 var manyMaps = (Object.keys(row.bsp).length > 1);
                                 if (manyMaps) {
-                                    str += key + "<br>";
+                                    str += "<em>" + key + "</em><br>"
                                 }
                                 $.each(row.bsp[key].entities, function( k, v ) {
                                     str += '<i class="icon icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"><b>' + k + '</b></i> ';
@@ -135,10 +195,69 @@ $(document).ready(function() {
                     } else { return ""; }
                 }
             },
-            { "data": "map[, ]" },
-            { "data": "radar[, ]" },
-            { "data": "waypoints[, ]" },
-            { "data": "license" },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            var manyMaps = (Object.keys(row.bsp).length > 1);
+                            if (manyMaps) {
+                                str += "<em>" + key + "</em><br>"
+                            }
+                            str += (row.bsp[key]['map']) ? "yes" : "no" + "<br>";
+                            if (manyMaps) {
+                                str += "<br><br>";
+                            }
+                        });
+                    }
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            var manyMaps = (Object.keys(row.bsp).length > 1);
+                            if (manyMaps) {
+                                str += "<em>" + key + "</em><br>"
+                            }
+                            str += (row.bsp[key]['radar']) ? "yes" : "no" + "<br>";
+                            if (manyMaps) {
+                                str += "<br><br>";
+                            }
+                        });
+                    }
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            var manyMaps = (Object.keys(row.bsp).length > 1);
+                            if (manyMaps) {
+                                str += "<em>" + key + "</em><br>"
+                            }
+                            str += (row.bsp[key]['waypoints']) ? "yes" : "no" + "<br>";
+                            if (manyMaps) {
+                                str += "<br><br>";
+                            }
+                        });
+                    }
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    var str = "";
+                    if (Object.keys(row.bsp)) {
+                        $.each(row.bsp, function (key, value) {
+                            if (row.bsp[key]['license']) {
+                                str =+ row.bsp[key]['license'] + ", ";
+                            }
+                        });
+                    }
+                    return str;
+                }
+            },
             { "data": "date" }
         ],
         "columnDefs": [
@@ -218,20 +337,20 @@ $(document).ready(function() {
             {   // map file
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? "yes" : "no";
+                    return data;
                 }
             },
             {   // radar file
                 "targets": 12,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? "yes" : "no";
+                    return data;
                 },
                 "visible": false
             },
             {   // waypoints file
                 "targets": 13,
                 "render": function ( data, type, full, meta ) {
-                    return (data != false) ? "yes" : "no";
+                    return data;
                 },
                 "visible": false
             },

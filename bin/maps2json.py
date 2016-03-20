@@ -27,7 +27,7 @@ path_mapshots = resources_dir + 'mapshots/'
 # Temp vars
 packs_entities_fail = []
 packs_corrupt = []
-packs_other  = []
+packs_other = []
 packs_maps = []
 
 entities_list = entities_dict.keys()
@@ -76,7 +76,7 @@ def main():
     output['data'] = packs_maps
 
     # for debugging
-    print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
+    #print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
 
     fo = open(resources_dir + 'data/maps.json', 'w')
     fo.write(json.dumps(output))
@@ -96,16 +96,6 @@ def process_pk3(file):
     data['filesize'] = os.path.getsize(path_packages + file)
     data['date'] = os.path.getmtime(path_packages + file)
     data['bsp'] = {}
-    data['mapshot'] = []
-    data['mapinfo'] = []
-    data['waypoints'] = []
-    data['map'] = []
-    data['radar'] = []
-    data['title'] = []
-    data['description'] = []
-    data['gametypes'] = []
-    data['author'] = []
-    data['license'] = []
 
     # temp variables
     bsps = []
@@ -124,7 +114,20 @@ def process_pk3(file):
                 epoch = int(datetime(*bsp_info.date_time).timestamp())
                 data['date'] = epoch
                 bsps.append(member)
-                data['bsp'][bspnames[member]] = {}
+
+                temp = {}
+                temp['mapshot'] = ""
+                temp['mapinfo'] = ""
+                temp['waypoints'] = ""
+                temp['map'] = ""
+                temp['radar'] = ""
+                temp['title'] = ""
+                temp['description'] = ""
+                temp['author'] = ""
+                temp['license'] = False
+                temp['gametypes'] = []
+
+                data['bsp'][bspnames[member]] = temp.copy()
 
         # One or more bsps has been found (it's a map package)
         if len(bsps):
@@ -151,24 +154,48 @@ def process_pk3(file):
             for member in filelist:
                 for bsp in data['bsp']:
 
+                    bspname = bsp
                     rbsp = re.escape(bsp)
 
                     if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
-                        data['mapshot'].append(member)
+                        data['bsp'][bspname]['mapshot'] = member
                         if extract_mapshots:
                             zip.extract(member, path_mapshots)
 
-                    if re.search('^maps/' + rbsp + '\.mapinfo$', member):
-                        data['mapinfo'].append(member)
-
-                    if re.search('^maps/' + rbsp + '\.waypoints$', member):
-                        data['waypoints'].append(member)
+                    if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
+                        data['bsp'][bspname]['radar'] = member
 
                     if re.search('^maps/' + rbsp + '\.map$', member):
-                        data['map'].append(member)
+                        data['bsp'][bspname]['map'] = member
 
-                    if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
-                        data['radar'].append(member)
+                    if re.search('^maps/' + rbsp + '\.waypoints$', member):
+                        data['bsp'][bspname]['waypoints'] = member
+
+                    if re.search('(LICENSE|COPYING|gpl.txt)', member):
+                        data['bsp'][bspname]['license'] = True
+
+                    if re.search('^maps/' + rbsp + '\.mapinfo$', member):
+                        data['bsp'][bspname]['mapinfo'] = member
+
+                        mapinfo = zip.open(data['bsp'][bspname]['mapinfo'])
+                        gametypes = []
+
+                        for line in mapinfo:
+                            line = line.decode('unicode_escape').rstrip()
+
+                            if re.search('^title.*$', line):
+                                data['bsp'][bspname]['title'] = line.partition(' ')[2]
+
+                            elif re.search('^author.*', line):
+                                data['bsp'][bspname]['author'] = line.partition(' ')[2]
+
+                            elif re.search('^description.*', line):
+                                data['bsp'][bspname]['description'] = line.partition(' ')[2]
+
+                            elif re.search('^(type|gametype).*', line):
+                                gametypes.append(line.partition(' ')[2].partition(' ')[0])
+
+                        data['bsp'][bspname]['gametypes'].extend(gametypes)
 
                     if re.search('^maps/' + rbsp + '\.ent', member):
                         if parse_entities:
@@ -178,33 +205,6 @@ def process_pk3(file):
                             entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
                             data['bsp'][bspname].update(entities_from_ent)
                             shutil.rmtree(resources_dir + 'entities/' + bspname)
-
-                if re.search('^maps/(LICENSE|COPYING|gpl.txt)$', member):
-                    data['license'] = True
-
-            # If the mapinfo file exists, try and parse it
-            if len(data['mapinfo']):
-                for mapinfofile in data['mapinfo']:
-
-                    mapinfo = zip.open(mapinfofile)
-                    gametypes = []
-
-                    for line in mapinfo:
-                        line = line.decode('unicode_escape').rstrip()
-
-                        if re.search('^title.*$', line):
-                            data['title'].append(line.partition(' ')[2])
-
-                        elif re.search('^author.*', line):
-                            data['author'].append(line.partition(' ')[2])
-
-                        elif re.search('^description.*', line):
-                            data['description'].append(line.partition(' ')[2])
-
-                        elif re.search('^(type|gametype).*', line):
-                            gametypes.append(line.partition(' ')[2].partition(' ')[0])
-
-                    data['gametypes'].append(gametypes)
 
             packs_maps.append(data)
 
@@ -217,27 +217,6 @@ def process_pk3(file):
         print('Corrupt file: ' + file)
         packs_corrupt.append(file)
         pass
-
-
-def hash_file(filename):
-    """This function returns the SHA-1 hash
-    of the file passed into it"""
-
-    # make a hash object
-    h = hashlib.sha1()
-
-    # open file for reading in binary mode
-    with open(filename,'rb') as file:
-
-        # loop till the end of the file
-        chunk = 0
-        while chunk != b'':
-            # read only 1024 bytes at a time
-            chunk = file.read(1024)
-            h.update(chunk)
-
-    # return the hex representation of digest
-    return h.hexdigest()
 
 
 def parse_entities_file(bsp, pk3, entities_file):
@@ -271,6 +250,28 @@ def parse_entities_file(bsp, pk3, entities_file):
         print("Failed to parse entities file for: " + pk3)
 
     return bsp
+
+
+def hash_file(filename):
+    """This function returns the SHA-1 hash
+    of the file passed into it"""
+
+    # make a hash object
+    h = hashlib.sha1()
+
+    # open file for reading in binary mode
+    with open(filename,'rb') as file:
+
+        # loop till the end of the file
+        chunk = 0
+        while chunk != b'':
+            # read only 1024 bytes at a time
+            chunk = file.read(1024)
+            h.update(chunk)
+
+    # return the hex representation of digest
+    return h.hexdigest()
+
 
 if __name__ == "__main__":
     main()

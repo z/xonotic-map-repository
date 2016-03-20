@@ -26,6 +26,70 @@ There are approximately 12,500 map packages currently in distribution amongst Xo
 5. Goto `http://127.0.0.1:8000`
 6. (optional) check `error.log` for any pk3s that were found without bsps and corrupt packs
 
+
+### Developers
+
+The JSON structure for a map package is as follows:
+
+```
+{
+  "data": [
+    {
+      "filesize": 7856907,
+      "date": 1453749340,
+      "bsp": {
+        "vapor_alpha_2": {
+          "title": "Vapor",
+          "license": true,
+          "map": "maps/vapor_alpha_2.map",
+          "gametypes": [
+            "ctf",
+            "dm"
+          ],
+          "radar": "gfx/vapor_alpha_2_mini.tga",
+          "waypoints": "",
+          "description": "Such CTF. Many Vehicles. Wow.",
+          "mapinfo": "maps/vapor_alpha_2.mapinfo",
+          "entities": {
+            "info_player_deathmatch": 4,
+            "info_player_team1": 11,
+            "info_player_team2": 11,
+            "item_armor_big": 10,
+            "item_armor_large": 4,
+            "item_armor_medium": 16,
+            "item_armor_small": 124,
+            "item_bullets": 10,
+            "item_cells": 14,
+            "item_flag_team1": 1,
+            "item_flag_team2": 1,
+            "item_health_large": 6,
+            "item_health_medium": 30,
+            "item_health_mega": 2,
+            "item_health_small": 100,
+            "item_invincible": 1,
+            "item_rockets": 20,
+            "item_strength": 1,
+            "weapon_crylink": 4,
+            "weapon_devastator": 6,
+            "weapon_electro": 2,
+            "weapon_grenadelauncher": 6,
+            "weapon_hagar": 4,
+            "weapon_machinegun": 6,
+            "weapon_vortex": 4
+          },
+          "mapshot": "maps/vapor_alpha_2.jpg",
+          "author": "-z-"
+        }
+      },
+      "pk3": "map-vapor_alpha_2.pk3",
+      "shasum": "3df0143516f72269f465070373f165c8787964d5"
+    }
+  ]
+}
+```
+
+Entities that are currently parsed can be found in `./bin/entities.py`
+
 ### Contributing
 
 Find me in #xonotic on irc.quakenet.org, I'm open to any ideas to improve upon this effort.
