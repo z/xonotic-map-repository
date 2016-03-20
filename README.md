@@ -19,9 +19,9 @@ There are approximately 12,500 map packages currently in distribution amongst Xo
 
 ### TL;DR
 
-1. Copy a whole bunch of pk3s into the ./packages folder
-2. run `./maps2json.py`
-3. run `./chartjson.py`
+1. Copy a whole bunch of pk3s into the `./resources/packages` folder
+2. run `./bin/maps2json.py`
+3. run `./bin/chartjson.py`
 4. run `python -m SimpleHTTPServer`
 5. Goto `http://127.0.0.1:8000`
 6. (optional) check `error.log` for any pk3s that were found without bsps and corrupt packs

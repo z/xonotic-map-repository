@@ -89,13 +89,27 @@ $(document).ready(function() {
             { "data": "filesize" },
             { "data": "shasum" },
             { "data": "mapshot" },
-            { "data": "title" },
-            { "data": "author" },
-            { "data": "gametypes[, ]" },
+            { "data": "title[<br>]" },
+            { "data": "author[<br>]" },
             { "data": function ( row, type, val, meta ) {
                     str = "";
-                    $.each(row.gametypes, function( k, v ) {
-                        str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
+                    $.each(row.gametypes, function( key, value ) {
+                        $.each(value, function( k, v ) {
+                            str += v + ', ';
+                        });
+                        str = str.substring(0, str.length - 2);
+                        str += "<br>";
+                    });
+                    return str;
+                }
+            },
+            { "data": function ( row, type, val, meta ) {
+                    str = "";
+                    $.each(row.gametypes, function( key, value ) {
+                        $.each(value, function( k, v ) {
+                            str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
+                        });
+                        str += "<br>";
                     });
                     return str;
                 }
@@ -270,19 +284,19 @@ $(document).ready(function() {
 
     // Popover image previews
     function initPopovers() {
-        $('a[rel=popover]').popover({                            
-            html: true,                                          
-            trigger: 'hover',                                    
-            content: function () {                               
+        $('a[rel=popover]').popover({
+            html: true,
+            trigger: 'hover',
+            content: function () {
                 return '<img src="'+$(this).data('img') + '" />';
-            }                                                    
-        });                                                      
+            }
+        });
     }
 
     // Apply filtersearch and dropdownsearch
     table.columns().every( function () {
         var that = this;
- 
+
         $( 'input', this.footer() ).on( 'keyup change', function () {
             if ( that.search() !== this.value ) {
                 that
