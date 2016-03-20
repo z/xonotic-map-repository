@@ -110,7 +110,7 @@ $(document).ready(function() {
                             }
                             str += row.bsp[key]['title'] + "<br>";
                             if (manyMaps) {
-                                str += "<br><br>";
+                                str += "<br>";
                             }
                         });
                     }
@@ -127,7 +127,7 @@ $(document).ready(function() {
                             }
                             str += row.bsp[key]['author'] + "<br>";
                             if (manyMaps) {
-                                str += "<br><br>";
+                                str += "<br>";
                             }
                         });
                     }
@@ -145,7 +145,7 @@ $(document).ready(function() {
                                 }
                                 str += row.bsp[key]['gametypes'].join(', ') + "<br>";
                                 if (manyMaps) {
-                                    str += "<br><br>";
+                                    str += "<br>";
                                 }
                             }
                         });
@@ -222,7 +222,7 @@ $(document).ready(function() {
                             }
                             str += (row.bsp[key]['radar']) ? "yes" : "no" + "<br>";
                             if (manyMaps) {
-                                str += "<br><br>";
+                                str += "<br>";
                             }
                         });
                     }
@@ -239,7 +239,7 @@ $(document).ready(function() {
                             }
                             str += (row.bsp[key]['waypoints']) ? "yes" : "no" + "<br>";
                             if (manyMaps) {
-                                str += "<br><br>";
+                                str += "<br>";
                             }
                         });
                     }

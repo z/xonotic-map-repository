@@ -31,6 +31,9 @@ table.dataTable {
 div.dt-buttons {
     width:auto !important;
 }
+td em {
+    color: #999;
+}
 
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
