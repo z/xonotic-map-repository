@@ -2,6 +2,7 @@
 *.swp
 *.swo
 *.idea
+bin/__pycache__
 maps.json
 charts.json
 entities.json
