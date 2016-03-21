@@ -37,7 +37,13 @@ $(document).ready(function() {
     // Setup - add a dropdown to dropdownsearch footers
     $('#table-maplist tfoot th.dropdownsearch').each( function () {
         var title = $(this).text();
-        $(this).html( '<select class="form-control input-sm"><option value=""></option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>' );
+        $(this).html( '<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>' );
+    } );
+
+    // Setup - add a dropdown to dropdownsearch footers
+    $('#table-maplist tfoot th.dropdownsearch-mapshot').each( function () {
+        var title = $(this).text();
+        $(this).html( '<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="maps/">' + title + '</option><option value="___no_mapshot___">no ' + title + '</option></select>' );
     } );
 
     var table = $('#table-maplist').DataTable( {
@@ -301,8 +307,9 @@ $(document).ready(function() {
             {   // mapshot file
                 "targets": 5,
                 "render": function ( data, type, full, meta ) {
-                    var string = "";
+                    var string = "___no_mapshot___";
                     if (data.length > 0) {
+                        string = "";
                         data.forEach(function(value, index, array) {
                             if (value != "") {
                                 string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
@@ -343,7 +350,8 @@ $(document).ready(function() {
                 "targets": 11,
                 "render": function ( data, type, full, meta ) {
                     return data;
-                }
+                },
+                "visible": false
             },
             {   // radar file
                 "targets": 12,
