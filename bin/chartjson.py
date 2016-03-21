@@ -130,7 +130,8 @@ def main():
     for m in maps_json:
         for bsp in m['bsp']:
             for g in m['bsp'][bsp]['gametypes']:
-                gametypes_dist[g.lower()] += 1
+                if g != '':
+                    gametypes_dist[g.lower()] += 1
 
 
     shadupes_sum = {}
