@@ -39,11 +39,11 @@ td em {
     width: 250px;
     height: auto;
     position: relative;
-    z-index: 9000;
+    z-index: 1000;
 }
 
 .mapshot.css-animated {
-    transition-duration: 1s;
+    transition-duration: 0.8s;
     transition-property: transform;
     transition-timing-function: ease-out;
 }
@@ -55,7 +55,7 @@ td em {
     transition-duration: 0.2s;
     transition-property: transform;
     transition-timing-function: ease-in;
-    z-index: 10000;
+    z-index: 1010;
 }
 
 .icon {
