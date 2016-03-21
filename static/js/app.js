@@ -302,20 +302,25 @@ $(document).ready(function() {
             },
             {   // shasum
                 "targets": 4,
-                "visible": false,
+                "visible": false
             },
             {   // mapshot file
                 "targets": 5,
                 "render": function ( data, type, full, meta ) {
+                    var loadImages = (table.column( 5 ).visible() === true ? true : false)
                     var string = "___no_mapshot___";
                     if (data.length > 0) {
                         string = "";
                         data.forEach(function(value, index, array) {
                             if (value != "") {
-                                string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
-                                         + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
-                                         + '<span>' + value + '</span>'
-                                        + '</a>';
+                                if (loadImages) {
+                                    string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
+                                              + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
+                                              + '<span>' + value + '</span>'
+                                            + '</a>';
+                                } else {
+                                    string += value;
+                                }
                             }
                         });
                     }
@@ -571,7 +576,7 @@ $(document).ready(function() {
 
             default:
 
-                visible = false
+                visible = false;
 
         }
 
