@@ -391,7 +391,14 @@ $(document).ready(function() {
             // Hacky way to put the controls in the navbar
             $("#table-controls .btn").addClass("btn-sm");
             $("#table-maplist_length").addClass("pull-right");
-            $("#table-maplist_filter").addClass("pull-right");
+            $("#table-maplist_filter")
+                .addClass("pull-right")
+                .css('position', 'relative')
+                .append('<span id="search-clear" class="fa fa-times-circle-o hidden"></span>');
+            $('#search-clear').click(function(e) {
+                $("#table-maplist_filter input").val('');
+                table.search('').draw();
+            });
             $("#table-controls").detach().appendTo('#nav-table-controls');
             $("#table-controls .dt-buttons").addClass("pull-right");
             $("#table-controls").show();
@@ -399,10 +406,22 @@ $(document).ready(function() {
                 setTheme(userTheme);
             }
             //$('[data-toggle="tooltip"]').tooltip();
+            var searchTerm = $("#table-maplist_filter input").val();
+            if (searchTerm) {
+                $('#search-clear').removeClass('hidden');
+            }
         },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
             //initThumbnails();
+        }
+    } );
+
+    table.on( 'search.dt', function () {
+        if (table.search() == "") {
+            $('#search-clear').addClass('hidden');
+        } else {
+            $('#search-clear').removeClass('hidden');
         }
     } );
 

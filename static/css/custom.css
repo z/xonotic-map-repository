@@ -61,6 +61,17 @@ td em {
     display:none;
 }
 
+#search-clear {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+    color: #aaa;
+}
+#search-clear:hover {
+    color:#555;
+}
+
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
 }
