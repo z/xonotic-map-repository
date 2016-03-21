@@ -312,15 +312,13 @@ $(document).ready(function() {
                     if (data.length > 0) {
                         string = "";
                         data.forEach(function(value, index, array) {
-                            if (value != "") {
-                                if (loadImages) {
-                                    string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
-                                              + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
-                                              + '<span>' + value + '</span>'
-                                            + '</a>';
-                                } else {
-                                    string += value;
-                                }
+                            if (value != "" && loadImages) {
+                                string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
+                                          + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
+                                          + '<span>' + value + '</span>'
+                                        + '</a>';
+                            } else {
+                                string += '';
                             }
                         });
                     }
