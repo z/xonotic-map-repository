@@ -35,6 +35,29 @@ td em {
     color: #999;
 }
 
+.mapshot {
+    width: 250px;
+    height: auto;
+    position: relative;
+    z-index: 9000;
+}
+
+.mapshot.css-animated {
+    transition-duration: 1s;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+}
+
+.mapshot.css-animated:hover {
+    -webkit-transform: scale(2.2);
+    -ms-transform: scale(2.2);
+    transform: scale(2.2);
+    transition-duration: 0.2s;
+    transition-property: transform;
+    transition-timing-function: ease-in;
+    z-index: 10000;
+}
+
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
 }

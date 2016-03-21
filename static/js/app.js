@@ -304,7 +304,7 @@ $(document).ready(function() {
                     var string = "";
                     if (data.length > 0) {
                         data.forEach(function(value, index, array) {
-                            string += '<a class="btn" rel="popover" data-placement="auto bottom" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank"><i class="fa fa-picture-o"></i></a>';
+                            string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank"><img src="./resources/mapshots/' + value + '" class="mapshot css-animated" /></a>';
                         });
                     }
                     return string;
@@ -389,26 +389,30 @@ $(document).ready(function() {
         },
         "drawCallback": function( settings ) {
             $("#table-controls").show();
-            initPopovers();
+            //initThumbnails();
         }
     } );
 
     // To be shown by initComplete
     $("#table-controls").hide();
 
-    // Reorder callback
-    table.on( 'column-reorder', function ( e, settings, details ) {
-        initPopovers();
-    });
+    // Image previews
+    function initThumbnails() {
+        // slow and prone to memory leak
+        // need to do a check, CSS3 solution is better though
+        // so I dunno, maybe I'll provide this as an option later
+        $('img.mapshot').hover(function(e) {
 
-    // Popover image previews
-    function initPopovers() {
-        $('a[rel=popover]').popover({
-            html: true,
-            trigger: 'hover',
-            content: function () {
-                return '<img src="'+$(this).data('img') + '" />';
-            }
+            $(this).animate({
+                'width': '500px'
+            }, 40, "swing");
+
+        }, function(e) {
+
+            $(this).animate({
+                'width': '250px'
+            }, 400, "linear");
+
         });
     }
 
