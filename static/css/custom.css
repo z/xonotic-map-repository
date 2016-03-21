@@ -57,6 +57,9 @@ td em {
     transition-timing-function: ease-in;
     z-index: 1010;
 }
+.mapshot-link span {
+    display:none;
+}
 
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);

@@ -304,7 +304,12 @@ $(document).ready(function() {
                     var string = "";
                     if (data.length > 0) {
                         data.forEach(function(value, index, array) {
-                            string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank"><img src="./resources/mapshots/' + value + '" class="mapshot css-animated" /></a>';
+                            if (value != "") {
+                                string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
+                                         + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
+                                         + '<span>' + value + '</span>'
+                                        + '</a>';
+                            }
                         });
                     }
                     return string;
