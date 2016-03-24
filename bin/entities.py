@@ -34,6 +34,8 @@ entities_dict = {
     'item_flag_team3': 'item_flag_team3',
     'item_flag_team4': 'item_flag_team4',
     'item_flag_neutral': 'item_flag_neutral',
+    'team_CTF_neutralflag': 'item_flag_neutral',
+    'team_neutralobelisk': 'item_flag_neutral',
 
     # ammo
     'item_bullets': 'item_bullets',
@@ -97,10 +99,13 @@ entities_dict = {
     'team_CTF_bluespawn': 'info_player_team2',
     'info_player_team3': 'info_player_team3',
     'info_player_team4': 'info_player_team4',
-    'info_player_start': 'info_player_start',
+    #'info_player_start': 'info_player_start',
     #'info_player_survivor': 'info_player_survivor',
     #'info_player_race': 'info_player_race',
     #'info_player_attacker': 'info_player_attacker',
-    #'info_player_defender': 'info_player_defender'
+    #'info_player_defender': 'info_player_defender',
+
+    # other
+    'world': 'world',
 
 }

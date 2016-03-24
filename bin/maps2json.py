@@ -17,12 +17,14 @@ from entities import entities_dict
 
 # Config
 extract_mapshots = True
+extract_radars = True
 parse_entities = True
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 resources_dir = root_dir + '/resources/'
 path_packages = resources_dir + 'packages/'
 path_mapshots = resources_dir + 'mapshots/'
+path_radars = resources_dir + 'radars/'
 
 # Temp vars
 packs_entities_fail = []
@@ -164,6 +166,8 @@ def process_pk3(file):
 
                     if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['radar'] = member
+                        if extract_radars:
+                            zip.extract(member, path_radars)
 
                     if re.search('^maps/' + rbsp + '\.map$', member):
                         data['bsp'][bspname]['map'] = member
@@ -241,7 +245,7 @@ def parse_entities_file(bsp, pk3, entities_file):
                 bsp['entities'] = sorted_entities
 
         f.close()
-        os.remove(entities_file)
+        # os.remove(entities_file)
 
     except UnicodeDecodeError:
         errors = True

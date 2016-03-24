@@ -9,4 +9,5 @@ entities.json
 error.log
 resources/mapshots/maps
 resources/entities/*.ent
+venv
 resources/bsp/*/*
