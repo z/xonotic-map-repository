@@ -11,6 +11,7 @@ import subprocess
 import shutil
 import collections
 import time
+from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
 from entities import entities_dict
@@ -150,7 +151,7 @@ def process_pk3(file):
 
                     data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
 
-                    #shutil.rmtree(resources_dir + 'bsp/' + bspname)
+#                    shutil.rmtree(resources_dir + 'bsp/' + bspname)
 
             # Find out which of the important files exist in the package
             for member in filelist:
@@ -158,6 +159,15 @@ def process_pk3(file):
 
                     bspname = bsp
                     rbsp = re.escape(bsp)
+
+                    if re.search('^maps/' + rbsp + '\.ent', member):
+                        if parse_entities:
+                            zip.extract(member, resources_dir + 'entities/' + bspname)
+
+                            entities_file = resources_dir + 'entities/' + bspname + '/' + member
+                            entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
+                            data['bsp'][bspname].update(entities_from_ent)
+#                            shutil.rmtree(resources_dir + 'entities/' + bspname)
 
                     if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['mapshot'] = member
@@ -168,6 +178,17 @@ def process_pk3(file):
                         data['bsp'][bspname]['radar'] = member
                         if extract_radars:
                             zip.extract(member, path_radars)
+                            radar_image = path_radars + member
+                            subprocess.call(['convert', radar_image, '-depth', '8', '-trim', 'PNG24:' + path_radars + 'gfx/' + bsp + '_mini.png'])
+                            
+                            subprocess.call(['./bin/entities_map.py', bsp])
+
+#                            image = Image(filename=(radar_image))
+#                            with image.convert('PNG24') as converted:
+#                                converted.transform_colorspace('rgb')
+#                                converted.depth = 8
+#                                converted.trim()
+#                                converted.save(filename=path_radars + 'gfx/' + bsp + '_mini.png')
 
                     if re.search('^maps/' + rbsp + '\.map$', member):
                         data['bsp'][bspname]['map'] = member
@@ -200,16 +221,7 @@ def process_pk3(file):
                                 gametypes.append(line.partition(' ')[2].partition(' ')[0])
 
                         data['bsp'][bspname]['gametypes'].extend(gametypes)
-
-                    if re.search('^maps/' + rbsp + '\.ent', member):
-                        if parse_entities:
-                            zip.extract(member, resources_dir + 'entities/' + bspname)
-
-                            entities_file = resources_dir + 'entities/' + bspname + '/' + member
-                            entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
-                            data['bsp'][bspname].update(entities_from_ent)
-                            shutil.rmtree(resources_dir + 'entities/' + bspname)
-
+                    
             packs_maps.append(data)
 
         else:
