@@ -150,7 +150,7 @@ def process_pk3(file):
 
                     data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
 
-                    shutil.rmtree(resources_dir + 'bsp/' + bspname)
+                    #shutil.rmtree(resources_dir + 'bsp/' + bspname)
 
             # Find out which of the important files exist in the package
             for member in filelist:
