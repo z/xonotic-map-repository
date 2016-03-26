@@ -11,7 +11,7 @@ import subprocess
 import shutil
 import collections
 import time
-from wand.image import Image
+#from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
 from entities import entities_dict
