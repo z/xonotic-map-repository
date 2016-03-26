@@ -2,12 +2,12 @@
 *.swp
 *.swo
 *.idea
-bin/__pycache__
+*__pycache__
+venv
 maps.json
 charts.json
 entities.json
 error.log
 resources/mapshots/maps
-resources/entities/*.ent
-venv
+resources/entities/*
 resources/bsp/*/*
