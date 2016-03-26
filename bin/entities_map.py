@@ -29,10 +29,8 @@ def main():
 
     entities_list = entities_dict.keys()
 
-    symbol = entity_symbol
-    color = entity_color
-    size = entity_size
-    these = symbol.keys()
+    props = entity_properties
+    these = props.keys()
     entities = dict((k, []) for k in these)
 
     x0, x1, y0, y1 = get_map_boundaries(path_bsp + bsp_name + '/maps/' + bsp_name + '.bsp')
@@ -60,7 +58,7 @@ def main():
     for classname in entities:
         if classname in plot_entities_list:
             if entities[classname]:
-                plot_it(entities[classname], symbol[classname], color[classname], int(size[classname]))
+                plot_it(entities[classname], props[classname]['symbol'], props[classname]['color'], int(props[classname]['size']))
 
     # add image
     img = plt.imread(radar_image)

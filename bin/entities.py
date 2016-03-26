@@ -99,127 +99,171 @@ entities_dict = {
     'team_CTF_bluespawn': 'info_player_team2',
     'info_player_team3': 'info_player_team3',
     'info_player_team4': 'info_player_team4',
-    #'info_player_start': 'info_player_start',
-    #'info_player_survivor': 'info_player_survivor',
-    #'info_player_race': 'info_player_race',
-    #'info_player_attacker': 'info_player_attacker',
-    #'info_player_defender': 'info_player_defender',
+    # 'info_player_start': 'info_player_start',
+    # 'info_player_survivor': 'info_player_survivor',
+    # 'info_player_race': 'info_player_race',
+    # 'info_player_attacker': 'info_player_attacker',
+    # 'info_player_defender': 'info_player_defender',
 
     # other
     'world': 'world',
 
 }
 
-entity_symbol = {
-    'item_health_small': u'\uE913',
-    'item_health_medium': u'\uE914',
-    'item_health_large': u'\uE915',
-    'item_health_mega': u'\uE916',
+entity_properties = {
+    'item_health_small': {
+        'symbol': u'\uE913',
+        'color': 'red',
+        'size': 5,
+    },
+    'item_health_medium': {
+        'symbol': u'\uE914',
+        'color': 'red',
+        'size': 6,
+    },
+    'item_health_large': {
+        'symbol': u'\uE915',
+        'color': 'red',
+        'size': 8,
+    },
+    'item_health_mega': {
+        'symbol': u'\uE916',
+        'color': 'red',
+        'size': 10,
+    },
 
-    'item_armor_small': u'\uE91b',
-    'item_armor_medium': u'\uE91a',
-    'item_armor_large': u'\uE919',
-    'item_armor_mega': u'\uE918',
+    'item_armor_small': {
+        'symbol': u'\uE91b',
+        'color': 'green',
+        'size': 5,
+    },
+    'item_armor_medium': {
+        'symbol': u'\uE91a',
+        'color': 'green',
+        'size': 6,
+    },
+    'item_armor_large': {
+        'symbol': u'\uE919',
+        'color': 'green',
+        'size': 8,
+    },
+    'item_armor_mega': {
+        'symbol': u'\uE918',
+        'color': 'green',
+        'size': 10,
+    },
 
-    'weapon_electro': u'\ue926',
-    'weapon_crylink': u'\ue925',
-    'weapon_vortex': u'\ue931',
-    'weapon_shotgun': u'\ue938',
-    'weapon_devastator': u'\ue934',
-    'weapon_grenadelauncher': u'\ue929',
-    'weapon_hagar': u'\ue92a',
-    'weapon_arc': u'\ue924',
-    'weapon_machinegun': u'\ue93a',
+    'weapon_electro': {
+        'symbol': u'\ue926',
+        'color': '#69A0E7',
+        'size': 10,
+    },
+    'weapon_crylink': {
+        'symbol': u'\ue925',
+        'color': '#F580F7',
+        'size': 10,
+    },
+    'weapon_vortex': {
+        'symbol': u'\ue931',
+        'color': '#73BACA',
+        'size': 10,
+    },
+    'weapon_shotgun': {
+        'symbol': u'\ue938',
+        'color': '#95AFBE',
+        'size': 10,
+    },
+    'weapon_devastator': {
+        'symbol': u'\ue934',
+        'color': '#ECD262',
+        'size': 10,
+    },
+    'weapon_grenadelauncher': {
+        'symbol': u'\ue929',
+        'color': '#FFA789',
+        'size': 10,
+    },
+    'weapon_hagar': {
+        'symbol': u'\ue92a',
+        'color': '#FFA789',
+        'size': 10,
+    },
+    'weapon_arc': {
+        'symbol': u'\ue924',
+        'color': '#C3EEFF',
+        'size': 10,
+    },
+    'weapon_machinegun': {
+        'symbol': u'\ue93a',
+        'color': '#8CE54A',
+        'size': 10,
+    },
 
-    'item_shells': u'\ue922',
-    'item_bullets': u'\ue91d',
-    'item_cells': u'\ue91e',
-    'item_rockets': u'\ue921',
+    'item_shells': {
+        'symbol': u'\ue922',
+        'color': '#BECBD3',
+        'size': 6,
+    },
+    'item_bullets': {
+        'symbol': u'\ue91d',
+        'color': '#B1D887',
+        'size': 6,
+    },
+    'item_cells': {
+        'symbol': u'\ue91e',
+        'color': '#E1B08D',
+        'size': 6,
+    },
+    'item_rockets': {
+        'symbol': u'\ue921',
+        'color': '#B1FFFF',
+        'size': 6,
+    },
 
-    'item_flag_team1': u'\ue91c',
-    'item_flag_team2': u'\ue91c',
-    'item_flag_team3': u'\ue91c',
-    'item_flag_team4': u'\ue91c',
+    'item_flag_team1': {
+        'symbol': u'\ue91c',
+        'color': '#FF0000',
+        'size': 10,
+    },
+    'item_flag_team2': {
+        'symbol': u'\ue91c',
+        'color': '#0080FF',
+        'size': 10,
+    },
+    'item_flag_team3': {
+        'symbol': u'\ue91c',
+        'color': 'pink',
+        'size': 10,
+    },
+    'item_flag_team4': {
+        'symbol': u'\ue91c',
+        'color': 'yellow',
+        'size': 10,
+    },
 
-    'info_player_deathmatch': u'\ue904',
-    'info_player_team1': u'\ue904',
-    'info_player_team2': u'\ue904',
-    'info_player_team3': u'\ue904',
-    'info_player_team4': u'\ue904',
-}
-
-entity_color = {
-    'item_health_small': 'red',
-    'item_health_medium': 'red',
-    'item_health_large': 'red',
-    'item_health_mega': 'red',
-
-    'item_armor_small': 'green',
-    'item_armor_medium': 'green',
-    'item_armor_large': 'green',
-    'item_armor_mega': 'green',
-
-    'weapon_electro': '#69A0E7',
-    'weapon_crylink': '#F580F7',
-    'weapon_vortex': '#73BACA',
-    'weapon_shotgun': '#95AFBE',
-    'weapon_devastator': '#ECD262',
-    'weapon_grenadelauncher': '#FFA789',
-    'weapon_hagar': '#FFA789',
-    'weapon_arc': '#C3EEFF',
-    'weapon_machinegun': '#8CE54A',
-
-    'item_shells': '#BECBD3',
-    'item_bullets': '#B1D887',
-    'item_cells': '#E1B08D',
-    'item_rockets': '#B1FFFF',
-
-    'item_flag_team1': '#FF0000',
-    'item_flag_team2': '#0080FF',
-    'item_flag_team3': 'pink',
-    'item_flag_team4': 'yellow',
-
-    'info_player_deathmatch': 'orange',
-    'info_player_team1': '#FF0000',
-    'info_player_team2': '#0080FF',
-    'info_player_team3': 'pink',
-    'info_player_team4': 'yellow',
-}
-
-entity_size = {
-    'item_health_small': 5,
-    'item_health_medium': 6,
-    'item_health_large': 8,
-    'item_health_mega': 10,
-
-    'item_armor_small': 5,
-    'item_armor_medium': 6,
-    'item_armor_large': 8,
-    'item_armor_mega': 10,
-
-    'weapon_electro': 10,
-    'weapon_crylink': 10,
-    'weapon_vortex': 10,
-    'weapon_shotgun': 10,
-    'weapon_devastator': 10,
-    'weapon_grenadelauncher': 10,
-    'weapon_hagar': 10,
-    'weapon_arc': 10,
-    'weapon_machinegun': 10,
-
-    'item_shells': 6,
-    'item_bullets': 6,
-    'item_cells': 6,
-    'item_rockets': 6,
-
-    'item_flag_team1': 10,
-    'item_flag_team2': 10,
-    'item_flag_team3': 10,
-    'item_flag_team4': 10,
-
-    'info_player_deathmatch': 6,
-    'info_player_team1': 6,
-    'info_player_team2': 6,
-    'info_player_team3': 6,
-    'info_player_team4': 6,
+    'info_player_deathmatch': {
+        'symbol': u'\ue904',
+        'color': 'orange',
+        'size': 6,
+    },
+    'info_player_team1': {
+        'symbol': u'\ue904',
+        'color': '#FF0000',
+        'size': 6,
+    },
+    'info_player_team2': {
+        'symbol': u'\ue904',
+        'color': '#0080FF',
+        'size': 6,
+    },
+    'info_player_team3': {
+        'symbol': u'\ue904',
+        'color': 'pink',
+        'size': 6,
+    },
+    'info_player_team4': {
+        'symbol': u'\ue904',
+        'color': 'yellow',
+        'size': 6,
+    },
 }
