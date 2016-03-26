@@ -31,7 +31,7 @@ There are approximately 12,500 map packages currently in distribution amongst Xo
 
 The JSON structure for a map package is as follows:
 
-```
+```js
 {
   "data": [
     {

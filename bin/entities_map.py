@@ -26,7 +26,7 @@ def main():
 
     map_entities = parse_entity_file(entities_file)
 
-    entities_list = entities_dict.keys()
+    entities_list = entities_mapping.keys()
 
     props = entity_properties
     these = props.keys()
@@ -44,7 +44,7 @@ def main():
     for e in map_entities:
         if 'origin' in e:
             if e['classname'] in entities_list:
-                classname = entities_dict[e['classname']]
+                classname = entities_mapping[e['classname']]
                 origin = e['origin'].split()
                 origin.pop()
                 xy = tuple(origin)

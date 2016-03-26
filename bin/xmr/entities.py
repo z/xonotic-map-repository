@@ -25,7 +25,7 @@ def entities_to_json(entities, out_file):
     f.close()
 
 
-entities_dict = {
+entities_mapping = {
 
     # health / armor
     'item_armor_small': 'item_armor_small',
@@ -47,7 +47,7 @@ entities_dict = {
     'item_health_mega': 'item_health_mega',
     'item_health100': 'item_health_mega',
 
-    # powerups
+    # power-ups
     'item_strength': 'item_strength',
     'item_quad': 'item_strength',
     'item_invincible': 'item_invincible',

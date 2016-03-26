@@ -14,7 +14,7 @@ import time
 #from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
-from xmr.entities import entities_dict
+from xmr.entities import entities_mapping
 
 # Config
 extract_mapshots = True
@@ -33,7 +33,7 @@ packs_corrupt = []
 packs_other = []
 packs_maps = []
 
-entities_list = entities_dict.keys()
+entities_list = entities_mapping.keys()
 
 errors = False
 
@@ -241,7 +241,7 @@ def parse_entities_file(bsp, pk3, entities_file):
         f = open(entities_file)
         for line in iter(f):
             for entity in entities_list:
-                real_entity = entities_dict[entity]
+                real_entity = entities_mapping[entity]
                 if re.search(entity, line):
                     if 'entities' not in bsp:
                         bsp['entities'] = {}
