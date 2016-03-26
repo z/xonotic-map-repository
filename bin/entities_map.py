@@ -25,45 +25,15 @@ def main():
     entities_file = path_entities + bsp_name + '.ent'
     radar_image = path_radar + bsp_name + '_mini.png'
 
+    map_entities = parse_entity_file(entities_file)
+
     entities_list = entities_dict.keys()
 
-    entities = {
-        'item_health_small': [],
-        'item_health_medium': [],
-        'item_health_large': [],
-        'item_health_mega': [],
-
-        'item_armor_small': [],
-        'item_armor_medium': [],
-        'item_armor_large': [],
-        'item_armor_mega': [],
-
-        'weapon_electro': [],
-        'weapon_crylink': [],
-        'weapon_vortex': [],
-        'weapon_shotgun': [],
-        'weapon_devastator': [],
-        'weapon_grenadelauncher': [],
-        'weapon_hagar': [],
-        'weapon_arc': [],
-        'weapon_machinegun': [],
-
-        'item_flag_team1': [],
-        'item_flag_team2': [],
-        'item_flag_team3': [],
-        'item_flag_team4': [],
-
-        'item_shells': [],
-        'item_bullets': [],
-        'item_cells': [],
-        'item_rockets': [],
-
-        'info_player_deathmatch': [],
-        'info_player_team1': [],
-        'info_player_team2': [],
-        'info_player_team3': [],
-        'info_player_team4': [],
-    }
+    symbol = entity_symbol
+    color = entity_color
+    size = entity_size
+    these = symbol.keys()
+    entities = dict((k, []) for k in these)
 
     x0, x1, y0, y1 = get_map_boundaries(path_bsp + bsp_name + '/maps/' + bsp_name + '.bsp')
 
@@ -73,12 +43,6 @@ def main():
     fig, ax = plt.subplots()
     plt.figure(figsize=(6, 6), dpi=96)
     plt.axis('off')
-
-    map_entities = parse_entity_file(entities_file)
-
-    symbol = entity_symbol
-    color = entity_color
-    size = entity_size
 
     for e in map_entities:
         if 'origin' in e:
@@ -93,10 +57,10 @@ def main():
 
     plot_entities_list = entities.keys()
 
-    for entity_type in entities:
-        if entity_type in plot_entities_list:
-            if entities[entity_type]:
-                plot_it(entities[entity_type], symbol[entity_type], color[entity_type], int(size[entity_type]))
+    for classname in entities:
+        if classname in plot_entities_list:
+            if entities[classname]:
+                plot_it(entities[classname], symbol[classname], color[classname], int(size[classname]))
 
     # add image
     img = plt.imread(radar_image)

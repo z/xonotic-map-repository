@@ -140,6 +140,7 @@ entity_symbol = {
     'item_flag_team2': u'\ue91c',
     'item_flag_team3': u'\ue91c',
     'item_flag_team4': u'\ue91c',
+
     'info_player_deathmatch': u'\ue904',
     'info_player_team1': u'\ue904',
     'info_player_team2': u'\ue904',
