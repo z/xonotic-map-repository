@@ -9,8 +9,7 @@ import matplotlib.font_manager as font_manager
 import struct
 import sys
 import os
-from entities2json import *
-from entities import *
+from xmr.entities import *
 
 
 path_entities = 'resources/entities/'

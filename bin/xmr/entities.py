@@ -1,3 +1,30 @@
+import json
+import re
+from xmr.util import *
+
+
+def parse_entity_file(entities_file):
+
+    f = open(entities_file, 'r')
+    file_data = f.read()
+    f.close()
+
+    # Turn it into JSON
+    file_data = re.sub(r'(".*") (".*")', r'\1: \2,', file_data)
+    file_data = re.sub(r'(".*": ".*"),\n}', r'\1\n},', file_data)
+    file_data = replace_last(file_data, '},', '}')
+
+    entities = json.loads("[" + file_data + "]")
+
+    return entities
+
+
+def entities_to_json(entities, out_file):
+    f = open(out_file, 'w')
+    f.write(json.dumps(entities))
+    f.close()
+
+
 entities_dict = {
 
     # health / armor

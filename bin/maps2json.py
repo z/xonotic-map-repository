@@ -14,7 +14,7 @@ import time
 #from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
-from entities import entities_dict
+from xmr.entities import entities_dict
 
 # Config
 extract_mapshots = True
