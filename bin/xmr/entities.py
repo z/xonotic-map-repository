@@ -212,7 +212,7 @@ entity_properties = {
     },
     'weapon_hagar': {
         'symbol': u'\ue92a',
-        'color': '#FFA789',
+        'color': '#FFC37E',
         'size': 10,
     },
     'weapon_arc': {
@@ -238,12 +238,12 @@ entity_properties = {
     },
     'item_cells': {
         'symbol': u'\ue91e',
-        'color': '#E1B08D',
+        'color': '#B1FFFF',
         'size': 6,
     },
     'item_rockets': {
         'symbol': u'\ue921',
-        'color': '#B1FFFF',
+        'color': '#E1B08D',
         'size': 6,
     },
 
