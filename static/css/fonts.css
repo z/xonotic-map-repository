@@ -108,7 +108,7 @@ i {
 .icon-item_armor_small:before {
     content: "\e91b";
 }
-.icon-flag:before {
+.icon-flag:before, .icon-item_flag_team1:before, .icon-item_flag_team2:before, .icon-item_flag_team3:before, .icon-item_flag_team4:before, .icon-item_flag_neutral:before  {
     content: "\e91c";
 }
 .icon-item_bullets:before {

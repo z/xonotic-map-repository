@@ -285,12 +285,12 @@ entity_properties = {
     },
     'info_player_team3': {
         'symbol': u'\ue904',
-        'color': 'pink',
+        'color': '#FFFF0F',
         'size': 6,
     },
     'info_player_team4': {
         'symbol': u'\ue904',
-        'color': 'yellow',
+        'color': '#FF0FFF',
         'size': 6,
     },
 }

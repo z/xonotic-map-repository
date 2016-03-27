@@ -167,3 +167,18 @@ td em {
 .icon-item_bullets {
     color: #B1D887;
 }
+.icon-item_flag_team1 {
+    color: red;
+}
+.icon-item_flag_team2 {
+    color: #0080FF;
+}
+.icon-item_flag_team3 {
+    color: #FFFF0F;
+}
+.icon-item_flag_team4 {
+    color: #FF0FFF;
+}
+.icon-item_flag_neutral {
+    color: grey;
+}
