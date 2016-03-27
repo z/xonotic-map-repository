@@ -99,7 +99,7 @@ $(document).ready(function() {
                     if (Object.keys(row.bsp)) {
                         $.each(row.bsp, function (key, value) {
                             if (row.bsp[key]['mapshot']) {
-                                arr.push(row.bsp[key]['mapshot']);
+                                arr.push(row.bsp[key]['mapshot'].replace('.tga', '.jpg'));
                             }
                         });
                     }

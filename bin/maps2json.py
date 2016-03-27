@@ -175,6 +175,9 @@ def process_pk3(file):
                         data['bsp'][bspname]['mapshot'] = member
                         if extract_mapshots:
                             zip.extract(member, path_mapshots)
+                            mapshot_image = path_mapshots + member
+                            if member.endswith('.tga'):
+                                subprocess.call(['convert', mapshot_image, path_mapshots + 'maps/' + bsp + '.jpg'])
 
                     if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['radar'] = member
