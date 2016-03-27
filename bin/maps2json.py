@@ -15,6 +15,7 @@ import time
 from datetime import datetime
 from datetime import timedelta
 from xmr.entities import entities_mapping
+from xmr.gametypes import gametype_mapping
 
 # Config
 extract_mapshots = True
@@ -34,6 +35,7 @@ packs_other = []
 packs_maps = []
 
 entities_list = entities_mapping.keys()
+gametype_list = gametype_mapping.keys()
 
 errors = False
 
@@ -218,7 +220,9 @@ def process_pk3(file):
                                 data['bsp'][bspname]['description'] = line.partition(' ')[2]
 
                             elif re.search('^(type|gametype).*', line):
-                                gametypes.append(line.partition(' ')[2].partition(' ')[0])
+                                gametype = line.partition(' ')[2].partition(' ')[0]
+                                if gametype in gametype_list:
+                                    gametypes.append(gametype_mapping[gametype])
 
                         data['bsp'][bspname]['gametypes'].extend(gametypes)
                     
