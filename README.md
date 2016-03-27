@@ -9,6 +9,24 @@ Companion project, [xonotic-map-manager](https://github.com/z/xonotic-map-manage
 
 There are approximately 12,500 map packages currently in distribution amongst Xonotic servers. Some of these are ported from other games that support the bsp format, (Nexuiz, quake3, WoP, etc). Many of these packages could use some love, they are missing information that could help them integrate better with Xonotic, and help players identify them.
 
+### Requirements
+
+These files are written in Python 3 using the standard libraries, with the exception of "entities_map.py".
+
+See the requirements below.
+
+```
+[default]
+# requires imagemagick
+extract_mapshots = True
+
+# requires matplotlib and imagemagick
+extract_radars = False
+
+# Requires nothing
+parse_entities = True
+```
+
 ### What do these files do?
 
 **maps2json.py** - identifies map packages within a directory of pk3s, extrapolates data about the package and puts it into a JSON document.
