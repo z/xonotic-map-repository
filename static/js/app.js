@@ -84,7 +84,7 @@ $(document).ready(function() {
         ],
         "dom": "<'#table-controls'lfB>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row footer-bar navbar-inverse'<'col-sm-5 text-muted'i><'col-sm-7'p>>",
+                "<'row footer-bar navbar-inverse'<'col-sm-5 navbar-brand'i><'col-sm-7'p>>",
         "columns": [
             { "data": "pk3" },
             { "data": function ( row, type, val, meta ) {

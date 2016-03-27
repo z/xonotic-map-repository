@@ -34,12 +34,20 @@ div.dt-buttons {
 td em {
     color: #999;
 }
+#footer {
+    margin-bottom:60px;
+}
 .footer-bar {
     position: fixed;
     bottom: 0;
     padding: 5px 2px 0;
     z-index: 100000;
     width: 100%;
+}
+.footer-bar .navbar-brand {
+    margin:0;
+    padding:0 10px;
+    font-size: 14px;
 }
 
 .mapshot {
