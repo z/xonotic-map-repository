@@ -1,204 +1,204 @@
 @font-face {
-	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?1g2kgi');
-	src:url('fonts/icomoon.eot?1g2kgi#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.ttf?1g2kgi') format('truetype'),
-		url('fonts/icomoon.woff?1g2kgi') format('woff'),
-		url('fonts/icomoon.svg?1g2kgi#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'icomoon';
+    src:    url('fonts/icomoon.eot?sgn2n1');
+    src:    url('fonts/icomoon.eot?sgn2n1#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?sgn2n1') format('truetype'),
+        url('fonts/icomoon.woff?sgn2n1') format('woff'),
+        url('fonts/icomoon.svg?sgn2n1#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+i {
     /* use !important to prevent issues with browser extensions that change fonts */
-	font-family: 'icomoon' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-gametype_as:before {
-	content: "\e900";
+    content: "\e900";
 }
 .icon-gametype_ca:before {
-	content: "\e901";
+    content: "\e901";
 }
 .icon-gametype_ctf:before {
-	content: "\e902";
+    content: "\e902";
 }
 .icon-gametype_cts:before {
-	content: "\e903";
+    content: "\e903";
 }
 .icon-gametype_dm:before {
-	content: "\e904";
+    content: "\e904";
 }
 .icon-gametype_dom:before {
-	content: "\e905";
+    content: "\e905";
 }
 .icon-gametype_duel:before {
-	content: "\e906";
+    content: "\e906";
 }
 .icon-gametype_ft:before {
-	content: "\e907";
+    content: "\e907";
 }
 .icon-gametype_inf:before {
-	content: "\e908";
+    content: "\e908";
 }
 .icon-gametype_inv:before {
-	content: "\e909";
+    content: "\e909";
 }
 .icon-gametype_jb:before {
-	content: "\e90a";
+    content: "\e90a";
 }
 .icon-gametype_ka:before {
-	content: "\e90b";
+    content: "\e90b";
 }
 .icon-gametype_kh:before {
-	content: "\e90c";
+    content: "\e90c";
 }
 .icon-gametype_lms:before {
-	content: "\e90d";
+    content: "\e90d";
 }
 .icon-gametype_nb:before {
-	content: "\e90e";
+    content: "\e90e";
 }
 .icon-gametype_ons:before {
-	content: "\e90f";
+    content: "\e90f";
 }
 .icon-gametype_rc:before {
-	content: "\e910";
+    content: "\e910";
 }
 .icon-gametype_tdm:before {
-	content: "\e911";
+    content: "\e911";
 }
 .icon-gametype_vip:before {
-	content: "\e912";
-}
-.icon-item_health_mega:before {
-	content: "\e916";
-}
-.icon-item_jetpack:before {
-	content: "\e917";
-}
-.icon-item_armor_large:before {
-	content: "\e919";
-}
-.icon-flag:before {
-	content: "\e91c";
-}
-.icon-item_bullets:before {
-	content: "\e91d";
-}
-.icon-item_cells:before {
-	content: "\e91e";
-}
-.icon-item_fuel:before {
-	content: "\e91f";
-}
-.icon-item_plasma:before {
-	content: "\e920";
-}
-.icon-item_rockets:before {
-	content: "\e921";
-}
-.icon-item_shells:before {
-	content: "\e922";
-}
-.icon-item_supercells:before {
-	content: "\e923";
-}
-.icon-weapon_arc:before {
-	content: "\e924";
-}
-.icon-weapon_crylink:before {
-	content: "\e925";
-}
-.icon-weapon_electro:before {
-	content: "\e926";
-}
-.icon-weapon_fireball:before {
-	content: "\e927";
-}
-.icon-weapon_flak:before {
-	content: "\e928";
-}
-.icon-weapon_grenadelauncher:before {
-	content: "\e929";
-}
-.icon-weapon_hagar:before {
-	content: "\e92a";
-}
-.icon-weapon_hlac:before {
-	content: "\e92b";
-}
-.icon-weapon_hmg:before {
-	content: "\e92c";
-}
-.icon-weapon_hook:before {
-	content: "\e92d";
-}
-.icon-weapon_blaster:before {
-	content: "\e92e";
-}
-.icon-weapon_minelayer:before {
-	content: "\e92f";
-}
-.icon-weapon_vaporizer:before {
-	content: "\e930";
-}
-.icon-weapon_vortex:before {
-	content: "\e931";
-}
-.icon-weapon_porto:before {
-	content: "\e932";
-}
-.icon-weapon_rifle:before {
-	content: "\e933";
-}
-.icon-weapon_devastator:before {
-	content: "\e934";
-}
-.icon-weapon_rpc:before {
-	content: "\e935";
-}
-.icon-weapon_seeker:before {
-	content: "\e936";
-}
-.icon-weapon_shockwave:before {
-	content: "\e937";
-}
-.icon-weapon_shotgun:before {
-	content: "\e938";
-}
-.icon-weapon_tuba:before {
-	content: "\e939";
-}
-.icon-weapon_machinegun:before {
-	content: "\e93a";
+    content: "\e912";
 }
 .icon-item_health_small:before {
-	content: "\e913";
+    content: "\e913";
 }
 .icon-item_health_medium:before {
-	content: "\e914";
+    content: "\e914";
 }
 .icon-item_health_large:before {
-	content: "\e915";
+    content: "\e915";
+}
+.icon-item_health_mega:before {
+    content: "\e916";
+}
+.icon-item_jetpack:before {
+    content: "\e917";
 }
 .icon-item_armor_big:before {
-	content: "\e918";
+    content: "\e918";
+}
+.icon-item_armor_large:before {
+    content: "\e919";
 }
 .icon-item_armor_medium:before {
-	content: "\e91a";
+    content: "\e91a";
 }
 .icon-item_armor_small:before {
-	content: "\e91b";
+    content: "\e91b";
+}
+.icon-flag:before {
+    content: "\e91c";
+}
+.icon-item_bullets:before {
+    content: "\e91d";
+}
+.icon-item_cells:before {
+    content: "\e91e";
+}
+.icon-item_fuel:before {
+    content: "\e91f";
+}
+.icon-item_plasma:before {
+    content: "\e920";
+}
+.icon-item_rockets:before {
+    content: "\e921";
+}
+.icon-item_shells:before {
+    content: "\e922";
+}
+.icon-item_supercells:before {
+    content: "\e923";
+}
+.icon-weapon_arc:before {
+    content: "\e924";
+}
+.icon-weapon_crylink:before {
+    content: "\e925";
+}
+.icon-weapon_electro:before {
+    content: "\e926";
+}
+.icon-weapon_fireball:before {
+    content: "\e927";
+}
+.icon-weapon_flak:before {
+    content: "\e928";
+}
+.icon-weapon_grenadelauncher:before {
+    content: "\e929";
+}
+.icon-weapon_hagar:before {
+    content: "\e92a";
+}
+.icon-weapon_hlac:before {
+    content: "\e92b";
+}
+.icon-weapon_hmg:before {
+    content: "\e92c";
+}
+.icon-weapon_hook:before {
+    content: "\e92d";
+}
+.icon-weapon_blaster:before {
+    content: "\e92e";
+}
+.icon-weapon_minelayer:before {
+    content: "\e92f";
+}
+.icon-weapon_vaporizer:before {
+    content: "\e930";
+}
+.icon-weapon_vortex:before {
+    content: "\e931";
+}
+.icon-weapon_porto:before {
+    content: "\e932";
+}
+.icon-weapon_rifle:before {
+    content: "\e933";
+}
+.icon-weapon_devastator:before {
+    content: "\e934";
+}
+.icon-weapon_rpc:before {
+    content: "\e935";
+}
+.icon-weapon_seeker:before {
+    content: "\e936";
+}
+.icon-weapon_shockwave:before {
+    content: "\e937";
+}
+.icon-weapon_shotgun:before {
+    content: "\e938";
+}
+.icon-weapon_tuba:before {
+    content: "\e939";
+}
+.icon-weapon_machinegun:before {
+    content: "\e93a";
 }
 
