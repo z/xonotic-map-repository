@@ -14,13 +14,12 @@ import time
 #from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
+from xmr.util import *
 from xmr.entities import entities_mapping
 from xmr.gametypes import gametype_mapping
 
 # Config
-extract_mapshots = True
-extract_radars = True
-parse_entities = True
+config = read_config('config/config.ini')
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 resources_dir = root_dir + '/resources/'
@@ -138,7 +137,7 @@ def process_pk3(file):
         if len(bsps):
 
             # If this option is on, attempt to extract enitity info
-            if parse_entities:
+            if config['parse_entities'] == 'True':
 
                 for bsp in bsps:
 
@@ -163,7 +162,7 @@ def process_pk3(file):
                     rbsp = re.escape(bsp)
 
                     if re.search('^maps/' + rbsp + '\.ent', member):
-                        if parse_entities:
+                        if config['parse_entities'] == 'True':
                             zip.extract(member, resources_dir + 'entities/' + bspname)
 
                             entities_file = resources_dir + 'entities/' + bspname + '/' + member
@@ -173,7 +172,7 @@ def process_pk3(file):
 
                     if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['mapshot'] = member
-                        if extract_mapshots:
+                        if config['extract_mapshots'] == 'True':
                             zip.extract(member, path_mapshots)
                             mapshot_image = path_mapshots + member
                             if member.endswith('.tga'):
@@ -181,7 +180,7 @@ def process_pk3(file):
 
                     if re.search('^gfx/' + rbsp + '_(radar|mini)\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['radar'] = member
-                        if extract_radars:
+                        if config['extract_radars'] == 'True':
                             zip.extract(member, path_radars)
                             radar_image = path_radars + member
                             subprocess.call(['convert', radar_image, '-depth', '8', '-trim', 'PNG24:' + path_radars + 'gfx/' + bsp + '_mini.png'])
