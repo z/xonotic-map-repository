@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var cacheExpiration = 300000;
+
     // Define Themes
     var themes = {
         "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
@@ -47,7 +49,31 @@ $(document).ready(function() {
     } );
 
     var table = $('#table-maplist').DataTable( {
-        "ajax": "./resources/data/maps.json",
+        "ajax": function (data, callback, settings) {
+
+          var curTime = new Date().getTime();
+
+          if (!store.get('expiration') || curTime > store.get('expiration') ) {
+
+            $.ajax({
+              url: './resources/data/maps.json',
+              type: 'GET',
+              contentType: 'application/json'
+            }).success(function (response) {
+              var data = response;
+              store.set('expiration', new Date().getTime() + cacheExpiration);
+              store.set('tableData', data);
+              callback(data);
+            });
+
+          } else {
+
+            var data = store.get('tableData');
+            callback(data);
+
+          }
+
+        },
         "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
         "pageLength": 50,
         "order": [[15, 'desc']],
@@ -307,7 +333,8 @@ $(document).ready(function() {
             {   // mapshot file
                 "targets": 5,
                 "render": function ( data, type, full, meta ) {
-                    var loadImages = (table.column( 5 ).visible() === true ? true : false)
+                    var api = $('#table-maplist').DataTable();
+                    var loadImages = (api.column( 5 ).visible() === true ? true : false);
                     var string = "___no_mapshot___";
                     if (data.length > 0) {
                         string = "";
