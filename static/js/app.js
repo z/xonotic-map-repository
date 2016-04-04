@@ -53,7 +53,7 @@ $(document).ready(function() {
 
           var curTime = new Date().getTime();
 
-          if (!store.get('expiration') || curTime > store.get('expiration') ) {
+          if (!store.enabled || !store.get('expiration') || curTime > store.get('expiration') ) {
 
             $.ajax({
               url: './resources/data/maps.json',
@@ -61,14 +61,16 @@ $(document).ready(function() {
               contentType: 'application/json'
             }).success(function (response) {
               var data = response;
+              var string = JSON.stringify(data);
+              var compressed = LZString.compress(string);
               store.set('expiration', new Date().getTime() + cacheExpiration);
-              store.set('tableData', data);
+              store.set('tableData', compressed);
               callback(data);
             });
 
           } else {
 
-            var data = store.get('tableData');
+            var data = JSON.parse(LZString.decompress(store.get('tableData')));
             callback(data);
 
           }
