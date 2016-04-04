@@ -31,24 +31,6 @@ $(document).ready(function () {
    * Data Tables
    */
 
-  // Setup - add a text input to filtesearch footers
-  $('#table-maplist tfoot th.filtersearch').each(function () {
-    var title = $(this).text();
-    $(this).html('<input type="text" placeholder="filter ' + title + '" class="form-control input-sm" />');
-  });
-
-  // Setup - add a dropdown to dropdownsearch footers
-  $('#table-maplist tfoot th.dropdownsearch').each(function () {
-    var title = $(this).text();
-    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>');
-  });
-
-  // Setup - add a dropdown to dropdownsearch footers
-  $('#table-maplist tfoot th.dropdownsearch-mapshot').each(function () {
-    var title = $(this).text();
-    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="maps/">' + title + '</option><option value="___no_mapshot___">no ' + title + '</option></select>');
-  });
-
   var table = $('#table-maplist').DataTable({
     "ajax": function (data, callback, settings) {
 
@@ -471,6 +453,28 @@ $(document).ready(function () {
     } else {
       $('#search-clear').removeClass('hidden');
     }
+  });
+
+  // Setup - add a text input to filtesearch footers
+  $('#table-maplist tfoot th.filtersearch').each(function () {
+    var title = $(this).text();
+    $(this).html('<input type="text" placeholder="filter ' + title + '" class="form-control input-sm" />');
+  });
+
+  // Setup - add a dropdown to dropdownsearch footers
+  $('#table-maplist tfoot th.dropdownsearch').each(function () {
+    var title = $(this).text();
+    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="yes">' + title + '</option><option value="no">no ' + title + '</option></select>');
+  });
+
+  // Setup - add a dropdown to dropdownsearch footers
+  $('#table-maplist tfoot th.dropdownsearch-mapshot').each(function () {
+    var title = $(this).text();
+    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="maps/">' + title + '</option><option value="___no_mapshot___">no ' + title + '</option></select>');
+  });
+
+  $('#table-maplist').on('page.dt', function() {
+      $(document).scrollTop(0);
   });
 
   // To be shown by initComplete
