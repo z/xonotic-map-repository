@@ -1,6 +1,12 @@
+jQuery.fn.dataTable.Api.register( 'processing()', function ( show ) {
+    return this.iterator( 'table', function ( ctx ) {
+        ctx.oApi._fnProcessingDisplay( ctx, show );
+    } );
+} );
+
 $(document).ready(function () {
 
-  var preloadCount = 50;
+  var preloadCount = 5000;
   var useCache = false;
   var cacheExpiration = 30000000;
 
@@ -524,6 +530,8 @@ $(document).ready(function () {
 
   });
 
+  table.processing( true );
+
   // Lazy load tabledata
   var count = 0;
   oboe('./resources/data/maps.json')
@@ -538,12 +546,13 @@ $(document).ready(function () {
       table.row.add(mapObject);
       count++;
 
-      console.log( 'bsp: ', mapObject.bsp);
+      //console.log( 'bsp: ', mapObject.bsp);
     })
     .done(function(maps) {
 
       table.draw();
-      console.log(maps.data.length);
+      table.processing( false );
+      //console.log(maps.data.length);
     });
 
   /*
