@@ -1,9 +1,3 @@
-jQuery.fn.dataTable.Api.register( 'processing()', function ( show ) {
-    return this.iterator( 'table', function ( ctx ) {
-        ctx.oApi._fnProcessingDisplay( ctx, show );
-    } );
-} );
-
 $(document).ready(function () {
 
   var preloadCount = 5000;
@@ -530,10 +524,6 @@ $(document).ready(function () {
 
   });
 
-  table.processing( true );
-
-
-  var JSONdata;
   var curTime = new Date().getTime();
 
   if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
@@ -564,7 +554,7 @@ $(document).ready(function () {
         }
 
         table.draw();
-        table.processing(false);
+
       });
 
   } else {
@@ -573,6 +563,8 @@ $(document).ready(function () {
     table.rows.add(data.data).draw();
 
   }
+
+  $('#apology').fadeOut();
 
   /*
    * Charts
