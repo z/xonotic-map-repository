@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  var preloadCount = 5000;
+  var preloadCount = 1000;
   var useCache = true;
   var cacheExpiration = 30000000;
 
@@ -524,47 +524,57 @@ $(document).ready(function () {
 
   });
 
-  var curTime = new Date().getTime();
+  //HTML5 Web Workers
+  var worker = new Worker('static/js/worker.js');
 
-  if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
-
-    // Lazy load tabledata
-    var count = 0;
-    oboe('./resources/data/maps.json')
-      .node('data.*', function( mapObject ) {
-
-        if (count == preloadCount) {
-          table.draw();
-        }
-
-        // This callback will be called everytime a new object is
-        // found in the foods array.
-        table.row.add(mapObject);
-        count++;
-
-        //console.log( 'bsp: ', mapObject.bsp);
-      })
-      .done(function(mapData) {
-
-        if (useCache) {
-          var string = JSON.stringify(mapData);
-          var compressed = LZString.compress(string);
-          store.set('expiration', new Date().getTime() + cacheExpiration);
-          store.set('tableData', compressed);
-        }
-
-        table.draw();
-        $('#apology').fadeOut();
-
-      });
-
-  } else {
-
-    var data = JSON.parse(LZString.decompress(store.get('tableData')));
-    table.rows.add(data.data).draw();
+  worker.addEventListener('message', function(e) {
+    //console.log(e.data);
+    table.rows.add(e.data.data).draw();
     $('#apology').fadeOut();
+  }, false);
 
-  }
+  worker.postMessage('../../resources/data/maps.json');
+
+  // var curTime = new Date().getTime();
+  //
+  // if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
+  //
+  //   // Lazy load tabledata
+  //   var count = 0;
+  //   oboe('./resources/data/maps.json')
+  //     .node('data.*', function( mapObject ) {
+  //
+  //       if (count % preloadCount == 0) {
+  //         setTimeout(function () {
+  //           table.draw('page');
+  //         }, 25);
+  //       }
+  //
+  //       table.row.add(mapObject);
+  //       count++;
+  //
+  //     })
+  //     .done(function(mapData) {
+  //
+  //       if (useCache) {
+  //         var string = JSON.stringify(mapData);
+  //         var compressed = LZString.compress(string);
+  //         store.set('expiration', new Date().getTime() + cacheExpiration);
+  //         store.set('tableData', compressed);
+  //       }
+  //
+  //       table.draw(false);
+  //       $('#apology').fadeOut();
+  //
+  //     });
+  //
+  // } else {
+  //
+  //   var data = JSON.parse(LZString.decompress(store.get('tableData')));
+  //   table.rows.add(data.data).draw();
+  //   $('#apology').fadeOut();
+  //
+  // }
 
   /*
    * Charts
