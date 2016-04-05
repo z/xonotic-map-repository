@@ -554,6 +554,7 @@ $(document).ready(function () {
         }
 
         table.draw();
+        $('#apology').fadeOut();
 
       });
 
@@ -561,10 +562,9 @@ $(document).ready(function () {
 
     var data = JSON.parse(LZString.decompress(store.get('tableData')));
     table.rows.add(data.data).draw();
+    $('#apology').fadeOut();
 
   }
-
-  $('#apology').fadeOut();
 
   /*
    * Charts
