@@ -7,7 +7,7 @@ jQuery.fn.dataTable.Api.register( 'processing()', function ( show ) {
 $(document).ready(function () {
 
   var preloadCount = 5000;
-  var useCache = false;
+  var useCache = true;
   var cacheExpiration = 30000000;
 
   // Define Themes
@@ -532,28 +532,47 @@ $(document).ready(function () {
 
   table.processing( true );
 
-  // Lazy load tabledata
-  var count = 0;
-  oboe('./resources/data/maps.json')
-    .node('data.*', function( mapObject ) {
 
-      if (count == preloadCount) {
+  var JSONdata;
+  var curTime = new Date().getTime();
+
+  if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
+
+    // Lazy load tabledata
+    var count = 0;
+    oboe('./resources/data/maps.json')
+      .node('data.*', function( mapObject ) {
+
+        if (count == preloadCount) {
+          table.draw();
+        }
+
+        // This callback will be called everytime a new object is
+        // found in the foods array.
+        table.row.add(mapObject);
+        count++;
+
+        //console.log( 'bsp: ', mapObject.bsp);
+      })
+      .done(function(mapData) {
+
+        if (useCache) {
+          var string = JSON.stringify(mapData);
+          var compressed = LZString.compress(string);
+          store.set('expiration', new Date().getTime() + cacheExpiration);
+          store.set('tableData', compressed);
+        }
+
         table.draw();
-      }
+        table.processing(false);
+      });
 
-      // This callback will be called everytime a new object is
-      // found in the foods array.
-      table.row.add(mapObject);
-      count++;
+  } else {
 
-      //console.log( 'bsp: ', mapObject.bsp);
-    })
-    .done(function(maps) {
+    var data = JSON.parse(LZString.decompress(store.get('tableData')));
+    table.rows.add(data.data).draw();
 
-      table.draw();
-      table.processing( false );
-      //console.log(maps.data.length);
-    });
+  }
 
   /*
    * Charts
