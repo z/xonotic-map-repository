@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-  var useCache = true;
+  var preloadCount = 50;
+  var useCache = false;
   var cacheExpiration = 30000000;
 
   // Define Themes
@@ -32,35 +33,36 @@ $(document).ready(function () {
    */
 
   var table = $('#table-maplist').DataTable({
-    "ajax": function (data, callback, settings) {
-
-      var curTime = new Date().getTime();
-
-      if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
-
-        $.ajax({
-          url: './resources/data/maps.json',
-          type: 'GET',
-          contentType: 'application/json'
-        }).success(function (response) {
-          var data = response;
-          if (useCache) {
-            var string = JSON.stringify(data);
-            var compressed = LZString.compress(string);
-            store.set('expiration', new Date().getTime() + cacheExpiration);
-            store.set('tableData', compressed);
-          }
-          callback(data);
-        });
-
-      } else {
-
-        var data = JSON.parse(LZString.decompress(store.get('tableData')));
-        callback(data);
-
-      }
-
-    },
+    // "ajax": function (data, callback, settings) {
+    //
+    //   var curTime = new Date().getTime();
+    //
+    //   if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
+    //
+    //     $.ajax({
+    //       url: './resources/data/maps.json',
+    //       type: 'GET',
+    //       contentType: 'application/json'
+    //     }).success(function (response) {
+    //       var data = response;
+    //       if (useCache) {
+    //         var string = JSON.stringify(data);
+    //         var compressed = LZString.compress(string);
+    //         store.set('expiration', new Date().getTime() + cacheExpiration);
+    //         store.set('tableData', compressed);
+    //       }
+    //       callback(data);
+    //     });
+    //
+    //   } else {
+    //
+    //     var data = JSON.parse(LZString.decompress(store.get('tableData')));
+    //     callback(data);
+    //
+    //   }
+    //
+    // },
+    "data": {},
     "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
     "pageLength": 50,
     "order": [[15, 'desc']],
@@ -521,6 +523,28 @@ $(document).ready(function () {
     });
 
   });
+
+  // Lazy load tabledata
+  var count = 0;
+  oboe('./resources/data/maps.json')
+    .node('data.*', function( mapObject ) {
+
+      if (count == preloadCount) {
+        table.draw();
+      }
+
+      // This callback will be called everytime a new object is
+      // found in the foods array.
+      table.row.add(mapObject);
+      count++;
+
+      console.log( 'bsp: ', mapObject.bsp);
+    })
+    .done(function(maps) {
+
+      table.draw();
+      console.log(maps.data.length);
+    });
 
   /*
    * Charts
