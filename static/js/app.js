@@ -84,9 +84,7 @@ $(document).ready(function () {
         "data": "pk3"
       },
       { // bsp
-        "data": function (row, type, val, meta) {
-          return (row.bsp) ? Object.keys(row.bsp).join("<br>") : "";
-        }
+        "data": "bsp"
       },
       { // filesize
         "data": "filesize"
@@ -297,12 +295,13 @@ $(document).ready(function () {
       { // bsp
         "targets": 1,
         "render": function (data, type, full, meta) {
-          if (data != false && data.length > 0) {
-            if (data.length > 40 && data.indexOf('<br>') == -1) {
-              data = '<span data-toggle="tooltip" title="' + data + '">' + data.substr(0, 38) + '...</span>';
+          if (data) {
+            var bsps = Object.keys(data).join("<br>");
+            if (bsps.length > 40 && bsps.indexOf('<br>') == -1) {
+              bsps = '<span data-toggle="tooltip" title="' + bsps + '">' + bsps.substr(0, 38) + '...</span>';
             }
           }
-          return data;
+          return bsps;
         }
       },
       { // filesize
@@ -562,12 +561,6 @@ $(document).ready(function () {
 
     response.then(function(data) {
 
-      // var preload = data.splice(0, preloadCount);
-      // var maps = data;
-      //
-      // table.rows.add(preload).draw();
-      // table.rows.add(maps).draw();
-
       table.rows.add(data).draw();
 
       $('#apology').fadeOut();
@@ -576,40 +569,6 @@ $(document).ready(function () {
       worker.close();
 
     });
-
-
-    // var workerDecompress = new Worker('static/js/worker-decompress.js');
-    //
-    // workerDecompress.addEventListener('message', function(e) {
-    //   console.log('done decompressing');
-    //   console.log(e.data);
-    // }, false);
-    //
-    // workerDecompress.postMessage('test');
-    
-    // Object.defineProperty(Array.prototype, 'chunk', {value: function(n) {
-    //     return Array.from(Array(Math.ceil(this.length/n)), (_,i)=>this.slice(i*n,i*n+n));
-    // }});
-    //
-    // var chunks = data.chunk(100);
-    //
-    // function drawIt(value) {
-    //   table.rows.add(value).draw(false);
-    //   console.log('adding');
-    // }
-    //
-    // $.each(chunks, function(index, value) {
-    //   drawIt(value);
-    //   setTimeout(function() {
-    //     console.log('waiting');
-    //   }, 4000);
-    // });
-    //
-    // setTimeout(function() {
-    //   console.log('drawing');
-    //   table.draw();
-    //   $('#apology').fadeOut();
-    // }, 1000);
 
   }
 
