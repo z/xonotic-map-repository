@@ -27,8 +27,14 @@ $(document).ready(function () {
 
   var userTheme = $.cookie('theme');
   //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
+  
+  $.get('./resources/data/jokes.json', function(data) {
+    var jokes = data.jokes;
+    var random = jokes[Math.floor(Math.random()*jokes.length)].joke;
+    $('#joke p').text(JSON.stringify(random));
+  });
 
-  $('body').append('<div class="modal-backdrop" style="opacity:0.2;z-index:1030">');
+  $('body').append('<div class="modal-backdrop" style="opacity:0.8;z-index:1030">');
 
   /*
    * Tables

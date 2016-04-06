@@ -55,7 +55,7 @@ td em {
     position: fixed;
     bottom: 0;
     padding: 5px 2px 0;
-    z-index: 100000;
+    z-index: 1010;
     width: 100%;
 }
 
@@ -107,7 +107,7 @@ td em {
 /* credit for tetrominos: http://codepen.io/imathis/pen/ZYEWrw */
 .tetrominos {
     position: absolute;
-    bottom: 35%;
+    bottom: 40%;
     left: 50%;
     transform: translate(-112px, -96px);
 }
@@ -192,7 +192,7 @@ td em {
 #apology {
     overflow: hidden;
     position: absolute;
-    height: 290px;
+    height: 400px;
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -200,6 +200,13 @@ td em {
     border: 2px solid #eee;
     padding: 15px;
     z-index: 1050;
+}
+#apology h3 {
+    text-align: center;
+}
+#joke {
+    position: absolute;
+    bottom: 5px;
 }
 
 .icon {
