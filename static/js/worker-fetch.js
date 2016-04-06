@@ -7,7 +7,7 @@ self.addEventListener('message', function (e) {
   oboe(e.data)
     .node('data.*', function( mapObject ) {
 
-      if (count <= 1000) {
+      if (count <= 2500) {
         self.postMessage(mapObject);
         count++;
       }

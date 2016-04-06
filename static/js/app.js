@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  var preloadCount = 1000;
+  var preloadCount = 2500;
   var useCache = true;
   var cacheExpiration = 30000000;
 
@@ -519,7 +519,7 @@ $(document).ready(function () {
     workerFetch.addEventListener('message', function(e) {
 
       if (e.data.hasOwnProperty('data') && useCache) {
-        
+
         var mapData = e.data.data;
         mapData.splice(0, preloadCount);
 
