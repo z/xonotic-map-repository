@@ -28,6 +28,7 @@ $(document).ready(function () {
   var userTheme = $.cookie('theme');
   //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
 
+  $('body').append('<div class="modal-backdrop" style="opacity:0.2;z-index:1030">');
 
   /*
    * Tables
@@ -509,6 +510,7 @@ $(document).ready(function () {
       }
       
       $('#apology').fadeOut();
+      $('.modal-backdrop').remove();
       
     }, false);
 
@@ -538,6 +540,7 @@ $(document).ready(function () {
       table.rows.add(data).draw();
 
       $('#apology').fadeOut();
+      $('.modal-backdrop').remove();
 
       worker.close();
 

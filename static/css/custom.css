@@ -1,42 +1,56 @@
-.container { width: auto; }
-.dataTables_processing {
-    width:300px !important;
-    padding:1em !important;
+.container {
+    width: auto;
 }
+
+.dataTables_processing {
+    width: 300px !important;
+    padding: 1em !important;
+}
+
 .icon b {
     display: none;
 }
+
 .popover {
-    max-width:600px;
+    max-width: 600px;
 }
+
 .popover img {
-    max-width:580px;
+    max-width: 580px;
 }
+
 .dataTables_wrapper .col-sm-12, .dataTables_wrapper .col-sm-6, .no-padding {
     padding: 0 !important;
 }
+
 #table-controls {
-    display:none;
+    display: none;
 }
+
 #nav-table-controls, #theme-switcher-wrapper {
-    margin-right:10px;
+    margin-right: 10px;
 }
+
 #table-maplist_length, #table-maplist_filter, #theme-switcher-wrapper {
     margin-left: 10px;
 }
+
 table.dataTable {
     margin-top: -9px !important
 }
 
 div.dt-buttons {
-    width:auto !important;
+    width: auto !important;
 }
+
 td em {
     color: #999;
 }
+
 #footer {
-    margin-bottom:60px;
+    margin-bottom: 60px;
 }
+
 .footer-bar {
     position: fixed;
     bottom: 0;
@@ -44,9 +58,10 @@ td em {
     z-index: 100000;
     width: 100%;
 }
+
 .footer-bar .navbar-brand {
-    margin:0;
-    padding:0 10px;
+    margin: 0;
+    padding: 0 10px;
     font-size: 14px;
 }
 
@@ -72,8 +87,9 @@ td em {
     transition-timing-function: ease-in;
     z-index: 1010;
 }
+
 .mapshot-link span {
-    display:none;
+    display: none;
 }
 
 #search-clear {
@@ -83,84 +99,107 @@ td em {
     cursor: pointer;
     color: #aaa;
 }
+
 #search-clear:hover {
-    color:#555;
+    color: #555;
 }
 
-.loader {
-  font-size: 10px;
-  margin: 20px auto 30px;
-  text-indent: -9999em;
-  width: 11em;
-  height: 11em;
-  border-radius: 50%;
-  background: #818181;
-  background: -moz-linear-gradient(left, #818181 10%, rgba(129,129,129, 0) 42%);
-  background: -webkit-linear-gradient(left, #818181 10%, rgba(129,129,129, 0) 42%);
-  background: -o-linear-gradient(left, #818181 10%, rgba(129,129,129, 0) 42%);
-  background: -ms-linear-gradient(left, #818181 10%, rgba(129,129,129, 0) 42%);
-  background: linear-gradient(to right, #818181 10%, rgba(129,129,129, 0) 42%);
-  position: relative;
-  -webkit-animation: load3 1.4s infinite linear;
-  animation: load3 1.4s infinite linear;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
+/* credit for tetrominos: http://codepen.io/imathis/pen/ZYEWrw */
+.tetrominos {
+    position: absolute;
+    bottom: 35%;
+    left: 50%;
+    transform: translate(-112px, -96px);
 }
-.loader:before {
-  width: 50%;
-  height: 50%;
-  background: #818181;
-  border-radius: 100% 0 0 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '';
+
+.tetromino {
+    width: 96px;
+    height: 112px;
+    position: absolute;
+    transition: all ease .3s;
+    background: url('data:image/svg+xml;utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 684"%3E%3Cpath fill="%23010101" d="M305.7 0L0 170.9v342.3L305.7 684 612 513.2V170.9L305.7 0z"/%3E%3Cpath fill="%23fff" d="M305.7 80.1l-233.6 131 233.6 131 234.2-131-234.2-131"/%3E%3C/svg%3E') no-repeat top center;
 }
-.loader:after {
-  background: #fff;
-  width: 75%;
-  height: 75%;
-  border-radius: 50%;
-  content: '';
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+
+.box1 {
+    animation: tetromino1 1.5s ease-out infinite;
 }
-@-webkit-keyframes load3 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+
+.box2 {
+    animation: tetromino2 1.5s ease-out infinite;
 }
-@keyframes load3 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+
+.box3 {
+    animation: tetromino3 1.5s ease-out infinite;
+    z-index: 2;
+}
+
+.box4 {
+    animation: tetromino4 1.5s ease-out infinite;
+}
+
+@keyframes tetromino1 {
+    0%, 40% {
+        /* compose logo *//* 1 on 3 *//* L-shape */
+        transform: translate(0, 0);
+    }
+    50% {
+        /* pre-box */
+        transform: translate(48px, -27px);
+    }
+    60%, 100% {
+        /* box *//* compose logo */
+        transform: translate(96px, 0);
+    }
+}
+
+@keyframes tetromino2 {
+    0%, 20% {
+        /* compose logo *//* 1 on 3 */
+        transform: translate(96px, 0px);
+    }
+    40%, 100% {
+        /* L-shape *//* box *//* compose logo */
+        transform: translate(144px, 27px);
+    }
+}
+
+@keyframes tetromino3 {
+    0% {
+        /* compose logo */
+        transform: translate(144px, 27px);
+    }
+    20%, 60% {
+        /* 1 on 3 *//* L-shape *//* box */
+        transform: translate(96px, 54px);
+    }
+    90%, 100% {
+        /* compose logo */
+        transform: translate(48px, 27px);
+    }
+}
+
+@keyframes tetromino4 {
+    0%, 60% {
+        /* compose logo *//* 1 on 3 *//* L-shape *//* box */
+        transform: translate(48px, 27px);
+    }
+    90%, 100% {
+        /* compose logo */
+        transform: translate(0, 0);
+    }
 }
 
 #apology {
     overflow: hidden;
     position: absolute;
+    height: 290px;
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color:#fff;
+    background-color: #fff;
     border: 2px solid #eee;
-    padding:15px;
-    z-index: 1000;
+    padding: 15px;
+    z-index: 1050;
 }
 
 .icon {
@@ -171,105 +210,139 @@ td em {
 .icon-weapon_arc {
     color: #C3EEFF;
 }
+
 .icon-weapon_blaster {
     color: #963043;
 }
+
 .icon-weapon_crylink {
     color: #F580F7;
 }
+
 .icon-weapon_devastator {
     color: #ECD262;
 }
+
 .icon-weapon_electro {
     color: #69A0E7;
 }
+
 .icon-weapon_fireball {
     color: #FFB27D;
 }
+
 .icon-weapon_flak {
     color: #FFF371;
 }
+
 .icon-weapon_grenadelauncher {
     color: #FFA789;
 }
+
 .icon-weapon_hagar {
     color: #FFC37E;
 }
+
 .icon-weapon_hlac {
     color: #FFE287;
 }
+
 .icon-weapon_hmg {
     color: #FFA788
 }
+
 .icon-weapon_hook {
     color: #417D2F;
 }
+
 .icon-weapon_machinegun {
     color: #8CE54A;
 }
+
 .icon-weapon_minelayer {
     color: #AD2D29;
 }
+
 .icon-weapon_porto {
     color: #9FE1FF;
 }
+
 .icon-weapon_rifle {
     color: #FFBF7C;
 }
+
 .icon-weapon_rpc {
     color: #FFFF82;
 }
+
 .icon-weapon_seeker {
     color: #FF949D;
 }
+
 .icon-weapon_shockwave {
     color: #B0FFD0;
 }
+
 .icon-weapon_shotgun {
     color: #95AFBE;
 }
+
 .icon-weapon_tuba {
     color: #E5CF5D;
 }
+
 .icon-weapon_vaporizer {
     color: #ACA0E9;
 }
+
 .icon-weapon_vortex {
     color: #73BACA;
 }
+
 .icon-item_health_mega, .icon-item_health_large, .icon-item_health_medium, .icon-item_health_small {
     color: #D85F4E;
 }
+
 .icon-item_armor_big, .icon-item_armor_large, .icon-item_armor_medium, .icon-item_armor_small {
     color: #4B9B25;
 }
+
 .icon-item_shells {
     color: #BECBD3;
 }
+
 .icon-item_rockets {
     color: #E1B08D;
 }
+
 .icon-item_plasma {
     color: #CE9DD4;
 }
+
 .icon-item_cells {
     color: #B1FFFF;
 }
+
 .icon-item_bullets {
     color: #B1D887;
 }
+
 .icon-item_flag_team1 {
     color: red;
 }
+
 .icon-item_flag_team2 {
     color: #0080FF;
 }
+
 .icon-item_flag_team3 {
     color: #FFFF0F;
 }
+
 .icon-item_flag_team4 {
     color: #FF0FFF;
 }
+
 .icon-item_flag_neutral {
     color: grey;
 }
