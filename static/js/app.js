@@ -28,7 +28,7 @@ $(document).ready(function () {
   var userTheme = $.cookie('theme');
   //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
 
-  
+
   /*
    * Tables
    */
@@ -427,6 +427,9 @@ $(document).ready(function () {
     },
     "drawCallback": function (settings) {
       $("#table-controls").show();
+      $(".mapshot").load(function(e){
+          $(".mapshot").hide().fadeIn();
+      });
     }
   });
 
@@ -485,7 +488,6 @@ $(document).ready(function () {
 
   });
 
-
   var curTime = new Date().getTime();
   var userAgent = navigator.userAgent.toLowerCase();
 
@@ -540,7 +542,8 @@ $(document).ready(function () {
       worker.close();
 
     });
-    
+
+
     // var workerDecompress = new Worker('static/js/worker-decompress.js');
     //
     // workerDecompress.addEventListener('message', function(e) {
