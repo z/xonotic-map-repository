@@ -502,7 +502,6 @@ $(document).ready(function () {
   if ( !useCache || store.isFake() || !store.get('expiration') || curTime > store.get('expiration') || /firefox/.test(userAgent) ) {
 
     var count = 0;
-    //var mapData = [];
     var preloadMaps = [];
     var worker = new Worker('static/js/worker-fetch.js');
 
@@ -511,15 +510,20 @@ $(document).ready(function () {
       if (e.data.hasOwnProperty('data') && useCache) {
         
         var mapData = e.data.data;
+        mapData.splice(0, preloadCount);
+
+        table.rows.add(mapData).draw();
 
         var string = JSON.stringify(mapData);
         var compressed = LZString.compress(string);
         store.set('expiration', new Date().getTime() + cacheExpiration);
         store.set('tableData', compressed);
         store.set('preloadMaps', preloadMaps);
-        table.clear().rows.add(mapData).draw();
+
         $('#apology').fadeOut();
         $('.modal-backdrop').remove();
+
+        console.log('store');
 
       } else {
 
@@ -564,7 +568,7 @@ $(document).ready(function () {
       // table.rows.add(preload).draw();
       // table.rows.add(maps).draw();
 
-      table.clear().rows.add(data).draw();
+      table.rows.add(data).draw();
 
       $('#apology').fadeOut();
       $('.modal-backdrop').remove();

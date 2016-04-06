@@ -191,7 +191,7 @@ td em {
 
 #apology {
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     height: 400px;
     top: 35%;
     left: 50%;
