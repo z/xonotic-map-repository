@@ -39,7 +39,7 @@ $(document).ready(function () {
   /*
    * Tables
    */
-  
+
   var table = $('#table-maplist').DataTable({
     "data": {},
     "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
@@ -110,171 +110,47 @@ $(document).ready(function () {
       },
       { // title
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              var manyMaps = (Object.keys(row.bsp).length > 1);
-              if (manyMaps) {
-                str += "<em>" + key + "</em><br>";
-              }
-              str += row.bsp[key]['title'] + "<br>";
-              if (manyMaps) {
-                str += "<br>";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // author
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              var manyMaps = (Object.keys(row.bsp).length > 1);
-              if (manyMaps) {
-                str += "<em>" + key + "</em><br>"
-              }
-              str += row.bsp[key]['author'] + "<br>";
-              if (manyMaps) {
-                str += "<br>";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // gametypes
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              if (row.bsp[key]['gametypes'].length > 0) {
-                var manyMaps = (Object.keys(row.bsp).length > 1);
-                if (manyMaps) {
-                  str += "<em>" + key + "</em><br>"
-                }
-                str += row.bsp[key]['gametypes'].join(', ') + "<br>";
-                if (manyMaps) {
-                  str += "<br>";
-                }
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // gametypes
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              if (row.bsp[key]['gametypes'].length > 0) {
-                var manyMaps = (Object.keys(row.bsp).length > 1);
-                if (manyMaps) {
-                  str += "<em>" + key + "</em><br>"
-                }
-                $.each(row.bsp[key]['gametypes'], function (k, v) {
-                  str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
-                });
-                if (manyMaps) {
-                  str += "<br><br>";
-                }
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // entities
         "data": function (row, type, val, meta) {
-          if (Object.keys(row.bsp)) {
-            var str = "";
-            $.each(row.bsp, function (key, value) {
-              if (row.bsp[key].entities) {
-                var manyMaps = (Object.keys(row.bsp).length > 1);
-                if (manyMaps) {
-                  str += "<em>" + key + "</em><br>"
-                }
-                $.each(row.bsp[key].entities, function (k, v) {
-                  str += '<i class="icon icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"><b>' + k + '</b></i> ';
-                });
-                if (manyMaps) {
-                  str += "<br><br>";
-                }
-              }
-            });
-            return str;
-          } else {
-            return "";
-          }
+          return row.bsp;
         }
       },
       { // map
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              var manyMaps = (Object.keys(row.bsp).length > 1);
-              if (manyMaps) {
-                str += "<em>" + key + "</em><br>"
-              }
-              str += (row.bsp[key]['map']) ? "yes" : "no" + "<br>";
-              if (manyMaps) {
-                str += "<br><br>";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // radar
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              var manyMaps = (Object.keys(row.bsp).length > 1);
-              if (manyMaps) {
-                str += "<em>" + key + "</em><br>"
-              }
-              str += (row.bsp[key]['radar']) ? "yes" : "no" + "<br>";
-              if (manyMaps) {
-                str += "<br>";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // waypoints
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              var manyMaps = (Object.keys(row.bsp).length > 1);
-              if (manyMaps) {
-                str += "<em>" + key + "</em><br>"
-              }
-              str += (row.bsp[key]['waypoints']) ? "yes" : "no" + "<br>";
-              if (manyMaps) {
-                str += "<br>";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // license
         "data": function (row, type, val, meta) {
-          var str = "";
-          if (Object.keys(row.bsp)) {
-            $.each(row.bsp, function (key, value) {
-              if (row.bsp[key]['license']) {
-                str = +row.bsp[key]['license'] + ", ";
-              }
-            });
-          }
-          return str;
+          return row.bsp;
         }
       },
       { // date
@@ -345,52 +221,188 @@ $(document).ready(function () {
       { // title
         "targets": 6,
         "render": function (data, type, full, meta) {
-          return (data != false) ? data : "";
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              var manyMaps = (Object.keys(data).length > 1);
+              if (manyMaps) {
+                str += "<em>" + key + "</em><br>";
+              }
+              str += data[key]['title'] + "<br>";
+              if (manyMaps) {
+                str += "<br>";
+              }
+            });
+          }
+          return str;
         }
       },
       { // author
         "targets": 7,
         "render": function (data, type, full, meta) {
-          return (data != false) ? data : "";
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              var manyMaps = (Object.keys(data).length > 1);
+              if (manyMaps) {
+                str += "<em>" + key + "</em><br>"
+              }
+              str += data[key]['author'] + "<br>";
+              if (manyMaps) {
+                str += "<br>";
+              }
+            });
+          }
+          return str;
         }
       },
       { // gametypes (strings)
         "targets": 8,
-        "visible": false
+        "visible": false,
+        "render": function (data, type, full, meta) {
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              if (data[key]['gametypes'].length > 0) {
+                var manyMaps = (Object.keys(data).length > 1);
+                if (manyMaps) {
+                  str += "<em>" + key + "</em><br>"
+                }
+                str += data[key]['gametypes'].join(', ') + "<br>";
+                if (manyMaps) {
+                  str += "<br>";
+                }
+              }
+            });
+          }
+          return str;          
+        }
       },
       { // gametypes
         "targets": 9,
-        "type": "html"
+        //"type": "html",
+        "render": function (data, type, full, meta) {
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              if (data[key]['gametypes'].length > 0) {
+                var manyMaps = (Object.keys(data).length > 1);
+                if (manyMaps) {
+                  str += "<em>" + key + "</em><br>"
+                }
+                $.each(data[key]['gametypes'], function (k, v) {
+                  str += '<i class="icon icon-gametype_' + v + '" data-toggle="tooltip" title="' + v + '"><b>' + v + '</b></i> ';
+                });
+                if (manyMaps) {
+                  str += "<br><br>";
+                }
+              }
+            });
+          }
+          return str;
+        }
       },
       { // entities
         "targets": 10,
-        "type": "html"
+        //"type": "html",
+        "render": function (data, type, full, meta) {
+          // var response = workerParser.enities(data);
+          // response.then(function(entities){
+          //   return entities;
+          // });
+          if (Object.keys(data)) {
+            var str = "";
+            $.each(data, function (key, value) {
+              if (data[key].entities) {
+                var manyMaps = (Object.keys(data).length > 1);
+                if (manyMaps) {
+                  str += "<em>" + key + "</em><br>"
+                }
+                $.each(data[key].entities, function (k, v) {
+                  str += '<i class="icon icon-' + k + '" data-toggle="tooltip" title="' + v + ' ' + k + '"><b>' + k + '</b></i> ';
+                });
+                if (manyMaps) {
+                  str += "<br><br>";
+                }
+              }
+            });
+            return str;
+          }
+          return "";
+        }
       },
       { // map file
         "targets": 11,
         "render": function (data, type, full, meta) {
-          return data;
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              var manyMaps = (Object.keys(data).length > 1);
+              if (manyMaps) {
+                str += "<em>" + key + "</em><br>"
+              }
+              str += (data[key]['map']) ? "yes" : "no" + "<br>";
+              if (manyMaps) {
+                str += "<br><br>";
+              }
+            });
+          }
+          return str;
         },
         "visible": false
       },
       { // radar file
         "targets": 12,
         "render": function (data, type, full, meta) {
-          return data;
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              var manyMaps = (Object.keys(data).length > 1);
+              if (manyMaps) {
+                str += "<em>" + key + "</em><br>"
+              }
+              str += (data[key]['radar']) ? "yes" : "no" + "<br>";
+              if (manyMaps) {
+                str += "<br>";
+              }
+            });
+          }
+          return str;
         },
         "visible": false
       },
       { // waypoints file
         "targets": 13,
         "render": function (data, type, full, meta) {
-          return data;
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              var manyMaps = (Object.keys(data).length > 1);
+              if (manyMaps) {
+                str += "<em>" + key + "</em><br>"
+              }
+              str += (data[key]['waypoints']) ? "yes" : "no" + "<br>";
+              if (manyMaps) {
+                str += "<br>";
+              }
+            });
+          }
+          return str;
         },
         "visible": false
       },
       { // license file
         "targets": 14,
         "render": function (data, type, full, meta) {
-          return (data != false) ? "yes" : "no";
+          var str = "";
+          if (Object.keys(data)) {
+            $.each(data, function (key, value) {
+              if (data[key]['license']) {
+                str += data[key]['license'] + ", ";
+              }
+            });
+          }
+          return (str) ? "yes" : "no";
         },
         "visible": false
       },
@@ -502,9 +514,9 @@ $(document).ready(function () {
 
     var count = 0;
     var preloadMaps = [];
-    var worker = new Worker('static/js/worker-fetch.js');
+    var workerFetch = new Worker('static/js/worker-fetch.js');
 
-    worker.addEventListener('message', function(e) {
+    workerFetch.addEventListener('message', function(e) {
 
       if (e.data.hasOwnProperty('data') && useCache) {
         
@@ -540,15 +552,15 @@ $(document).ready(function () {
 
     }, false);
 
-    worker.postMessage('../../resources/data/maps.json');
+    workerFetch.postMessage('../../resources/data/maps.json');
 
   } else {
 
     var preloadMaps = store.get('preloadMaps');
-
+    
     table.rows.add(preloadMaps).draw();
 
-    var worker = cw({
+    var workerDecompress = cw({
       decompress: function(data) {
         importScripts('/static/vendor/lz-string/lz-string.min.js');
         importScripts('/static/vendor/store2/store2.min.js');
@@ -557,7 +569,7 @@ $(document).ready(function () {
       }
     });
 
-    var response = worker.decompress(store.get('tableData'));
+    var response = workerDecompress.decompress(store.get('tableData'));
 
     response.then(function(data) {
 
@@ -566,7 +578,7 @@ $(document).ready(function () {
       $('#apology').fadeOut();
       $('.modal-backdrop').remove();
 
-      worker.close();
+      workerDecompress.close();
 
     });
 
