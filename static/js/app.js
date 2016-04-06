@@ -689,18 +689,24 @@ $(document).ready(function () {
 
     }
 
+    $("#nav-table-controls").hide();
+
     table.fixedHeader.adjust();
+    hideCharts();
 
     // decide whether to show the table or not
     if (visible) { // hide table
-      $("#nav-table-controls").hide();
       tableContainer.css('display', 'none');
     } else { // show table
-      $("#nav-table-controls").show();
       tableContainer.css('display', 'block');
-      hideCharts();
     }
 
+  });
+
+  $('[href=#maplist]').click(function() {
+    setTimeout(function() {
+      $('#nav-table-controls').show();
+    }, 10);
   });
 
 
