@@ -510,7 +510,7 @@ $(document).ready(function () {
   var userAgent = navigator.userAgent.toLowerCase();
 
   // if no cache exists or browser doesn't support it
-  if ( !useCache || store.isFake() || !store.get('expiration') || curTime > store.get('expiration') || /firefox/.test(userAgent) ) {
+  if ( !useCache || store.isFake() || !store.get('expiration') || curTime > store.get('expiration') ) {
 
     var count = 0;
     var preloadMaps = [];
