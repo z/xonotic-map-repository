@@ -37,6 +37,10 @@
 
 table.dataTable {
     margin-top: -9px !important
+    z-index: 1001;
+}
+table.dataTable.fixedHeader-floating {
+    z-index: 1020;
 }
 
 div.dt-buttons {
