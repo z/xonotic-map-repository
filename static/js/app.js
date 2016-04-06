@@ -28,40 +28,12 @@ $(document).ready(function () {
   var userTheme = $.cookie('theme');
   //var userTheme = ($.cookie('theme')) ? $.cookie('theme') : 'default';
 
+  
   /*
-   * Data Tables
+   * Tables
    */
-
+  
   var table = $('#table-maplist').DataTable({
-    // "ajax": function (data, callback, settings) {
-    //
-    //   var curTime = new Date().getTime();
-    //
-    //   if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
-    //
-    //     $.ajax({
-    //       url: './resources/data/maps.json',
-    //       type: 'GET',
-    //       contentType: 'application/json'
-    //     }).success(function (response) {
-    //       var data = response;
-    //       if (useCache) {
-    //         var string = JSON.stringify(data);
-    //         var compressed = LZString.compress(string);
-    //         store.set('expiration', new Date().getTime() + cacheExpiration);
-    //         store.set('tableData', compressed);
-    //       }
-    //       callback(data);
-    //     });
-    //
-    //   } else {
-    //
-    //     var data = JSON.parse(LZString.decompress(store.get('tableData')));
-    //     callback(data);
-    //
-    //   }
-    //
-    // },
     "data": {},
     "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
     "pageLength": 50,
@@ -101,16 +73,24 @@ $(document).ready(function () {
             "<'row'<'col-sm-12'tr>>" +
             "<'row footer-bar navbar-inverse'<'col-sm-5 navbar-brand'i><'col-sm-7'p>>",
     "columns": [
-      {"data": "pk3"},
-      {
+      { // pk3
+        "data": "pk3"
+      },
+      { // bsp
         "data": function (row, type, val, meta) {
           return (row.bsp) ? Object.keys(row.bsp).join("<br>") : "";
         }
       },
-      {"data": "filesize"},
-      {"data": "filesize"},
-      {"data": "shasum"},
-      {
+      { // filesize
+        "data": "filesize"
+      },
+       {// filesize
+        "data": "filesize"
+      },
+      { // shasum
+        "data": "shasum"
+      },
+      { // mapshot
         "data": function (row, type, val, meta) {
           var arr = [];
           if (Object.keys(row.bsp)) {
@@ -123,7 +103,7 @@ $(document).ready(function () {
           return arr;
         }
       },
-      {
+      { // title
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -141,7 +121,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // author
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -159,7 +139,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // gametypes
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -179,7 +159,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // gametypes
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -201,7 +181,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // entities
         "data": function (row, type, val, meta) {
           if (Object.keys(row.bsp)) {
             var str = "";
@@ -225,7 +205,7 @@ $(document).ready(function () {
           }
         }
       },
-      {
+      { // map
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -243,7 +223,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // radar
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -261,7 +241,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // waypoints
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -279,7 +259,7 @@ $(document).ready(function () {
           return str;
         }
       },
-      {
+      { // license
         "data": function (row, type, val, meta) {
           var str = "";
           if (Object.keys(row.bsp)) {
@@ -292,7 +272,9 @@ $(document).ready(function () {
           return str;
         }
       },
-      {"data": "date"}
+      { // date
+        "data": "date"
+      }
     ],
     "columnDefs": [
       { // pk3
@@ -445,7 +427,6 @@ $(document).ready(function () {
     },
     "drawCallback": function (settings) {
       $("#table-controls").show();
-      //initThumbnails();
     }
   });
 
@@ -476,31 +457,11 @@ $(document).ready(function () {
   });
 
   $('#table-maplist').on('page.dt', function() {
-      $(document).scrollTop(0);
+    $(document).scrollTop(0);
   });
 
   // To be shown by initComplete
   $("#table-controls").hide();
-
-  // Image previews
-  function initThumbnails() {
-    // slow and prone to memory leak
-    // need to do a check, CSS3 solution is better though
-    // so I dunno, maybe I'll provide this as an option later
-    $('img.mapshot').hover(function (e) {
-
-      $(this).animate({
-        'width': '500px'
-      }, 40, "swing");
-
-    }, function (e) {
-
-      $(this).animate({
-        'width': '250px'
-      }, 400, "linear");
-
-    });
-  }
 
   // Apply filtersearch and dropdownsearch
   table.columns().every(function () {
@@ -524,57 +485,96 @@ $(document).ready(function () {
 
   });
 
-  //HTML5 Web Workers
-  var worker = new Worker('static/js/worker.js');
 
-  worker.addEventListener('message', function(e) {
-    //console.log(e.data);
-    table.rows.add(e.data.data).draw();
-    $('#apology').fadeOut();
-  }, false);
+  var curTime = new Date().getTime();
+  var userAgent = navigator.userAgent.toLowerCase();
 
-  worker.postMessage('../../resources/data/maps.json');
+  // if no cache exists or browser doesn't support it
+  if ( !useCache || store.isFake() || !store.get('expiration') || curTime > store.get('expiration') || /firefox/.test(userAgent) ) {
+    
+    var worker = new Worker('static/js/worker.js');
 
-  // var curTime = new Date().getTime();
-  //
-  // if (!useCache || !store.enabled || !store.get('expiration') || curTime > store.get('expiration')) {
-  //
-  //   // Lazy load tabledata
-  //   var count = 0;
-  //   oboe('./resources/data/maps.json')
-  //     .node('data.*', function( mapObject ) {
-  //
-  //       if (count % preloadCount == 0) {
-  //         setTimeout(function () {
-  //           table.draw('page');
-  //         }, 25);
-  //       }
-  //
-  //       table.row.add(mapObject);
-  //       count++;
-  //
-  //     })
-  //     .done(function(mapData) {
-  //
-  //       if (useCache) {
-  //         var string = JSON.stringify(mapData);
-  //         var compressed = LZString.compress(string);
-  //         store.set('expiration', new Date().getTime() + cacheExpiration);
-  //         store.set('tableData', compressed);
-  //       }
-  //
-  //       table.draw(false);
-  //       $('#apology').fadeOut();
-  //
-  //     });
-  //
-  // } else {
-  //
-  //   var data = JSON.parse(LZString.decompress(store.get('tableData')));
-  //   table.rows.add(data.data).draw();
-  //   $('#apology').fadeOut();
-  //
-  // }
+    worker.addEventListener('message', function(e) {
+
+      var mapData = e.data.data;
+      table.rows.add(mapData).draw();
+
+      if (useCache) {
+        var string = JSON.stringify(mapData);
+        var compressed = LZString.compress(string);
+        store.set('expiration', new Date().getTime() + cacheExpiration);
+        store.set('tableData', compressed);
+      }
+      
+      $('#apology').fadeOut();
+      
+    }, false);
+
+    worker.postMessage('../../resources/data/maps.json');
+
+  } else {
+
+    var worker = cw({
+      decompress: function(data) {
+        importScripts('/static/vendor/lz-string/lz-string.min.js');
+        importScripts('/static/vendor/store2/store2.min.js');
+        var decompressed = JSON.parse(LZString.decompress(data));
+        return decompressed;
+      }
+    });
+
+    var response = worker.decompress(store.get('tableData'));
+
+    response.then(function(data) {
+
+      // var preload = data.splice(0, preloadCount);
+      // var maps = data;
+      //
+      // table.rows.add(preload).draw();
+      // table.rows.add(maps).draw();
+
+      table.rows.add(data).draw();
+
+      $('#apology').fadeOut();
+
+      worker.close();
+
+    });
+    
+    // var workerDecompress = new Worker('static/js/worker-decompress.js');
+    //
+    // workerDecompress.addEventListener('message', function(e) {
+    //   console.log('done decompressing');
+    //   console.log(e.data);
+    // }, false);
+    //
+    // workerDecompress.postMessage('test');
+    
+    // Object.defineProperty(Array.prototype, 'chunk', {value: function(n) {
+    //     return Array.from(Array(Math.ceil(this.length/n)), (_,i)=>this.slice(i*n,i*n+n));
+    // }});
+    //
+    // var chunks = data.chunk(100);
+    //
+    // function drawIt(value) {
+    //   table.rows.add(value).draw(false);
+    //   console.log('adding');
+    // }
+    //
+    // $.each(chunks, function(index, value) {
+    //   drawIt(value);
+    //   setTimeout(function() {
+    //     console.log('waiting');
+    //   }, 4000);
+    // });
+    //
+    // setTimeout(function() {
+    //   console.log('drawing');
+    //   table.draw();
+    //   $('#apology').fadeOut();
+    // }, 1000);
+
+  }
 
   /*
    * Charts
@@ -634,18 +634,17 @@ $(document).ready(function () {
   }
 
   function hideCharts() {
-    /*        allCharts.forEach(function(value, index, array) {
-     value.hide();
-     });
-     */
+    // allCharts.forEach(function(value, index, array) {
+    //   value.hide();
+    // });
   }
 
   function showCharts() {
     $("#loading-charts").hide();
     $("#charts").show();
-    /*allCharts.forEach(function(value, index, array) {
-     value.show();
-     });*/
+    // allCharts.forEach(function(value, index, array) {
+    //  value.show();
+    // });
   }
 
   // Need to hide datatables when changing tabs for fixedHeader
@@ -701,6 +700,7 @@ $(document).ready(function () {
 
   });
 
+
   /*
    * Theme Switcher
    */
@@ -739,7 +739,7 @@ $(document).ready(function () {
     $('#theme-custom').attr('href', './static/css/themes/' + theme + '/custom.css');
     $('#theme-switcher li a[data-theme=' + theme + ']').parent().addClass('active');
     $('#theme-switcher-wrapper span').text('Theme: ' + theme);
-//        table.fixedHeader.adjust();
+    // table.fixedHeader.adjust();
   }
 
   new Konami(function () {
