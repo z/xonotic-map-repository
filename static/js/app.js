@@ -42,8 +42,8 @@ $(document).ready(function () {
 
   var table = $('#table-maplist').DataTable({
     "data": {},
-    "lengthMenu": [[25, 50, 100, 250], [25, 50, 100, 250]],
-    "pageLength": 50,
+    "lengthMenu": [25, 50, 100, 250],
+    "pageLength": 25,
     "order": [[15, 'desc']],
     "colReorder": true,
     "stateSave": true,
@@ -449,6 +449,12 @@ $(document).ready(function () {
           $(".mapshot").hide().fadeIn();
       });
     }
+  });
+
+  table.on( 'draw.dt', function () {
+    setTimeout(function() {
+      table.fixedHeader.adjust();
+    }, 10);
   });
 
   table.on('search.dt', function () {

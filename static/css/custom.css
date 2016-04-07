@@ -41,6 +41,7 @@ table.dataTable {
 }
 table.dataTable.fixedHeader-floating {
     z-index: 1020;
+    position: fixed;
 }
 
 div.dt-buttons {
