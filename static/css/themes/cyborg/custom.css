@@ -1,9 +1,6 @@
 table th {
     background-color:#333;
 }
-table.dataTable {
-    margin-top: -9px !important
-}
 table.dataTable.fixedHeader-floating {
     margin-top: 0 !important;
 }

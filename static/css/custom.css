@@ -44,7 +44,6 @@
 }
 
 table.dataTable {
-    margin-top: -9px !important;
     z-index: 1001;
 }
 
