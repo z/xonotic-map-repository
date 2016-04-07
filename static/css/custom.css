@@ -2,6 +2,17 @@
     width: auto;
 }
 
+.first-load-backdrop {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #000000;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+    z-index: 1035;
+}
+
 .dataTables_processing {
     width: 300px !important;
     padding: 1em !important;
@@ -36,10 +47,12 @@ table.dataTable {
     margin-top: -9px !important;
     z-index: 1001;
 }
+
 table.dataTable.fixedHeader-floating {
     z-index: 1020;
     position: fixed;
 }
+
 table.dataTable.fixedHeader-locked {
     position: fixed !important;
     top: 50px !important;
@@ -216,9 +229,11 @@ td em {
     padding: 15px;
     z-index: 1050;
 }
+
 #apology h3 {
     text-align: center;
 }
+
 #joke {
     position: absolute;
     bottom: 5px;

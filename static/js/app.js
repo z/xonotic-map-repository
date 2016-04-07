@@ -34,8 +34,6 @@ $(document).ready(function () {
     $('#joke p').text(JSON.stringify(random));
   });
 
-  $('body').append('<div class="modal-backdrop" style="opacity:0.8;z-index:1030">');
-
   /*
    * Tables
    */
@@ -103,7 +101,7 @@ $(document).ready(function () {
               if (row.bsp[key]['mapshot']) {
                 var mapshot = row.bsp[key]['mapshot'].replace('.tga', '.jpg');
               } else {
-                var mapshot = 'maps/no_mapshot.png';
+                var mapshot = 'no_mapshot.png';
               }
               arr.push(mapshot);
             });
@@ -410,7 +408,7 @@ $(document).ready(function () {
         // date
         "targets": 15,
         "render": function (data, type, full, meta) {
-          d = new Date(0);
+          var d = new Date(0);
           d.setUTCSeconds(data);
           return d.toISOString().slice(0, 10);
         }
@@ -554,7 +552,7 @@ $(document).ready(function () {
         store.set('preloadMaps', preloadMaps);
 
         $('#apology').fadeOut();
-        $('.modal-backdrop').remove();
+        $('.first-load-backdrop').remove();
 
         console.log('store');
 
@@ -598,7 +596,7 @@ $(document).ready(function () {
       table.rows.add(data).draw();
 
       $('#apology').fadeOut();
-      $('.modal-backdrop').remove();
+      $('.first-load-backdrop').remove();
 
       workerDecompress.close();
 

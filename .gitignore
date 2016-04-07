@@ -8,6 +8,7 @@ maps.json
 charts.json
 entities.json
 error.log
-resources/mapshots/maps
+!resources/mapshots/no_mapshot.png
+resources/mapshots/maps/*
 resources/entities/*
 resources/bsp/*/*
