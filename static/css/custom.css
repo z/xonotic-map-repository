@@ -11,12 +11,9 @@
     display: none;
 }
 
-.popover {
-    max-width: 600px;
-}
-
-.popover img {
-    max-width: 580px;
+.panel-body {
+    padding: 15px;
+    margin-top: 26px;
 }
 
 .dataTables_wrapper .col-sm-12, .dataTables_wrapper .col-sm-6, .no-padding {
@@ -45,7 +42,7 @@ table.dataTable.fixedHeader-floating {
 }
 table.dataTable.fixedHeader-locked {
     position: fixed !important;
-    top: 52px !important;
+    top: 50px !important;
     z-index: 1010;
 }
 
