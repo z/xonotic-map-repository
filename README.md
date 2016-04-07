@@ -49,7 +49,7 @@ parse_entities = True
 
 The JSON structure for a map package is as follows:
 
-```js
+```json
 {
   "data": [
     {

@@ -42,7 +42,7 @@ $(document).ready(function () {
 
   var table = $('#table-maplist').DataTable({
     "data": {},
-    "lengthMenu": [[50, 100, 250, 500, 1000], [50, 100, 250, 500, 1000]],
+    "lengthMenu": [[25, 50, 100, 250], [25, 50, 100, 250]],
     "pageLength": 50,
     "order": [[15, 'desc']],
     "colReorder": true,
