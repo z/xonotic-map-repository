@@ -43,6 +43,11 @@ table.dataTable.fixedHeader-floating {
     z-index: 1020;
     position: fixed;
 }
+table.dataTable.fixedHeader-locked {
+    position: fixed !important;
+    top: 52px !important;
+    z-index: 1010;
+}
 
 div.dt-buttons {
     width: auto !important;
