@@ -101,8 +101,11 @@ $(document).ready(function () {
           if (Object.keys(row.bsp)) {
             $.each(row.bsp, function (key, value) {
               if (row.bsp[key]['mapshot']) {
-                arr.push(row.bsp[key]['mapshot'].replace('.tga', '.jpg'));
+                var mapshot = row.bsp[key]['mapshot'].replace('.tga', '.jpg');
+              } else {
+                var mapshot = 'maps/no_mapshot.png';
               }
+              arr.push(mapshot);
             });
           }
           return arr;
@@ -199,22 +202,19 @@ $(document).ready(function () {
       { // mapshot file
         "targets": 5,
         "render": function (data, type, full, meta) {
+
           var api = $('#table-maplist').DataTable();
           var loadImages = (api.column(5).visible() === true ? true : false);
-          var string = "___no_mapshot___";
-          if (data.length > 0) {
-            string = "";
-            data.forEach(function (value, index, array) {
-              if (value != "" && loadImages) {
-                string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
-                  + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
-                  + '<span>' + value + '</span>'
-                  + '</a>';
-              } else {
-                string += '';
-              }
-            });
-          }
+
+          var string = "";
+
+          data.forEach(function (value, index, array) {
+            string += '<a class="btn mapshot-link" data-img="./resources/mapshots/' + value + '" href="./resources/mapshots/' + value + '" target="_blank">'
+              + '<img src="./resources/mapshots/' + value + '" class="mapshot css-animated" />'
+              + '<span>' + value + '</span>'
+              + '</a>';
+          });
+
           return string;
         }
       },
@@ -496,7 +496,7 @@ $(document).ready(function () {
   // Setup - add a dropdown to dropdownsearch footers
   $('#table-maplist tfoot th.dropdownsearch-mapshot').each(function () {
     var title = $(this).text();
-    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="maps/">' + title + '</option><option value="___no_mapshot___">no ' + title + '</option></select>');
+    $(this).html('<select class="form-control input-sm"><option value="">all (' + title + ' &amp; no ' + title + ')</option><option value="maps/">' + title + '</option><option value="no_mapshot.png">no ' + title + '</option></select>');
   });
 
   $('#table-maplist').on('page.dt', function() {

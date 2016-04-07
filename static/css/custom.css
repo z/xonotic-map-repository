@@ -33,7 +33,7 @@
 }
 
 table.dataTable {
-    margin-top: -9px !important
+    margin-top: -9px !important;
     z-index: 1001;
 }
 table.dataTable.fixedHeader-floating {
@@ -44,6 +44,10 @@ table.dataTable.fixedHeader-locked {
     position: fixed !important;
     top: 50px !important;
     z-index: 1010;
+}
+
+table.dataTable tbody td {
+    height: 200px;
 }
 
 table tbody tr {
