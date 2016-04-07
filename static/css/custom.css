@@ -46,6 +46,10 @@ table.dataTable.fixedHeader-locked {
     z-index: 1010;
 }
 
+table tbody tr {
+    opacity: 0.1;
+}
+
 div.dt-buttons {
     width: auto !important;
 }
