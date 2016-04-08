@@ -1,5 +1,6 @@
 import zipfile
 import re
+import json
 import shutil
 import subprocess
 import collections
@@ -205,3 +206,40 @@ def parse_entities_file(bsp, pk3, entities_file, entities_list, package_distribu
         print("Failed to parse entities file for: " + pk3)
 
     return bsp, errors
+
+
+def log_package_errors(package_distribution):
+    dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    fo = open('error.log', 'a')
+
+    if len(package_distribution['packs_other']) != 0:
+        e_no_map = 'One or more archives did not contain a map'
+        print('\n' + e_no_map)
+
+        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+        fo.write('\n'.join(package_distribution['packs_other']) + '\n')
+
+    if len(package_distribution['packs_corrupt']) != 0:
+        e_corrupt = 'One or more archives were corrupt'
+        print('\n' + e_corrupt)
+
+        fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
+        fo.write('\n'.join(package_distribution['packs_corrupt']) + '\n')
+
+    if len(package_distribution['packs_entities_fail']) != 0:
+        e_no_map = 'One or more entities files failed to parse'
+        print('\n' + e_no_map)
+
+        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
+        fo.write('\n'.join(package_distribution['packs_entities_fail']) + '\n')
+
+    fo.close()
+
+
+def write_to_json(output, resources_dir):
+    # for debugging
+    # print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    fo = open(resources_dir + 'data/maps.json', 'w')
+    fo.write(json.dumps(output))
+    fo.close()

@@ -38,7 +38,7 @@ parse_entities = True
 ### TL;DR
 
 1. Copy a whole bunch of pk3s into the `./resources/packages` folder
-2. run `./bin/maps2json.py`
+2. run `./bin/maps2json.py -A`
 3. run `./bin/chart_json.py`
 4. run `python -m SimpleHTTPServer`
 5. Goto `http://127.0.0.1:8000`
