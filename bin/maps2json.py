@@ -3,14 +3,10 @@
 # Author: Tyler "-z-" Mulligan
 
 import zipfile
-import os
 import re
-import hashlib
 import json
 import subprocess
-import shutil
 import collections
-import time
 #from wand.image import Image
 from datetime import datetime
 from datetime import timedelta
@@ -33,9 +29,6 @@ packs_corrupt = []
 packs_other = []
 packs_maps = []
 
-entities_list = entities_mapping.keys()
-gametype_list = gametype_mapping.keys()
-
 errors = False
 
 
@@ -43,10 +36,13 @@ def main():
 
     start_time = time.monotonic()
 
+    entities_list = entities_mapping.keys()
+    gametype_list = gametype_mapping.keys()
+
     # Process all the files
     for file in sorted(os.listdir(path_packages)):
         if file.endswith('.pk3'):
-            process_pk3(file)
+            process_pk3(file, entities_list, gametype_list)
 
     # Write error.log
     if errors:
@@ -90,7 +86,7 @@ def main():
     print(timedelta(seconds=end_time - start_time))
 
 
-def process_pk3(file):
+def process_pk3(file, entities_list, gametype_list):
 
     print('Processing ' + file)
 
@@ -150,7 +146,7 @@ def process_pk3(file):
                     with open(bsp_entities_file, 'w') as f:
                         subprocess.call(["./bin/bsp2ent", resources_dir + 'bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
-                    data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file)
+                    data['bsp'][bspname] = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file, entities_list)
 
 #                    shutil.rmtree(resources_dir + 'bsp/' + bspname)
 
@@ -166,7 +162,7 @@ def process_pk3(file):
                             zip.extract(member, resources_dir + 'entities/' + bspname)
 
                             entities_file = resources_dir + 'entities/' + bspname + '/' + member
-                            entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file)
+                            entities_from_ent = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file, entities_list)
                             data['bsp'][bspname].update(entities_from_ent)
 #                            shutil.rmtree(resources_dir + 'entities/' + bspname)
 
@@ -184,15 +180,16 @@ def process_pk3(file):
                             zip.extract(member, path_radars)
                             radar_image = path_radars + member
                             subprocess.call(['convert', radar_image, '-depth', '8', '-trim', 'PNG24:' + path_radars + 'gfx/' + bsp + '_mini.png'])
-                            
+
                             subprocess.call(['./bin/entities_map.py', bsp])
 
-#                            image = Image(filename=(radar_image))
-#                            with image.convert('PNG24') as converted:
-#                                converted.transform_colorspace('rgb')
-#                                converted.depth = 8
-#                                converted.trim()
-#                                converted.save(filename=path_radars + 'gfx/' + bsp + '_mini.png')
+                           # The Pythonic way isn't working.
+                           # image = Image(filename=(radar_image))
+                           # with image.convert('PNG24') as converted:
+                           #     converted.transform_colorspace('rgb')
+                           #     converted.depth = 8
+                           #     converted.trim()
+                           #     converted.save(filename=path_radars + 'gfx/' + bsp + '_mini.png')
 
                     if re.search('^maps/' + rbsp + '\.map$', member):
                         data['bsp'][bspname]['map'] = member
@@ -241,7 +238,7 @@ def process_pk3(file):
         pass
 
 
-def parse_entities_file(bsp, pk3, entities_file):
+def parse_entities_file(bsp, pk3, entities_file, entities_list):
 
     try:
         f = open(entities_file)
@@ -272,27 +269,6 @@ def parse_entities_file(bsp, pk3, entities_file):
         print("Failed to parse entities file for: " + pk3)
 
     return bsp
-
-
-def hash_file(filename):
-    """This function returns the SHA-1 hash
-    of the file passed into it"""
-
-    # make a hash object
-    h = hashlib.sha1()
-
-    # open file for reading in binary mode
-    with open(filename,'rb') as file:
-
-        # loop till the end of the file
-        chunk = 0
-        while chunk != b'':
-            # read only 1024 bytes at a time
-            chunk = file.read(1024)
-            h.update(chunk)
-
-    # return the hex representation of digest
-    return h.hexdigest()
 
 
 if __name__ == "__main__":
