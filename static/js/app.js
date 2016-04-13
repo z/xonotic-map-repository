@@ -557,7 +557,7 @@ $(document).ready(function () {
         table.rows.add(mapData).draw();
 
         var string = JSON.stringify(mapData);
-        var compressed = LZString.compress(string);
+        var compressed = LZString.compressToUTF16(string);
         store.set('expiration', new Date().getTime() + cacheExpiration);
         store.set('tableData', compressed);
         store.set('preloadMaps', preloadMaps);
@@ -593,7 +593,7 @@ $(document).ready(function () {
       decompress: function(data) {
         importScripts('/static/vendor/lz-string/lz-string.min.js');
         importScripts('/static/vendor/store2/store2.min.js');
-        var decompressed = JSON.parse(LZString.decompress(data));
+        var decompressed = JSON.parse(LZString.decompressFromUTF16(data));
         return decompressed;
       }
     });
