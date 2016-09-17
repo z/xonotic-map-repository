@@ -22,7 +22,7 @@ config = {
         'packages': conf['resources_dir'] + 'packages/',
         'mapshots': conf['resources_dir'] + 'mapshots/',
         'radars': conf['resources_dir'] + 'radars/',
-        'entities': conf['resources_dir'] + 'entitires/',
+        'entities': conf['resources_dir'] + 'entities/',
         'bsp': conf['resources_dir'] + 'bsp/',
         'data': conf['resources_dir'] + 'data/',
     }
