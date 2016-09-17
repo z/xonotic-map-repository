@@ -1,13 +1,23 @@
 import os
-from xmr.util import read_config
+import configparser
 
-conf = read_config('config/config.ini')
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+config_file = root_dir + '/config/config.ini'
+resources_dir = root_dir + '/web/resources/'
+
+if not os.path.isfile(config_file):
+    raise SystemExit(config_file + ' not found, please create one.')
+
+config = configparser.ConfigParser()
+config.read(config_file)
+
+conf = config['default']
 
 config = {
     'extract_mapshots': conf['extract_mapshots'],
     'extract_radars': conf['extract_radars'],
     'parse_entities': conf['parse_entities'],
-    'resources_dir': conf['resources_dir'],
+    'resources_dir': root_dir + conf['resources_dir'],
     'output_paths': {
         'packages': conf['resources_dir'] + 'packages/',
         'mapshots': conf['resources_dir'] + 'mapshots/',

@@ -37,7 +37,7 @@ parse_entities = True
 
 ### TL;DR
 
-1. Copy a whole bunch of pk3s into the `./resources/packages` folder
+1. Copy a whole bunch of pk3s into the `./web/resources/packages` folder
 2. run `./bin/maps2json.py -A`
 3. run `./bin/chart_json.py`
 4. cd `web` && run `python -m SimpleHTTPServer`
