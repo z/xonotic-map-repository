@@ -29,6 +29,8 @@ class Library(ExtendMixin, Base):
     map_package_id = Column(ForeignKey('map_package.id'))
     map_package = relationship("MapPackage", foreign_keys=[map_package_id])
 
+    __table_args__ = (UniqueConstraint('name', name='uix_library_name'),)
+
 
 class MapPackage(ExtendMixin, Base):
     __tablename__ = 'map_package'
@@ -40,10 +42,13 @@ class MapPackage(ExtendMixin, Base):
     date = Column(DateTime, nullable=False, default=datetime.now())
     filesize = Column(Integer)
 
+    __table_args__ = (UniqueConstraint('pk3_file', name='uix_pk3_file'),)
+
 
 class Bsp(ExtendMixin, Base):
     __tablename__ = 'bsp'
     id = Column(Integer, primary_key=True)
+    map_package_id = Column(Integer, ForeignKey('map_package.id'))
     pk3_file = Column(String(255))
     bsp_name = Column(String(255))
     bsp_file = Column(String(255))
@@ -62,17 +67,21 @@ class Bsp(ExtendMixin, Base):
     waypoints = Column(Boolean)
     license = Column(Boolean)
 
+    #bsp = relationship("MapPackage", backref="bsp")
+
 
 class Gametype(ExtendMixin, Base):
     __tablename__ = 'gametype'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
-    __table_args__ = (UniqueConstraint('name', name='uix_1'),)
+
+    __table_args__ = (UniqueConstraint('name', name='uix_gametype'),)
 
 
 class Entity(ExtendMixin, Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), unique=True)
-    __table_args__ = (UniqueConstraint('name', name='uix_2'),)
+    name = Column(String(255))
+
+    __table_args__ = (UniqueConstraint('name', name='uix_entity'),)
 

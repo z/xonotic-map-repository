@@ -47,9 +47,9 @@ def main():
         fo.write(all_maps)
         fo.close()
 
-    if args.add:
+    if args.new:
 
-        file = args.add
+        file = args.new
 
         if file.endswith('.pk3') and os.path.isfile(config['output_paths']['packages'] + file):
             mypk3 = MapPackage(pk3_file=file)
@@ -58,9 +58,6 @@ def main():
             print(pk3.pk3_file)
             #print(pk3)
 
-            #map_package = model.MapPackage(pk3=pk3)
-            #session.add(map_package)
-
             for bsp_name, bsp in pk3.bsp.items():
                 #print(bsp)
 
@@ -68,15 +65,20 @@ def main():
                     for gametype in bsp.gametypes:
                         print(gametype)
                         gametype = get_or_create(session, model.Gametype, name=gametype)
-                        session.add(gametype)
 
                 if bsp.entities:
                     for entity in bsp.entities:
                         print(entity)
                         entity = get_or_create(session, model.Entity, name=entity)
-                        session.add(entity)
 
-                session.commit()
+
+                print(bsp_name)
+                print(bsp)
+                new_bsp = get_or_create(session, model.Bsp, bsp_name=bsp.bsp_name, bsp_file=bsp.bsp_file)
+
+            map_package = get_or_create(session, model.MapPackage, pk3_file=pk3.pk3_file, shasum=pk3.shasum, filesize=pk3.filesize)
+
+            session.commit()
 
             # if status['errors']:
             #     errors = True
@@ -93,7 +95,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description='Xonotic Map Repository tools help create and manage a map repository.')
 
-    parser.add_argument('--add', '-a', nargs='?', type=str, help='Add a package to the repositories JSON')
+    parser.add_argument('--new', '-n', nargs='?', type=str, help='Add a new package to the database')
     parser.add_argument('--all', '-A', action='store_true',
                         help='Add all maps to the repositories JSON. (overwrites existing maps.json)')
 
