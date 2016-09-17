@@ -9,3 +9,4 @@ error.log
 web/resources/*
 !web/resources/images/
 !web/resources/mapshots/
+web/resources/mapshots/maps/*
