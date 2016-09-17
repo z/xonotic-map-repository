@@ -10,6 +10,10 @@ import datetime
 from xmr.packages import Library
 from xmr.packages import MapPackage
 from xmr.config import config
+from xmr.database import session
+from xmr.database import get_or_create
+from xmr.database import DateTimeEncoder
+from xmr import model
 
 
 def main():
@@ -52,6 +56,27 @@ def main():
             pk3, category, errors = mypk3.process_package()
 
             print(pk3.pk3_file)
+            #print(pk3)
+
+            #map_package = model.MapPackage(pk3=pk3)
+            #session.add(map_package)
+
+            for bsp_name, bsp in pk3.bsp.items():
+                #print(bsp)
+
+                if bsp.gametypes:
+                    for gametype in bsp.gametypes:
+                        print(gametype)
+                        gametype = get_or_create(session, model.Gametype, name=gametype)
+                        session.add(gametype)
+
+                if bsp.entities:
+                    for entity in bsp.entities:
+                        print(entity)
+                        entity = get_or_create(session, model.Entity, name=entity)
+                        session.add(entity)
+
+                session.commit()
 
             # if status['errors']:
             #     errors = True

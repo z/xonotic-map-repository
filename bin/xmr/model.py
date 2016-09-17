@@ -3,9 +3,10 @@ from sqlalchemy import (MetaData, Table, join, Column, Integer, Boolean,
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import column_property
+from sqlalchemy import UniqueConstraint
 from datetime import datetime
-from database import engine
-from database import Base
+from xmr.database import engine
+from xmr.database import Base
 
 
 class ExtendMixin(object):
@@ -21,23 +22,12 @@ class Author(ExtendMixin, Base):
     email = Column(String(100), nullable=False)
 
 
-library_map_package = Table('library_map_package', Base.metadata,
-    Column('library_id', Integer, ForeignKey('library.id')),
-    Column('map_package_id', Integer, ForeignKey('map_package.id'))
-)
-
-
 class Library(ExtendMixin, Base):
     __tablename__ = 'library'
     id = Column(Integer, primary_key=True)
     name = Column(String(80))
-    maps = relationship("MapPackage", secondary=library_map_package, backref="parents")
-
-
-map_package_bsp = Table('map_package_bsp', Base.metadata,
-    Column('map_package_id', Integer, ForeignKey('library.id')),
-    Column('bsp_id', Integer, ForeignKey('bsp.id'))
-)
+    map_package_id = Column(ForeignKey('map_package.id'))
+    map_package = relationship("MapPackage", foreign_keys=[map_package_id])
 
 
 class MapPackage(ExtendMixin, Base):
@@ -45,7 +35,8 @@ class MapPackage(ExtendMixin, Base):
     id = Column(Integer, primary_key=True)
     pk3_file = Column(String(255))
     shasum = Column(String(64))
-    bsp = relationship("Bsp", secondary=map_package_bsp, backref="parents")
+    bsp_id = Column(ForeignKey('bsp.id'))
+    bsp = relationship("Bsp", foreign_keys=[bsp_id])
     date = Column(DateTime, nullable=False, default=datetime.now())
     filesize = Column(Integer)
 
@@ -63,32 +54,25 @@ class Bsp(ExtendMixin, Base):
     description = Column(String(600))
     mapinfo = Column(String(255))
     author = Column(String(100))
+    gametype_id = Column(ForeignKey('gametype.id'))
+    gametype = relationship("Gametype", foreign_keys=[gametype_id])
+    entity_id = Column(ForeignKey('entity.id'))
+    entity = relationship("Entity", foreign_keys=[entity_id])
     entities_file = Column(String(255))
     waypoints = Column(Boolean)
     license = Column(Boolean)
-
-
-bsp_gametype = Table('bsp_gametype', Base.metadata,
-    Column('bsp_id', Integer, ForeignKey('bsp.id')),
-    Column('gametype_id', Integer, ForeignKey('gametype.id'))
-)
-
-bsp_entity = Table('bsp_entity', Base.metadata,
-    Column('bsp_id', Integer, ForeignKey('bsp.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
 
 
 class Gametype(ExtendMixin, Base):
     __tablename__ = 'gametype'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
+    __table_args__ = (UniqueConstraint('name', name='uix_1'),)
 
 
 class Entity(ExtendMixin, Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255))
+    name = Column(String(255), unique=True)
+    __table_args__ = (UniqueConstraint('name', name='uix_2'),)
 
-
-Base.metadata.create_all(engine)
