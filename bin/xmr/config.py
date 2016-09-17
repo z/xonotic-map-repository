@@ -1,7 +1,8 @@
 import os
 import configparser
 
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print(root_dir)
 config_file = root_dir + '/config/config.ini'
 resources_dir = root_dir + '/web/resources/'
 
@@ -17,14 +18,14 @@ config = {
     'extract_mapshots': conf['extract_mapshots'],
     'extract_radars': conf['extract_radars'],
     'parse_entities': conf['parse_entities'],
-    'resources_dir': root_dir + conf['resources_dir'],
+    'resources_dir': resources_dir,
     'output_paths': {
-        'packages': conf['resources_dir'] + 'packages/',
-        'mapshots': conf['resources_dir'] + 'mapshots/',
-        'radars': conf['resources_dir'] + 'radars/',
-        'entities': conf['resources_dir'] + 'entities/',
-        'bsp': conf['resources_dir'] + 'bsp/',
-        'data': conf['resources_dir'] + 'data/',
+        'packages': resources_dir + 'packages/',
+        'mapshots': resources_dir + 'mapshots/',
+        'radars': resources_dir + 'radars/',
+        'entities': resources_dir + 'entities/',
+        'bsp': resources_dir + 'bsp/',
+        'data': resources_dir + 'data/',
     }
 }
 
