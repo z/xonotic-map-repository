@@ -2,7 +2,6 @@ import os
 import configparser
 
 root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-print(root_dir)
 config_file = root_dir + '/config/config.ini'
 resources_dir = root_dir + '/web/resources/'
 

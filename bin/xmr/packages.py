@@ -6,11 +6,52 @@ import shutil
 import subprocess
 import collections
 from datetime import datetime
-from xmr.util import *
+from xmr.util import hash_file
+from xmr.util import ObjectEncoder
 from xmr.entities import entities_mapping
 from xmr.gametypes import gametype_mapping
 from xmr.config import config
 #from wand.image import Image
+
+
+class Library(object):
+    """
+    A Library is a collection of MapPackage Objects
+    """
+    def __init__(self):
+        self.maps = []
+        self.entities_fail = []
+        self.corrupt = []
+        self.other = []
+
+    def __repr__(self):
+        return str(vars(self))
+
+    def add_map_package(self, pk3=None, category=''):
+        if category is 'maps':
+            self.maps.append(pk3)
+        elif category is 'entities_fail':
+            self.entities_fail.append(pk3)
+        elif category is 'corrupt':
+            self.entities_fail.append(pk3)
+        else:
+            self.other.append(pk3)
+
+    def to_json(self):
+        data = []
+        for map_obj in self.maps:
+
+            package = {
+                "filesize": map,
+                "date": 1453749340,
+                "bsp": map_obj.bsp,
+                "pk3": "map-vapor_alpha_2.pk3",
+                "shasum": "3df0143516f72269f465070373f165c8787964d5"
+            }
+
+            data.append(package)
+
+        return json.dumps({'data': data}, cls=ObjectEncoder)
 
 
 class MapPackage(object):
@@ -38,8 +79,6 @@ class MapPackage(object):
         self.entities_list = entities_list
         self.gametypes_list = gametypes_list
 
-        self.process_package()
-
     @property
     def bsp(self):
         return self._bsp
@@ -51,6 +90,15 @@ class MapPackage(object):
     @bsp.deleter
     def bsp(self, key):
         del self._bsp[key]
+
+    def __json__(self):
+        return {
+            'pk3': self.pk3_file,
+            'shasum': self.shasum,
+            'filesize': self.filesize,
+            'date': self.date,
+            'bsp': self.bsp,
+        }
 
     def __repr__(self):
         return 'MapPackage(pk3=%s, shasum=%s, bsp=%s, date=%s, filesize=%s)' % (self.pk3_file, self.shasum, repr(self.bsp), self.date, self.filesize)
@@ -64,6 +112,7 @@ class MapPackage(object):
             'packs_maps': [],
         }
         data = {'bsp': {}}
+        category = 'other'
         errors = {}
 
         path_bsp = config['output_paths']['bsp']
@@ -111,8 +160,6 @@ class MapPackage(object):
 
                     package_bsps[bsp_name] = self.add_bsp(**temp)
 
-                    print(package_bsps)
-
             # One or more bsps has been found (it's a map package)
             if len(bsps):
 
@@ -142,7 +189,7 @@ class MapPackage(object):
                                 zip.extract(member, path_entities + bspname)
 
                                 entities_file = path_entities + bspname + '/' + member
-                                entities_from_ent, entity_errors = package_bsps[bspname].parse_entities_file(entities_file)
+                                entities_from_ent, entity_errors = package_bsps[bspname].parse_entities_file(entities_file=entities_file)
                                 data['bsp'][bspname].update(entities_from_ent)
                                 # shutil.rmtree(path_entities + bspname)
 
@@ -196,27 +243,20 @@ class MapPackage(object):
 
                             data['bsp'][bspname]['gametypes'].extend(gametypes)
 
-                package_distribution['packs_maps'].append(data)
-
+                category = 'maps'
                 bsp_meta = data['bsp'][bspname]
                 self.add_bsp(**bsp_meta)
-                # this_pk3.add_bsp(title='cool')
-                print(self)
-
             else:
                 errors = True
-                package_distribution['packs_other'].append(self.pk3_file)
+                category = 'other'
 
         except zipfile.BadZipfile:
             errors = True
+            category = 'corrupt'
             print('Corrupt file: ' + self.pk3_file)
-            package_distribution['packs_corrupt'].append(self.pk3_file)
             pass
 
-        status = {}
-        status['errors'] = errors
-
-        return status
+        return self, category, errors
 
     def add_bsp(self, pk3_file='', bsp_name='', bsp_file='', map_file='', mapshot='', radar='', title='', description='', mapinfo='', author='', gametypes=None, entities=None, waypoints='', license=False, entities_list=entities_mapping.keys(), gametypes_list=gametype_mapping.keys()):
         bsp = Bsp(
@@ -238,7 +278,6 @@ class MapPackage(object):
             gametypes_list=gametypes_list
         )
         self.bsp.update({bsp_name: bsp})
-        #print("bsp: " + repr(self.bsp))
         return bsp
 
 
@@ -263,11 +302,26 @@ class Bsp(object):
         self.entities_list = entities_list
         self.gametypes_list = gametypes_list
 
+    def __json__(self):
+        return {
+            'map': self.map_file,
+            'mapshot': self.mapshot,
+            'radar': self.radar,
+            'title': self.title,
+            'description': self.description,
+            'mapinfo': self.mapinfo,
+            'author': self.author,
+            'gametypes': self.gametypes,
+            'entities': self.entities,
+            'waypoints': self.waypoints,
+            'license': self.license,
+        }
+
     # def __repr__(self):
     #     return str(vars(self))
 
     def __repr__(self):
-            return 'Bsp(bsp_name=%s, bsp_file=%s, map_file=%s, mapshot=%s, radar=%s, title=%s, description=%s, mapinfo=%s, author=%s, gametypes=%s, entities=%s, waypoints=%s, license=%s)' % (self.bsp_name, self.bsp_file, self.map_file, self.mapshot, self.radar, self.title, self.description, self.mapinfo, self.author, self.gametypes, self.entities, self.waypoints, self.license)
+            return 'Bsp(pk3_file=%s, bsp_name=%s, bsp_file=%s, map_file=%s, mapshot=%s, radar=%s, title=%s, description=%s, mapinfo=%s, author=%s, gametypes=%s, entities=%s, waypoints=%s, license=%s)' % (self.pk3_file, self.bsp_name, self.bsp_file, self.map_file, self.mapshot, self.radar, self.title, self.description, self.mapinfo, self.author, self.gametypes, self.entities, self.waypoints, self.license)
 
     def extract_entities_file(self):
 
@@ -285,9 +339,11 @@ class Bsp(object):
 
     def parse_entities_file(self, entities_file=''):
 
+        bsp = {'entities': {}}
+        errors = {}
+
         if not entities_file:
             path_entities = config['output_paths']['entities']
-            path_bsp = config['output_paths']['bsp'] + self.bsp_name + '/'
             bsp_entities_file = path_entities + self.bsp_name + '.ent'
 
             if not os.path.exists(bsp_entities_file):
@@ -295,9 +351,6 @@ class Bsp(object):
                 self.parse_entities_file()
         else:
             bsp_entities_file = entities_file
-
-        bsp = {'entities': {}}
-        errors = {}
 
         try:
             f = open(bsp_entities_file)
@@ -323,8 +376,8 @@ class Bsp(object):
 
         except UnicodeDecodeError:
             errors = True
+            #category = 'entities_fail'
             bsp['entities'] = {}
-            #package_distribution['packs_entities_fail'].append(entities_file)
             print("Failed to parse entities file for: " + self.bsp_file)
 
         self.entities = bsp['entities']

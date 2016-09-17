@@ -8,49 +8,44 @@ import json
 import time
 import os
 import datetime
+from xmr.packages import Library
 from xmr.packages import MapPackage
-from xmr.entities import entities_mapping
-from xmr.gametypes import gametype_mapping
 from xmr.config import config
+from xmr.util import ObjectEncoder
 
 
 def main():
 
-    package_distribution = {
-        'packs_entities_fail': [],
-        'packs_corrupt': [],
-        'packs_other': [],
-        'packs_maps': [],
-    }
-
     start_time = time.monotonic()
-
-    entities_list = entities_mapping.keys()
-    gametype_list = gametype_mapping.keys()
-
     errors = False
-
     args = parse_args()
+
+    library = Library()
 
     if args.all:
 
         # Process all the files
         for file in sorted(os.listdir(config['output_paths']['packages'])):
             if file.endswith('.pk3'):
-                #status = process_pk3(file, entities_list, gametype_list, package_distribution)
-                status = MapPackage(pk3_file=file)
+                mypk3 = MapPackage(pk3_file=file)
+                pk3, category, errors = mypk3.process_package()
+
+                print(pk3.pk3_file)
+
+                library.add_map_package(pk3=pk3, category=category)
 
                 # if status['errors']:
                 #     errors = True
 
         # Write error.log
-        if errors:
-            log_package_errors(package_distribution)
+        # if errors:
+        #     log_package_errors(package_distribution)
 
-        output = {}
-        output['data'] = package_distribution['packs_maps']
+        all_maps = json.dumps({'data': library.maps}, cls=ObjectEncoder)
 
-        write_to_json(output, config['output_paths']['data'])
+        fo = open(config['output_paths']['data'] + 'maps.json', 'w')
+        fo.write(all_maps)
+        fo.close()
 
     if args.add:
 
@@ -92,6 +87,7 @@ def main():
         write_to_json(output, config['output_paths']['data'])
 
     end_time = time.monotonic()
+    #print(packages)
     print('Operation took: ' + str(datetime.timedelta(seconds=end_time - start_time)))
 
 
@@ -120,15 +116,6 @@ def log_package_errors(package_distribution):
         fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
         fo.write('\n'.join(package_distribution['packs_entities_fail']) + '\n')
 
-    fo.close()
-
-
-def write_to_json(output, output_dir):
-    # for debugging
-    # print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
-
-    fo = open(output_dir + 'maps.json', 'w')
-    fo.write(json.dumps(output))
     fo.close()
 
 

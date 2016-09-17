@@ -1,5 +1,6 @@
 import sys
 import time
+import json
 import hashlib
 
 
@@ -42,3 +43,15 @@ def hash_file(filename):
 
     # return the hex representation of digest
     return h.hexdigest()
+
+
+class ObjectEncoder(json.JSONEncoder):
+    """
+    JSONEncoder subclass that leverages an object's `__json__()` method,
+    if available, to obtain its default JSON representation.
+    http://stackoverflow.com/a/24030569
+    """
+    def default(self, obj):
+        if hasattr(obj, '__json__'):
+            return obj.__json__()
+        return json.JSONEncoder.default(self, obj)
