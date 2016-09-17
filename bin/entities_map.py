@@ -9,7 +9,11 @@ import matplotlib.font_manager as font_manager
 import struct
 import sys
 import os
-from xmr.entities import *
+from xmr.entities import entities_mapping
+from xmr.entities import entity_properties
+import json
+import re
+from xmr.util import replace_last
 
 
 path_entities = 'resources/entities/'
@@ -105,6 +109,28 @@ def plot_it(zipped, symbol, color, scale):
     else:
         for x0, y0 in zipped:
             plt.text(x0, y0, symbol, fontproperties=prop, size=scale, va='center', ha='center', clip_on=True, color=color)
+
+
+def parse_entity_file(entities_file):
+
+    f = open(entities_file, 'r')
+    file_data = f.read()
+    f.close()
+
+    # Turn it into JSON
+    file_data = re.sub(r'(".*") (".*")', r'\1: \2,', file_data)
+    file_data = re.sub(r'(".*": ".*"),\n}', r'\1\n},', file_data)
+    file_data = replace_last(file_data, '},', '}')
+
+    entities = json.loads("[" + file_data + "]")
+
+    return entities
+
+
+def entities_to_json(entities, out_file):
+    f = open(out_file, 'w')
+    f.write(json.dumps(entities))
+    f.close()
 
 
 if __name__ == "__main__":

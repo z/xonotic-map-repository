@@ -8,25 +8,13 @@ from datetime import datetime
 from xmr.util import *
 from xmr.entities import entities_mapping
 from xmr.gametypes import gametype_mapping
+from xmr.config import config
 #from wand.image import Image
-# mkdir {bsp,data,entities,images,mapshots}
 
 
-def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list, config, package_distribution):
+def process_pk3(file, path_packages, entities_list, gametype_list, package_distribution):
 
     print('Processing ' + file)
-
-    path_mapshots = resources_dir + 'mapshots/'
-    path_radars = resources_dir + 'radars/'
-    path_entities = resources_dir + 'entities/'
-    path_bsp = resources_dir + 'bsp/'
-    path_data = resources_dir + 'data/'
-
-    os.makedirs(path_mapshots, exist_ok=True)
-    os.makedirs(path_radars, exist_ok=True)
-    os.makedirs(path_entities, exist_ok=True)
-    os.makedirs(path_bsp, exist_ok=True)
-    os.makedirs(path_data, exist_ok=True)
 
     data = {}
     data['pk3'] = file
@@ -34,6 +22,11 @@ def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list
     data['filesize'] = os.path.getsize(path_packages + file)
     data['date'] = os.path.getmtime(path_packages + file)
     data['bsp'] = {}
+
+    path_bsp = config['output_paths']['bsp']
+    path_entities = config['output_paths']['entities']
+    path_mapshots = config['output_paths']['mapshots']
+    path_radars = config['output_paths']['radars']
 
     errors = False
 
@@ -246,12 +239,10 @@ def log_package_errors(package_distribution):
     fo.close()
 
 
-def write_to_json(output, resources_dir):
+def write_to_json(output, output_dir):
     # for debugging
     # print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
 
-    path_data = resources_dir + 'data/'
-
-    fo = open(path_data + 'maps.json', 'w')
+    fo = open(output_dir + 'maps.json', 'w')
     fo.write(json.dumps(output))
     fo.close()

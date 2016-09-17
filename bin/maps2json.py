@@ -7,12 +7,10 @@ import argparse
 import json
 from datetime import timedelta
 from xmr.packages import *
+from xmr.config import config
 
 
 def main():
-
-    # Config
-    config = read_config('config/config.ini')
 
     package_distribution = {
         'packs_entities_fail': [],
@@ -20,11 +18,6 @@ def main():
         'packs_other': [],
         'packs_maps': [],
     }
-
-    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-    resources_dir = root_dir + '/web/resources/'
-    path_packages = resources_dir + 'packages/'
 
     start_time = time.monotonic()
 
@@ -38,9 +31,9 @@ def main():
     if args.all:
 
         # Process all the files
-        for file in sorted(os.listdir(path_packages)):
+        for file in sorted(os.listdir(config['output_paths']['packages'])):
             if file.endswith('.pk3'):
-                status = process_pk3(file, path_packages, resources_dir, entities_list, gametype_list, config, package_distribution)
+                status = process_pk3(file, config['output_paths']['packages'], entities_list, gametype_list, package_distribution)
                 if status['errors']:
                     errors = True
 
@@ -51,15 +44,14 @@ def main():
         output = {}
         output['data'] = package_distribution['packs_maps']
 
-        write_to_json(output, resources_dir)
+        write_to_json(output, config['output_paths']['data'])
 
     if args.add:
 
         file = args.add
 
-        if file.endswith('.pk3') and os.path.isfile(path_packages + file):
-            status = process_pk3(file, path_packages, resources_dir, entities_list, gametype_list, config,
-                                 package_distribution)
+        if file.endswith('.pk3') and os.path.isfile(config['output_paths']['packages'] + file):
+            status = process_pk3(file, config['output_paths']['packages'], entities_list, gametype_list, package_distribution)
             if status['errors']:
                 errors = True
 
@@ -71,7 +63,7 @@ def main():
         if errors:
             log_package_errors(package_distribution)
 
-        maps_json_file = resources_dir + 'data/maps.json'
+        maps_json_file = config['output_paths']['data'] + 'data/maps.json'
 
         if os.path.isfile(maps_json_file):
 
@@ -90,7 +82,7 @@ def main():
             output = {}
             output['data'] = package_distribution['packs_maps']
 
-        write_to_json(output, resources_dir)
+        write_to_json(output, config['output_paths']['data'])
 
     end_time = time.monotonic()
     print('Operation took: ' + str(timedelta(seconds=end_time - start_time)))
