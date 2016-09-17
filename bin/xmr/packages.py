@@ -98,12 +98,6 @@ class MapPackage(object):
 
     def process_package(self):
 
-        package_distribution = {
-            'packs_entities_fail': [],
-            'packs_corrupt': [],
-            'packs_other': [],
-            'packs_maps': [],
-        }
         data = {'bsp': {}}
         category = 'other'
         errors = {}

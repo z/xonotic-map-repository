@@ -32,21 +32,14 @@ def main():
 
                 print(pk3.pk3_file)
 
-                print(pk3.to_json())
-
                 library.add_map_package(pk3=pk3, category=category)
 
                 # if status['errors']:
                 #     errors = True
 
         # Write error.log
-        # if errors:
-        #     log_package_errors(package_distribution)
 
-        #all_maps = json.dumps({'data': library.maps})
         all_maps = library.to_json()
-        #print(all_maps)
-
 
         fo = open(config['output_paths']['data'] + 'maps.json', 'w')
         fo.write(all_maps)
@@ -66,62 +59,8 @@ def main():
             print('Not found or not pk3.')
             raise SystemExit
 
-        # Write error.log
-        if errors:
-            log_package_errors(package_distribution)
-
-        maps_json_file = config['output_paths']['data'] + 'data/maps.json'
-
-        if os.path.isfile(maps_json_file):
-
-            f = open(maps_json_file)
-            data = f.read()
-            maps_json = json.loads(data)['data']
-            f.close()
-
-            for new_package in package_distribution['packs_maps']:
-                maps_json.append(new_package)
-
-            output = {}
-            output['data'] = maps_json
-
-        else:
-            output = {}
-            output['data'] = package_distribution['packs_maps']
-
-        write_to_json(output, config['output_paths']['data'])
-
     end_time = time.monotonic()
-    #print(packages)
     print('Operation took: ' + str(datetime.timedelta(seconds=end_time - start_time)))
-
-
-def log_package_errors(package_distribution):
-    dt = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-    fo = open('error.log', 'a')
-
-    if len(package_distribution['packs_other']) != 0:
-        e_no_map = 'One or more archives did not contain a map'
-        print('\n' + e_no_map)
-
-        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
-        fo.write('\n'.join(package_distribution['packs_other']) + '\n')
-
-    if len(package_distribution['packs_corrupt']) != 0:
-        e_corrupt = 'One or more archives were corrupt'
-        print('\n' + e_corrupt)
-
-        fo.write('\n' + dt + ' - ' + e_corrupt + ':\n')
-        fo.write('\n'.join(package_distribution['packs_corrupt']) + '\n')
-
-    if len(package_distribution['packs_entities_fail']) != 0:
-        e_no_map = 'One or more entities files failed to parse'
-        print('\n' + e_no_map)
-
-        fo.write('\n' + dt + ' - ' + e_no_map + ':\n')
-        fo.write('\n'.join(package_distribution['packs_entities_fail']) + '\n')
-
-    fo.close()
 
 
 def parse_args():
