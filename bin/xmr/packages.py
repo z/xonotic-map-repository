@@ -9,6 +9,7 @@ from xmr.util import *
 from xmr.entities import entities_mapping
 from xmr.gametypes import gametype_mapping
 #from wand.image import Image
+# mkdir {bsp,data,entities,images,mapshots}
 
 
 def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list, config, package_distribution):
@@ -17,6 +18,15 @@ def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list
 
     path_mapshots = resources_dir + 'mapshots/'
     path_radars = resources_dir + 'radars/'
+    path_entities = resources_dir + 'entities/'
+    path_bsp = resources_dir + 'bsp/'
+    path_data = resources_dir + 'data/'
+
+    os.makedirs(path_mapshots, exist_ok=True)
+    os.makedirs(path_radars, exist_ok=True)
+    os.makedirs(path_entities, exist_ok=True)
+    os.makedirs(path_bsp, exist_ok=True)
+    os.makedirs(path_data, exist_ok=True)
 
     data = {}
     data['pk3'] = file
@@ -69,16 +79,16 @@ def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list
 
                     bspname = bspnames[bsp]
 
-                    zip.extract(bsp, resources_dir + 'bsp/' + bspname)
+                    zip.extract(bsp, path_bsp + bspname)
 
-                    bsp_entities_file = resources_dir + 'entities/' + bspname + '.ent'
+                    bsp_entities_file = path_entities + bspname + '.ent'
 
                     with open(bsp_entities_file, 'w') as f:
-                        subprocess.call(["./bin/bsp2ent", resources_dir + 'bsp/' + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
+                        subprocess.call(["./bin/bsp2ent", path_bsp + bspname + "/" + bsp], stdin=subprocess.PIPE, stdout=f)
 
                     data['bsp'][bspname], entity_errors = parse_entities_file(data['bsp'][bspname], data['pk3'], bsp_entities_file, entities_list, package_distribution)
 
-                    shutil.rmtree(resources_dir + 'bsp/' + bspname)
+                    shutil.rmtree(path_bsp + bspname)
 
             # Find out which of the important files exist in the package
             for member in filelist:
@@ -89,12 +99,12 @@ def process_pk3(file, path_packages, resources_dir, entities_list, gametype_list
 
                     if re.search('^maps/' + rbsp + '\.ent', member):
                         if config['parse_entities'] == 'True':
-                            zip.extract(member, resources_dir + 'entities/' + bspname)
+                            zip.extract(member, path_entities + bspname)
 
-                            entities_file = resources_dir + 'entities/' + bspname + '/' + member
+                            entities_file = path_entities + bspname + '/' + member
                             entities_from_ent, entity_errors = parse_entities_file(data['bsp'][bspname], data['pk3'], entities_file, entities_list, package_distribution)
                             data['bsp'][bspname].update(entities_from_ent)
-                            shutil.rmtree(resources_dir + 'entities/' + bspname)
+                            shutil.rmtree(path_entities + bspname)
 
                     if re.search('^maps/' + rbsp + '\.(jpg|tga|png)$', member):
                         data['bsp'][bspname]['mapshot'] = member
@@ -240,6 +250,8 @@ def write_to_json(output, resources_dir):
     # for debugging
     # print(json.dumps(output, sort_keys=True, indent=4, separators=(',', ': ')))
 
-    fo = open(resources_dir + 'data/maps.json', 'w')
+    path_data = resources_dir + 'data/'
+
+    fo = open(path_data + 'maps.json', 'w')
     fo.write(json.dumps(output))
     fo.close()

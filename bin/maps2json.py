@@ -23,7 +23,7 @@ def main():
 
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    resources_dir = root_dir + '/resources/'
+    resources_dir = root_dir + '/web/resources/'
     path_packages = resources_dir + 'packages/'
 
     start_time = time.monotonic()

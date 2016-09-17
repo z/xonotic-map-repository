@@ -10,7 +10,7 @@ from collections import OrderedDict
 from operator import itemgetter
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-resources_dir = root_dir + '/resources/'
+resources_dir = root_dir + '/web/resources/'
 
 
 def main():
@@ -258,10 +258,6 @@ def convertSize(num):
             return "%3.1d%s" % (num, x)
         num /= 1024.0
     return "%3.1f%s" % (num, 'TB')
-
-
-def getFromDict(dataDict, mapList):
-    return reduce(lambda d, k: d[k], mapList, dataDict)
 
 if __name__ == "__main__":
     main()
