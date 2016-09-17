@@ -23,7 +23,7 @@ Creates charts for the front-end from the maps.json file.
 
 A work in progress that superimposes entities onto radar images.
 
-![example generated entities map](../resources/images/moonstone_nex_r3.png)
+![example generated entities map](../web/resources/images/moonstone_nex_r3.png)
 
 #### get_image_urls.py
 
