@@ -4,14 +4,12 @@
 # Contact: z@xnz.me
 
 import argparse
-import json
 import time
 import os
 import datetime
 from xmr.packages import Library
 from xmr.packages import MapPackage
 from xmr.config import config
-from xmr.util import ObjectEncoder
 
 
 def main():
@@ -20,9 +18,9 @@ def main():
     errors = False
     args = parse_args()
 
-    library = Library()
-
     if args.all:
+
+        library = Library()
 
         # Process all the files
         for file in sorted(os.listdir(config['output_paths']['packages'])):
@@ -50,7 +48,10 @@ def main():
         file = args.add
 
         if file.endswith('.pk3') and os.path.isfile(config['output_paths']['packages'] + file):
-            status = MapPackage(pk3_file=file)
+            mypk3 = MapPackage(pk3_file=file)
+            pk3, category, errors = mypk3.process_package()
+
+            print(pk3.pk3_file)
 
             # if status['errors']:
             #     errors = True
