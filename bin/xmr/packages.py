@@ -27,6 +27,12 @@ class Library(object):
     def __repr__(self):
         return str(vars(self))
 
+    def __json__(self):
+        return self.maps
+
+    def to_json(self):
+        return json.dumps({'data': self.maps}, cls=ObjectEncoder)
+
     def add_map_package(self, pk3=None, category=''):
         if category is 'maps':
             self.maps.append(pk3)
@@ -36,22 +42,6 @@ class Library(object):
             self.entities_fail.append(pk3)
         else:
             self.other.append(pk3)
-
-    def to_json(self):
-        data = []
-        for map_obj in self.maps:
-
-            package = {
-                "filesize": map,
-                "date": 1453749340,
-                "bsp": map_obj.bsp,
-                "pk3": "map-vapor_alpha_2.pk3",
-                "shasum": "3df0143516f72269f465070373f165c8787964d5"
-            }
-
-            data.append(package)
-
-        return json.dumps({'data': data}, cls=ObjectEncoder)
 
 
 class MapPackage(object):
@@ -91,6 +81,9 @@ class MapPackage(object):
     def bsp(self, key):
         del self._bsp[key]
 
+    def __repr__(self):
+        return 'MapPackage(pk3=%s, shasum=%s, bsp=%s, date=%s, filesize=%s)' % (self.pk3_file, self.shasum, repr(self.bsp), self.date, self.filesize)
+
     def __json__(self):
         return {
             'pk3': self.pk3_file,
@@ -100,8 +93,8 @@ class MapPackage(object):
             'bsp': self.bsp,
         }
 
-    def __repr__(self):
-        return 'MapPackage(pk3=%s, shasum=%s, bsp=%s, date=%s, filesize=%s)' % (self.pk3_file, self.shasum, repr(self.bsp), self.date, self.filesize)
+    def to_json(self):
+        return json.dumps({'data': self}, cls=ObjectEncoder)
 
     def process_package(self):
 
@@ -302,6 +295,13 @@ class Bsp(object):
         self.entities_list = entities_list
         self.gametypes_list = gametypes_list
 
+    # def __repr__(self):
+    #     return str(vars(self))
+
+    def __repr__(self):
+        return 'Bsp(pk3_file=%s, bsp_name=%s, bsp_file=%s, map_file=%s, mapshot=%s, radar=%s, title=%s, description=%s, mapinfo=%s, author=%s, gametypes=%s, entities=%s, waypoints=%s, license=%s)' % (
+        self.pk3_file, self.bsp_name, self.bsp_file, self.map_file, self.mapshot, self.radar, self.title, self.description, self.mapinfo, self.author, self.gametypes, self.entities, self.waypoints, self.license)
+
     def __json__(self):
         return {
             'map': self.map_file,
@@ -317,11 +317,8 @@ class Bsp(object):
             'license': self.license,
         }
 
-    # def __repr__(self):
-    #     return str(vars(self))
-
-    def __repr__(self):
-            return 'Bsp(pk3_file=%s, bsp_name=%s, bsp_file=%s, map_file=%s, mapshot=%s, radar=%s, title=%s, description=%s, mapinfo=%s, author=%s, gametypes=%s, entities=%s, waypoints=%s, license=%s)' % (self.pk3_file, self.bsp_name, self.bsp_file, self.map_file, self.mapshot, self.radar, self.title, self.description, self.mapinfo, self.author, self.gametypes, self.entities, self.waypoints, self.license)
+    def to_json(self):
+        return json.dumps({'data': self}, cls=ObjectEncoder)
 
     def extract_entities_file(self):
 

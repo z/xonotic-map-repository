@@ -32,6 +32,8 @@ def main():
 
                 print(pk3.pk3_file)
 
+                print(pk3.to_json())
+
                 library.add_map_package(pk3=pk3, category=category)
 
                 # if status['errors']:
@@ -41,7 +43,10 @@ def main():
         # if errors:
         #     log_package_errors(package_distribution)
 
-        all_maps = json.dumps({'data': library.maps}, cls=ObjectEncoder)
+        #all_maps = json.dumps({'data': library.maps})
+        all_maps = library.to_json()
+        #print(all_maps)
+
 
         fo = open(config['output_paths']['data'] + 'maps.json', 'w')
         fo.write(all_maps)
