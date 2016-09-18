@@ -55,6 +55,8 @@ def main():
             mypk3 = MapPackage(pk3_file=file)
             pk3, category, errors = mypk3.process_package()
 
+            map_package = get_or_create(session, model.MapPackage, pk3_file=pk3.pk3_file, shasum=pk3.shasum, filesize=pk3.filesize)
+
             print(pk3.pk3_file)
             #print(pk3)
 
@@ -64,7 +66,9 @@ def main():
                 if bsp.gametypes:
                     for gametype in bsp.gametypes:
                         print(gametype)
-                        gametype = get_or_create(session, model.Gametype, name=gametype)
+                        gametype = get_or_create(session, model.Gametype,
+                                                 name=gametype)
+                        print(gametype.id)
 
                 if bsp.entities:
                     for entity in bsp.entities:
@@ -75,8 +79,7 @@ def main():
                 print(bsp_name)
                 print(bsp)
                 new_bsp = get_or_create(session, model.Bsp, bsp_name=bsp.bsp_name, bsp_file=bsp.bsp_file)
-
-            map_package = get_or_create(session, model.MapPackage, pk3_file=pk3.pk3_file, shasum=pk3.shasum, filesize=pk3.filesize)
+                new_map_package_bsp = get_or_create(session, model.MapPackageBsp, map_package_id=map_package.id, bsp_id=new_bsp.id)
 
             session.commit()
 

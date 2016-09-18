@@ -63,7 +63,14 @@ class Bsp(ExtendMixin, Base):
     waypoints = Column(Boolean)
     license = Column(Boolean)
 
-    #bsp = relationship("MapPackage", backref="bsp")
+
+class MapPackageBsp(ExtendMixin, Base):
+    __tablename__ = 'map_package_bsp'
+    id = Column(Integer, primary_key=True)
+    map_package_id = Column(ForeignKey('map_package.id'))
+    map_package = relationship("MapPackage", foreign_keys=[map_package_id])
+    bsp_id = Column(ForeignKey('bsp.id'))
+    bsp = relationship("Bsp", foreign_keys=[bsp_id])
 
 
 class Gametype(ExtendMixin, Base):
@@ -98,5 +105,3 @@ class BspGametype(ExtendMixin, Base):
     bsp = relationship("Bsp", foreign_keys=[bsp_id])
     gametype_id = Column(ForeignKey('gametype.id'))
     gametype = relationship("Gametype", foreign_keys=[gametype_id])
-
-
