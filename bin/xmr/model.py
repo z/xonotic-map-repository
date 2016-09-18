@@ -59,10 +59,6 @@ class Bsp(ExtendMixin, Base):
     description = Column(String(600))
     mapinfo = Column(String(255))
     author = Column(String(100))
-    gametype_id = Column(ForeignKey('gametype.id'))
-    gametype = relationship("Gametype", foreign_keys=[gametype_id])
-    entity_id = Column(ForeignKey('entity.id'))
-    entity = relationship("Entity", foreign_keys=[entity_id])
     entities_file = Column(String(255))
     waypoints = Column(Boolean)
     license = Column(Boolean)
@@ -84,4 +80,23 @@ class Entity(ExtendMixin, Base):
     name = Column(String(255))
 
     __table_args__ = (UniqueConstraint('name', name='uix_entity'),)
+
+
+class BspEntity(ExtendMixin, Base):
+    __tablename__ = 'bsp_entity'
+    id = Column(Integer, primary_key=True)
+    bsp_id = Column(ForeignKey('bsp.id'))
+    bsp = relationship("Bsp", foreign_keys=[bsp_id])
+    entity_id = Column(ForeignKey('entity.id'))
+    entity = relationship("Entity", foreign_keys=[entity_id])
+
+
+class BspGametype(ExtendMixin, Base):
+    __tablename__ = 'bsp_gametype'
+    id = Column(Integer, primary_key=True)
+    bsp_id = Column(ForeignKey('bsp.id'))
+    bsp = relationship("Bsp", foreign_keys=[bsp_id])
+    gametype_id = Column(ForeignKey('gametype.id'))
+    gametype = relationship("Gametype", foreign_keys=[gametype_id])
+
 
